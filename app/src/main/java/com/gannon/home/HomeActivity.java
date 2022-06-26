@@ -1392,6 +1392,7 @@ public class HomeActivity extends SuperCompatActivity implements NavigationView.
                 intent.putExtra("barcode", searchProductRes.getMessage().get(position).getDonationId());
                 intent.putExtra("type", typeStr);
                 startActivity(intent);
+                ///srikanth
 
                 customDialog.dismiss();
 
