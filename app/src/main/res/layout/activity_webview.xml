@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        style="@style/Layout_WMHW"
+        layout="@layout/app_bar_layout_home"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:background="@color/textWhite"
+        android:orientation="vertical">
+
+        <ProgressBar
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:background="@color/cardWhite" />
+
+
+        <WebView
+            android:id="@+id/webview_ll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/welcome_ll"
+            android:layout_centerHorizontal="true"
+            android:background="@color/textWhite"
+            android:orientation="vertical"
+            android:layout_margin="@dimen/mar_10"
+            android:layout_marginLeft="@dimen/mar_10"
+            android:layout_marginRight="@dimen/mar_10"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:layout_gravity="bottom|center"
+            android:background="@color/colorPrimary"
+            android:textSize="@dimen/txt_16"
+            android:text=""
+            android:layout_marginTop="@dimen/mar_70"
+            android:textColor="@color/cardWhite"
+            android:textStyle="italic|bold"
+            android:visibility="gone"/>
+
+    </FrameLayout>
+
+
+</LinearLayout>

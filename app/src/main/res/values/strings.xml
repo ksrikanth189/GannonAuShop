@@ -1,0 +1,51 @@
+<resources>
+    <string name="app_name">Gannon Auction Shop</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="signIn">Sign In</string>
+    <string name="pls_enter_register_mobile">Please enter mobile</string>
+    <string name="password">Password</string>
+    <string name="pls_enter_password">Please enter password</string>
+    <string name="forget_pass">Forget Password ?..</string>
+    <string name="server_not_responding">Server not responding</string>
+    <string name="plz_chk_your_net">Please check your network..</string>
+    <string name="pls_enter_first_name">Please enter First Name</string>
+    <string name="pls_enter_last_name">Please enter Last Name</string>
+    <string name="pls_enter_mobile">Please enter mobile</string><![CDATA[
+
+
+
+
+
+    >
+
+
+
+    ]]>
+    <string name="pls_enter_email">Please enter email</string>
+    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
+    <string name="signup">Sign Up</string>
+
+
+    <!--Recording-->
+
+
+    <string name="back">Back</string>
+    <string name="cancel">Cancel</string>
+    <string name="exit_msg">Are you sure? Do you want to logout?</string>
+    <string name="pls_enter_username">Please enter username</string>
+    <string name="pls_enter_studentId">Please enter studentId</string>
+    <string name="server_url">Server url</string>
+    <string name="save">Save</string>
+    <string name="reset">Reset</string>
+    <string name="permission_rationale">Storage permission is needed for fetching images from Gallery.</string>
+    <string name="plz_enter_productdes">Please enter product description</string>
+    <string name="plz_enter_productname">Please enter product name</string>
+    <string name="choose_img">Choose images</string>
+    <string name="clear">Clear</string>
+    <string name="pls_select_date">Please select date</string>
+    <string name="pls_select_time">Please select time</string>
+
+
+</resources>

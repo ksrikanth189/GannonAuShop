@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <include
+            style="@style/Layout_WMHW"
+            layout="@layout/app_bar_layout_home" />
+
+        <LinearLayout
+            android:id="@+id/approve_deny_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/approve_list"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/btn_35"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:text="Newly Registered"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:background="@color/green"/>
+            <TextView
+                android:id="@+id/deny_list"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/btn_35"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:text="Registered Users"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:background="@color/red"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/auction_donation_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="visible">
+
+            <TextView
+                android:id="@+id/auction_list"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/btn_35"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:text="Auction"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:background="@color/btn_bg" />
+
+            <TextView
+                android:id="@+id/donation_list"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/btn_35"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:text="Donation"
+                android:textStyle="bold"
+                android:textColor="@color/cardWhite"
+                android:background="@color/textBlack" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/autocomp_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/black"
+            android:visibility="gone">
+
+            <AutoCompleteTextView
+                android:id="@+id/autocomp_search"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/btn_40"
+                android:drawableRight="@android:drawable/ic_menu_search"
+                android:hint="Search your product"
+                android:textColor="@color/mdtp_white"
+                android:textColorHint="@color/mdtp_white"/>
+
+
+        </LinearLayout>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center"
+            android:ellipsize="marquee"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:paddingLeft="@dimen/mar_10"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:text=""
+            android:textColor="@color/textBlack"
+            android:textSize="@dimen/txt_20"
+            android:textStyle="italic|bold"
+            android:visibility="gone" />
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="visible">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/mar_6"
+                            android:layout_marginRight="@dimen/mar_6"
+                            android:orientation="vertical"
+                            android:visibility="gone">
+
+                            <androidx.viewpager.widget.ViewPager
+                                android:id="@+id/vp_slider"
+                                android:layout_width="match_parent"
+                                android:layout_height="180dp"
+                                android:layout_alignParentTop="true"
+                                android:layout_gravity="center"
+                                android:layout_margin="@dimen/mar_5"
+                                android:fitsSystemWindows="true" />
+
+                            <LinearLayout
+                                android:id="@+id/ll_dots"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:layout_alignParentBottom="true"
+                                android:layout_gravity="bottom"
+                                android:gravity="center"
+                                android:orientation="horizontal"
+                                android:visibility="visible" />
+
+
+                        </FrameLayout>
+
+
+<!--                        <androidx.core.widget.NestedScrollView-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content">-->
+<!--                            -->
+<!--                        </androidx.core.widget.NestedScrollView>-->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/recyclerView"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:visibility="visible" />
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/recyclerView1"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_margin="@dimen/mar_5"
+                                android:visibility="gone" />
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/home_all_recycle"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_margin="@dimen/mar_5"
+                                android:visibility="gone" />
+
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </ScrollView>
+
+
+            </LinearLayout>
+
+            </ScrollView>
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/app_bottom_layout"
+        android:layout_gravity="bottom"
+        android:visibility="visible"/>
+
+
+
+</FrameLayout>

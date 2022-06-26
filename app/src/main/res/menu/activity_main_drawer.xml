@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <!--    tools:showIn="navigation_view"-->
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_newregister"
+            android:title="USER MANAGEMENT"
+            android:visible="true"/>
+
+        <item
+            android:id="@+id/nav_newauction"
+            android:title="AUCTION/DONATION"
+            android:visible="true"/>
+        <item
+            android:id="@+id/nav_mysales"
+            android:title="My SALES"
+            android:visible="true"/>
+        <item
+            android:id="@+id/nav_mywins"
+            android:title="My WINS"
+            android:visible="true"/>
+
+    </group>
+
+</menu>

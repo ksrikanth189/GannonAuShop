@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "894486561951",
+    "project_id": "gannon-e0e1a",
+    "storage_bucket": "gannon-e0e1a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:894486561951:android:9a456db7cc896fc97eceaa",
+        "android_client_info": {
+          "package_name": "com.gannon"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "894486561951-l35choucmnkl7r5irqjgt57l31osd4cp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKl5fqrC5zHCFlMYkrQdwksxyrjghrVtY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "894486561951-l35choucmnkl7r5irqjgt57l31osd4cp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

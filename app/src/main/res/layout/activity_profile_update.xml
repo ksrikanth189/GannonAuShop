@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:background="@mipmap/develop_icon" />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/mar_10"
+        android:gravity="center"
+        android:text="Profile"
+        android:textColor="@color/textWhite"
+        android:textSize="@dimen/mar_30"
+        android:textStyle="bold"
+        android:visibility="visible"/>
+
+
+    <include
+        style="@style/Layout_WMHW"
+        layout="@layout/app_bar_layout_home"
+        android:visibility="gone" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/back_groud"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="@dimen/mar_20">
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/mar_10"
+                android:layout_marginRight="@dimen/mar_10"
+                android:visibility="gone">
+
+                <EditText
+                    android:id="@+id/dob_edt"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/rect_background"
+                    android:drawablePadding="10dp"
+                    android:focusable="true"
+                    android:hint="Enter date of birth"
+                    android:inputType="phone"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/hint_color" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center"
+                android:layout_margin="@dimen/mar_10"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <RadioButton
+                    android:id="@+id/radioMale"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/mar_10"
+                    android:background="@drawable/rect_background"
+                    android:checked="true"
+                    android:text="male" />
+
+                <RadioButton
+                    android:id="@+id/radioFemale"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rect_background"
+                    android:text="female" />
+
+                <RadioButton
+                    android:id="@+id/radioOthers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/mar_10"
+                    android:background="@drawable/rect_background"
+                    android:text="Others" />
+
+            </RadioGroup>
+
+            <!--<com.google.android.material.textfield.TextInputLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginRight="@dimen/mar_10"-->
+            <!--android:layout_marginLeft="@dimen/mar_10">-->
+
+            <EditText
+                android:id="@+id/address_edt"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_margin="@dimen/mar_5"
+                android:background="@drawable/rect_background"
+                android:drawablePadding="10dp"
+                android:focusable="true"
+                android:gravity="start"
+                android:hint="Enter address"
+                android:inputType="text"
+                android:padding="@dimen/mar_10"
+                android:textColor="@color/black"
+                android:visibility="gone"
+                android:textColorHint="@color/hint_color" />
+            <!--</com.google.android.material.textfield.TextInputLayout>-->
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start|center"
+                    android:gravity="center"
+                    android:text="First Name"
+                    android:textSize="@dimen/txt_20"
+                    android:textColor="@color/textWhite" />
+
+
+                <EditText
+                    android:id="@+id/firstname_edt"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/btn_45"
+                    android:layout_marginTop="@dimen/mar_10"
+                    android:layout_marginBottom="@dimen/mar_10"
+                    android:background="@drawable/rect_background"
+                    android:hint="@string/pls_enter_first_name"
+                    android:inputType="text"
+                    android:editable="false"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:maxLength="50"
+                    android:paddingLeft="@dimen/mar_10"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/hint_color" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start|center"
+                    android:gravity="center"
+                    android:text="Last Name"
+                    android:textSize="@dimen/txt_20"
+                    android:textColor="@color/textWhite" />
+
+
+                <EditText
+                    android:id="@+id/lastname_edt"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/btn_45"
+                    android:layout_marginTop="@dimen/mar_10"
+                    android:layout_marginBottom="@dimen/mar_10"
+                    android:background="@drawable/rect_background"
+                    android:hint="@string/pls_enter_last_name"
+                    android:inputType="text"
+                    android:editable="false"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:maxLength="50"
+                    android:paddingLeft="@dimen/mar_10"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/hint_color" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start|center"
+                    android:gravity="center"
+                    android:text="Email "
+                    android:textSize="@dimen/txt_20"
+                    android:textColor="@color/textWhite" />
+
+                <EditText
+                    android:id="@+id/email_edt"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/btn_45"
+                    android:layout_marginTop="@dimen/mar_10"
+                    android:layout_marginBottom="@dimen/mar_10"
+                    android:background="@drawable/rect_background"
+                    android:hint="@string/pls_enter_email"
+                    android:inputType="text"
+                    android:editable="false"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:maxLength="50"
+                    android:paddingLeft="@dimen/mar_10"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/hint_color" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start|center"
+                    android:gravity="center"
+                    android:text="Mobile "
+                    android:textSize="@dimen/txt_20"
+                    android:textColor="@color/textWhite" />
+
+
+                <EditText
+                    android:id="@+id/mobile_edt"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/btn_45"
+                    android:layout_marginTop="@dimen/mar_10"
+                    android:layout_marginBottom="@dimen/mar_10"
+                    android:background="@drawable/rect_background"
+                    android:hint="@string/pls_enter_mobile"
+                    android:inputType="number"
+                    android:maxLength="50"
+                    android:paddingLeft="@dimen/mar_10"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/hint_color" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start|center"
+                    android:gravity="center"
+                    android:text="Password "
+                    android:textSize="@dimen/txt_20"
+                    android:textColor="@color/textWhite" />
+
+
+                <EditText
+                    android:id="@+id/password_edt"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/btn_45"
+                    android:layout_marginTop="@dimen/mar_10"
+                    android:layout_marginBottom="@dimen/mar_10"
+                    android:background="@drawable/rect_background"
+                    android:hint="@string/pls_enter_password"
+                    android:inputType="textPassword"
+                    android:maxLength="50"
+                    android:paddingLeft="@dimen/mar_10"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/hint_color" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/submit_button"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:background="@color/btn_bg"
+                android:gravity="center"
+                android:onClick="submit"
+                android:text="Update"
+                android:textColor="@android:color/white" />
+            <Button
+                android:id="@+id/nav_back"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:background="@color/btn_bg"
+                android:gravity="center"
+                android:onClick="Back"
+                android:text="@string/back"
+                android:textColor="@android:color/white" />
+
+
+        </LinearLayout>
+
+
+    </FrameLayout>
+
+    </ScrollView>
+
+</LinearLayout>

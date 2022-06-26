@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="350dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center">
+
+    <AutoCompleteTextView
+        android:id="@+id/autocomp_search"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/btn_40"
+        android:layout_gravity="center"
+        android:gravity="start|center"
+        android:drawableTint="@color/blue"
+        android:drawableLeft="@android:drawable/ic_menu_search"
+        android:hint="Try typing new"
+        android:background="@drawable/rect_search"
+        android:textColor="@color/black"
+        android:textColorHint="@color/hint_color"/>
+
+
+
+
+</LinearLayout>

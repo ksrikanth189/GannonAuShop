@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@color/colorPrimary"
+    android:layout_gravity="center"
+    android:layout_height="240dp"
+    android:layout_margin="@dimen/mar_10"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+       android:layout_marginTop="@dimen/mar_10"
+        android:layout_marginBottom="@dimen/mar_10"
+        android:src="@mipmap/icon6" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:visibility="gone"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:padding="12dp"
+        android:singleLine="true"
+        android:text="close"
+        android:textColor="@android:color/holo_blue_dark"
+        android:textAppearance="?android:attr/textAppearanceSmall"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_margin="@dimen/mar_10"
+        android:layout_centerInParent="true"
+        android:text="A New Version Update Is Available. \n Please Update Application To  Continue Services! "
+        android:textColor="@android:color/white"
+        android:textStyle="italic|bold"/>
+
+    <Button
+        android:id="@+id/update_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/btn_40"
+        android:layout_gravity="center"
+        android:layout_marginBottom="@dimen/mar_20"
+        android:layout_marginTop="@dimen/mar_10"
+        android:background="@color/btn_bg"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text=" Click To Update App "
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/cardWhite"
+        android:textSize="@dimen/txt_15" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:textStyle="bold"
+        android:visibility="gone"
+        android:text="Update Later"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginEnd="10dp"
+        android:textColor="#d1395c"
+        android:textAppearance="?android:attr/textAppearanceSmall"/>
+
+</LinearLayout>

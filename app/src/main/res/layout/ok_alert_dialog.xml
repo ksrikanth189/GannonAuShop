@@ -1,0 +1,38 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/ok_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/error_msg_txt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/mar_20"
+            android:textSize="@dimen/txt_18"
+            android:textColor="@color/black"/>
+
+        <Button
+            android:id="@+id/ok_dialog"
+            android:layout_width="100dp"
+            android:layout_height="@dimen/btn_40"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/mar_20"
+            android:background="@drawable/reclangle_shape"
+            android:gravity="center"
+            android:text="@string/mdtp_ok"
+            android:textColor="@color/textWhite"
+            android:textStyle="bold" />
+
+
+
+    </LinearLayout>
+
+
+</LinearLayout>
+

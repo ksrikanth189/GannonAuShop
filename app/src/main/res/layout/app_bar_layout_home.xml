@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.appbar.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/Layout_WMHW"
+    android:theme="@style/AppTheme.AppBarOverlay">
+
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/mar_50"
+        android:background="@color/colorPrimary"
+        android:orientation="vertical"
+        android:theme="@style/ToolbarTheme"
+        app:contentInsetEnd="0dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetRight="0dp"
+        app:contentInsetStart="0dp">
+        <!--    app:popupTheme="@style/ThemeOverlay.AppCompat.Light">-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|start"
+            android:gravity="center|start"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/nav_back"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|start"
+                android:layout_weight="2"
+                android:gravity="center|end"
+                android:padding="1dp"
+                android:src="@drawable/rect_background"
+                android:visibility="gone" />
+
+
+            <ImageView
+                android:id="@+id/menu_item_img"
+                android:layout_width="@dimen/btn_35"
+                android:layout_height="@dimen/btn_35"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/mar_4"
+                android:background="@drawable/menu_icon"
+                android:backgroundTint="@color/white"
+                android:scaleType="fitCenter"
+                android:visibility="gone" />
+
+
+            <TextView
+                android:id="@+id/txt_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="start|center"
+                android:paddingLeft="@dimen/mar_50"
+                android:text="Name "
+                android:textColor="#FFFFFF"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:id="@+id/filter_ll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="@dimen/mar_10"
+                android:layout_weight="3"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <ImageView
+                    android:id="@+id/filter_img"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/mar_4"
+                    android:background="@drawable/filter"
+                    android:scaleType="fitXY"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="Filter"
+                    android:textColor="@color/textWhite"
+                    android:textSize="@dimen/txt_18"
+                    android:textStyle="normal"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/logout_ll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="@dimen/mar_10"
+                android:layout_weight="3"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <ImageView
+                    android:id="@+id/notifica_img"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/mar_4"
+                    android:background="@drawable/notifica"
+                    android:scaleType="fitXY" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="Logout"
+                    android:textColor="@color/textWhite"
+                    android:textSize="@dimen/txt_18"
+                    android:textStyle="normal"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/logout_ll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="3"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <ImageView
+                    android:id="@+id/logout_img"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/mar_4"
+                    android:background="@drawable/logout"
+                    android:scaleType="fitXY" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="Logout"
+                    android:textColor="@color/textWhite"
+                    android:textSize="@dimen/txt_18"
+                    android:textStyle="normal"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/mar_5"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:visibility="gone">
+
+
+                <ImageView
+                    android:id="@+id/live_stream_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="@dimen/mar_10"
+                    android:layout_weight="2"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/liverecord_icon"
+                    android:tint="@color/textWhite"
+                    android:visibility="visible" />
+
+                <ImageView
+                    android:id="@+id/notifica_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="2"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/notification_icon"
+                    android:tint="@color/textWhite"
+                    android:visibility="visible" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </androidx.appcompat.widget.Toolbar>
+
+
+</com.google.android.material.appbar.AppBarLayout>
+
+
+    <!--<?xml version="1.0" encoding="utf-8"?>-->
+    <!--<android.support.design.widget.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--    style="@style/Layout_WMHW"-->
+    <!--    android:theme="@style/AppTheme.AppBarOverlay">-->
+
+    <!--    <android.support.v7.widget.Toolbar-->
+    <!--        android:id="@+id/toolbar"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="55dp"-->
+    <!--        app:contentInsetLeft="0dp"-->
+    <!--        app:contentInsetStart="0dp"-->
+    <!--        android:paddingLeft="0dp"-->
+    <!--        app:contentInsetStartWithNavigation="0dp"-->
+    <!--        app:popupTheme="@style/AppTheme.PopupOverlay"-->
+    <!--        android:background="@color/colorPrimary">-->
+
+    <!--        <ImageView-->
+    <!--            android:layout_width="@dimen/btn_35"-->
+    <!--            android:layout_height="@dimen/btn_35"-->
+    <!--            android:visibility="gone" />-->
+
+    <!--        <ImageView-->
+    <!--            android:id="@+id/menu"-->
+    <!--            android:layout_width="@dimen/btn_35"-->
+    <!--            android:layout_height="@dimen/btn_35"-->
+    <!--            android:visibility="gone"/>-->
+
+
+    <!--        <LinearLayout-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="match_parent"-->
+    <!--            android:orientation="horizontal"-->
+    <!--            android:gravity="center">-->
+
+    <!--            <TextView-->
+    <!--                android:id="@+id/title_txt"-->
+    <!--                android:text="@string/app_name"-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:textColor="@color/txt_white"-->
+    <!--                android:visibility="visible"-->
+    <!--                android:layout_marginRight="@dimen/mar_50"-->
+    <!--                android:layout_gravity="center"-->
+    <!--                android:textSize="@dimen/txt_20"-->
+    <!--                android:gravity="center"/>-->
+
+
+    <!--        </LinearLayout>-->
+
+    <!--        <ImageView-->
+    <!--            android:id="@+id/home_img"-->
+    <!--            android:layout_width="@dimen/btn_35"-->
+    <!--            android:layout_height="@dimen/btn_35"-->
+    <!--            android:layout_marginRight="@dimen/mar_16"-->
+    <!--            android:background="@color/textWhite"-->
+    <!--            android:visibility="gone"/>-->
+
+    <!--        <FrameLayout-->
+    <!--            style="@style/ToolBarRightImg"-->
+    <!--            android:visibility="gone"-->
+    <!--            android:id="@+id/notifica_frame"-->
+    <!--            android:layout_marginRight="@dimen/mar_16">-->
+
+
+    <!--            <ImageView-->
+    <!--                android:id="@+id/sync_data"-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="match_parent"-->
+    <!--                android:visibility="gone"-->
+    <!--                android:src="@color/app_bg"/>-->
+
+    <!--            <TextView-->
+    <!--                android:id="@+id/cart_value"-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:text="0"-->
+    <!--                android:gravity="top|center"-->
+    <!--                android:textColor="@color/btn_clr"-->
+    <!--                android:textSize="15dp"-->
+    <!--                android:textStyle="bold"-->
+    <!--                android:layout_marginBottom="@dimen/mar_10"-->
+    <!--                android:layout_gravity="center|top"-->
+    <!--                android:visibility="gone" />-->
+    <!--        </FrameLayout>-->
+
+    <!--    </android.support.v7.widget.Toolbar>-->
+
+    <!--    <LinearLayout-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="1dp"-->
+    <!--        android:background="@color/colorPrimary">-->
+
+    <!--    </LinearLayout>-->
+
+    <!--</android.support.design.widget.AppBarLayout>-->
+
+

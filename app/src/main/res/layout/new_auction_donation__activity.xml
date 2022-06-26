@@ -1,0 +1,691 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical">
+
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:background="@mipmap/develop_icon"
+        android:visibility="gone"/>
+
+
+    <include
+        style="@style/Layout_WMHW"
+        layout="@layout/app_bar_layout"
+        android:visibility="visible" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/back_groud">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/back_groud">
+
+
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/mar_50"
+            android:scrollbars="vertical"
+            android:scrollbarSize="@dimen/mar_4"
+            android:scrollbarThumbVertical="@color/mdtp_transparent_black">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:background="@drawable/back_groud">
+
+                <LinearLayout
+                    style="@style/Layout_WMHM"
+                    android:orientation="vertical">
+
+
+                    <LinearLayout
+                        style="@style/Layout_WMHW"
+                        android:layout_margin="@dimen/mar_10"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/Txt_WMHW"
+                            android:text="Type"
+                            android:textColor="@color/white"/>
+
+                        <Button
+                            android:id="@+id/type_btn"
+                            style="@style/Spinner_btn_WMH40"
+                            android:layout_marginTop="@dimen/mar_4"
+                            android:onClick="showTypeList"
+                            android:text="Auction"
+                            android:textColor="@color/black"/>
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:id="@+id/auction_ll"
+                        style="@style/Layout_WMHW"
+                        android:background="@color/black"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            style="@style/Layout_WMHW"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                style="@style/Layout_WMHM"
+                                android:layout_margin="@dimen/mar_10"
+                                android:orientation="vertical">
+
+
+
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/mar_10"
+                                    android:text="Product Name"
+                                    android:textColor="@color/white"
+                                    android:textSize="@dimen/txt_14" />
+
+                                <EditText
+                                    android:id="@+id/productname_edt"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/mar_50"
+                                    android:layout_marginTop="@dimen/mar_4"
+                                    android:gravity="center_vertical"
+                                    android:background="@drawable/rect_background"
+                                    android:hint="@string/plz_enter_productname"
+                                    android:maxLength="50"
+                                    android:maxLines="1"
+                                    android:textColor="@color/black"
+                                    android:inputType="textCapCharacters"
+                                    android:paddingLeft="@dimen/mar_10"
+                                    android:singleLine="true"
+                                    android:textColorHint="@color/hint_color" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/mar_10"
+                                    android:text="Product Description"
+                                    android:textSize="@dimen/txt_14"
+                                    android:textColor="@color/white"/>
+
+                                <EditText
+                                    android:id="@+id/productdes_edt"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="100dp"
+                                    android:layout_marginTop="@dimen/mar_4"
+                                    android:gravity="start"
+                                    android:paddingTop="@dimen/mar_10"
+                                    android:layout_gravity="center"
+                                    android:hint="@string/plz_enter_productdes"
+                                    android:maxLength="50"
+                                    android:maxLines="1"
+                                    android:background="@drawable/rect_background"
+                                    android:textColor="@color/black"
+                                    android:inputType="textCapCharacters"
+                                    android:paddingLeft="@dimen/mar_10"
+                                    android:singleLine="true"
+                                    android:textColorHint="@color/hint_color" />
+
+                                <LinearLayout
+                                    android:id="@+id/auctionamount_ll"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/mar_10"
+                                    android:text="Auction Amount "
+                                    android:textSize="@dimen/txt_14"
+                                    android:textColor="@color/white"/>
+
+                                <EditText
+                                    android:id="@+id/auctionamount_edt"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/mar_50"
+                                    android:layout_marginTop="@dimen/mar_4"
+                                    android:gravity="center_vertical"
+                                    android:hint="Enter amount"
+                                    android:maxLength="50"
+                                    android:background="@drawable/rect_background"
+                                    android:maxLines="1"
+                                    android:textColor="@color/black"
+                                    android:inputType="number"
+                                    android:paddingLeft="@dimen/mar_10"
+                                    android:singleLine="true"
+                                    android:textColorHint="@color/hint_color" />
+
+                                </LinearLayout>
+
+                                <TextView
+                                    android:id="@+id/closedate_txt"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/mar_5"
+                                    android:text="Auction close date"
+                                    android:textSize="@dimen/txt_14"
+                                    android:textColor="@color/white"/>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/btn_40"
+                                    android:layout_marginTop="@dimen/mar_4"
+                                    android:orientation="horizontal">
+
+                                    <Button
+                                        android:id="@+id/damage_date"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="@dimen/btn_40"
+                                        android:layout_weight="1"
+                                        android:background="@drawable/field_date"
+                                        android:gravity="start|center"
+                                        android:text="Select Date"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp"
+                                        android:textStyle="normal" />
+
+                                    <Button
+                                        android:id="@+id/damage_time"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="@dimen/btn_40"
+                                        android:layout_weight="1"
+                                        android:background="@drawable/field_time"
+                                        android:gravity="start|center"
+                                        android:text="Select Time"
+                                        android:textColor="@color/black"
+                                        android:textSize="12dp"
+                                        android:textStyle="normal" />
+
+                                </LinearLayout>
+
+
+
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:visibility="visible">
+
+                            <LinearLayout
+                                style="@style/Layout_WMHW"
+                                android:orientation="vertical">
+
+                                <LinearLayout
+                                    style="@style/Layout_WMHM"
+                                    android:layout_margin="@dimen/mar_10"
+                                    android:orientation="vertical">
+
+                                    <Button
+                                        android:id="@+id/choose_images"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="40dp"
+                                        android:layout_gravity="center"
+                                        android:drawableRight="@android:drawable/ic_menu_camera"
+                                        android:gravity="center"
+                                        android:singleLine="true"
+                                        android:text="@string/choose_img"
+                                        android:textSize="@dimen/txt_14"
+                                        android:textStyle="normal"
+                                        android:textColor="@color/white"
+                                        android:background="@color/purple_700"/>
+
+                                    <androidx.recyclerview.widget.RecyclerView
+                                        android:id="@+id/damage_images"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="220dp"
+                                        android:layout_marginTop="@dimen/mar_10"
+                                        android:scrollbars="horizontal"
+                                        android:fadeScrollbars="false"
+                                        android:scrollbarSize="@dimen/mar_4"
+                                        android:scrollbarThumbHorizontal="@color/purple_700"
+                                        android:layout_marginBottom="@dimen/mar_5"
+                                        android:visibility="visible"/>
+
+
+                                    <androidx.cardview.widget.CardView
+                                        android:layout_width="80dp"
+                                        android:layout_height="@dimen/btn_35"
+                                        android:layout_gravity="center"
+                                        app:cardCornerRadius="@dimen/mar_10">
+
+                                        <Button
+                                            android:id="@+id/upload_images"
+                                            android:layout_width="80dp"
+                                            android:layout_height="@dimen/btn_35"
+                                            android:layout_gravity="center"
+                                            android:text="Upload"
+                                            android:background="@color/purple_700"
+                                            android:textColor="@color/white"
+                                            android:visibility="visible"/>
+
+                                    </androidx.cardview.widget.CardView>
+
+
+                                </LinearLayout>
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+
+
+
+                    <LinearLayout
+                        style="@style/Layout_WMHW"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            style="@style/Layout_WMHM"
+                            android:layout_margin="@dimen/mar_10"
+                            android:orientation="vertical">
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+
+                                <Button
+                                    android:id="@+id/buttonclear"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="40dp"
+                                    android:layout_weight="1"
+                                    android:background="@color/white"
+                                    android:text="@string/clear"
+                                    android:textColor="@color/colorPrimary" />
+
+                                <Button
+                                    android:id="@+id/buttonsave"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="40dp"
+                                    android:layout_weight="1"
+                                    android:text="@string/save"
+                                    android:background="@color/purple_700"
+                                    android:textColor="@color/white"/>
+
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+
+
+
+                </LinearLayout>
+
+
+            </FrameLayout>
+
+
+
+        </ScrollView>
+
+    </LinearLayout>
+
+    </LinearLayout>
+
+
+
+    <!--    <androidx.drawerlayout.widget.DrawerLayout-->
+<!--        android:id="@+id/mainDrawerLayout"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="0dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintLeft_toLeftOf="parent"-->
+<!--        app:layout_constraintRight_toRightOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent">-->
+
+<!--        <androidx.coordinatorlayout.widget.CoordinatorLayout-->
+<!--            style="@style/Layout_WMHM"-->
+<!--            android:fitsSystemWindows="true">-->
+
+<!--            <include-->
+<!--                style="@style/Layout_WMHW"-->
+<!--                layout="@layout/app_bar_layout"-->
+<!--                android:visibility="gone"/>-->
+
+
+<!--            <ScrollView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginBottom="@dimen/mar_50"-->
+<!--                android:layout_marginTop="@dimen/mar_50"-->
+<!--                android:scrollbars="vertical"-->
+<!--                android:scrollbarSize="@dimen/mar_4"-->
+<!--                android:scrollbarThumbVertical="@color/mdtp_transparent_black">-->
+
+<!--                <FrameLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent"-->
+
+<!--                    android:background="@drawable/back_groud">-->
+
+<!--                <LinearLayout-->
+<!--                    style="@style/Layout_WMHM"-->
+<!--                    android:orientation="vertical">-->
+
+<!--                    <LinearLayout-->
+<!--                        style="@style/Layout_WMHW"-->
+<!--                        android:background="@color/black"-->
+<!--                        android:orientation="vertical">-->
+
+<!--                        <LinearLayout-->
+<!--                            style="@style/Layout_WMHW"-->
+
+<!--                            android:orientation="vertical">-->
+
+<!--                            <LinearLayout-->
+<!--                                style="@style/Layout_WMHM"-->
+<!--                                android:layout_margin="@dimen/mar_10"-->
+<!--                                android:orientation="vertical">-->
+
+
+
+<!--                                <LinearLayout-->
+<!--                                    style="@style/Layout_WMHW"-->
+<!--                                    android:layout_marginTop="@dimen/mar_10"-->
+<!--                                    android:orientation="vertical">-->
+
+<!--                                    <TextView-->
+<!--                                        style="@style/Txt_WMHW"-->
+<!--                                        android:text="Type"-->
+<!--                                        android:textColor="@color/white"/>-->
+
+<!--                                    <Button-->
+<!--                                        android:id="@+id/type_btn"-->
+<!--                                        style="@style/Spinner_btn_WMH40"-->
+<!--                                        android:layout_marginTop="@dimen/mar_4"-->
+<!--                                        android:onClick="showTypeList"-->
+<!--                                        android:text="Auction"-->
+<!--                                        android:textColor="@color/black"/>-->
+
+<!--                                </LinearLayout>-->
+
+
+
+
+
+
+<!--                                <TextView-->
+<!--                                    android:layout_width="match_parent"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:layout_marginTop="@dimen/mar_10"-->
+<!--                                    android:text="Product Name"-->
+<!--                                    android:textColor="@color/white"-->
+<!--                                    android:textSize="@dimen/txt_14" />-->
+
+<!--                                <EditText-->
+<!--                                    android:id="@+id/productname_edt"-->
+<!--                                    android:layout_width="match_parent"-->
+<!--                                    android:layout_height="@dimen/mar_50"-->
+<!--                                    android:layout_marginTop="@dimen/mar_4"-->
+<!--                                    android:gravity="center_vertical"-->
+<!--                                    android:hint="@string/plz_enter_productname"-->
+<!--                                    android:maxLength="50"-->
+<!--                                    android:maxLines="1"-->
+<!--                                    android:textColor="@color/white"-->
+<!--                                    android:inputType="textCapCharacters"-->
+<!--                                    android:paddingLeft="@dimen/mar_10"-->
+<!--                                    android:singleLine="true"-->
+<!--                                    android:textColorHint="@color/hint_color" />-->
+
+
+<!--                                <TextView-->
+<!--                                    android:layout_width="match_parent"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:layout_marginTop="@dimen/mar_10"-->
+<!--                                    android:text="Product Description"-->
+<!--                                    android:textSize="@dimen/txt_14"-->
+<!--                                    android:textColor="@color/white"/>-->
+
+<!--                                <EditText-->
+<!--                                    android:id="@+id/productdes_edt"-->
+<!--                                    android:layout_width="match_parent"-->
+<!--                                    android:layout_height="100dp"-->
+<!--                                    android:layout_marginTop="@dimen/mar_4"-->
+<!--                                    android:gravity="center_vertical"-->
+<!--                                    android:hint="@string/plz_enter_productdes"-->
+<!--                                    android:maxLength="50"-->
+<!--                                    android:maxLines="1"-->
+<!--                                    android:textColor="@color/white"-->
+<!--                                    android:inputType="textCapCharacters"-->
+<!--                                    android:paddingLeft="@dimen/mar_10"-->
+<!--                                    android:singleLine="true"-->
+<!--                                    android:textColorHint="@color/hint_color" />-->
+
+
+<!--                                <TextView-->
+<!--                                    android:layout_width="match_parent"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:layout_marginTop="@dimen/mar_10"-->
+<!--                                    android:text="Auction Amount "-->
+<!--                                    android:textSize="@dimen/txt_14"-->
+<!--                                    android:textColor="@color/white"/>-->
+
+<!--                                <EditText-->
+<!--                                    android:id="@+id/auctionamount_edt"-->
+<!--                                    android:layout_width="match_parent"-->
+<!--                                    android:layout_height="@dimen/mar_50"-->
+<!--                                    android:layout_marginTop="@dimen/mar_4"-->
+<!--                                    android:gravity="center_vertical"-->
+<!--                                    android:hint="Enter amount"-->
+<!--                                    android:maxLength="50"-->
+<!--                                    android:maxLines="1"-->
+<!--                                    android:textColor="@color/white"-->
+<!--                                    android:inputType="number"-->
+<!--                                    android:paddingLeft="@dimen/mar_10"-->
+<!--                                    android:singleLine="true"-->
+<!--                                    android:textColorHint="@color/hint_color" />-->
+
+
+<!--                                <TextView-->
+<!--                                    android:layout_width="match_parent"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:layout_marginTop="@dimen/mar_5"-->
+<!--                                    android:text="Date"-->
+<!--                                    android:textSize="@dimen/txt_14" />-->
+
+
+<!--                                <LinearLayout-->
+<!--                                    android:layout_width="match_parent"-->
+<!--                                    android:layout_height="@dimen/btn_40"-->
+<!--                                    android:layout_marginTop="@dimen/mar_4"-->
+<!--                                    android:orientation="horizontal">-->
+
+<!--                                    <Button-->
+<!--                                        android:id="@+id/damage_date"-->
+<!--                                        android:layout_width="match_parent"-->
+<!--                                        android:layout_height="@dimen/btn_40"-->
+<!--                                        android:layout_weight="1"-->
+<!--                                        android:background="@drawable/field_date"-->
+<!--                                        android:gravity="start|center"-->
+<!--                                        android:text="Select Date"-->
+<!--                                        android:textColor="@color/black"-->
+<!--                                        android:textSize="@dimen/txt_14"-->
+<!--                                        android:textStyle="normal" />-->
+
+<!--                                    <Button-->
+<!--                                        android:id="@+id/damage_time"-->
+<!--                                        android:layout_width="match_parent"-->
+<!--                                        android:layout_height="@dimen/btn_40"-->
+<!--                                        android:layout_weight="1"-->
+<!--                                        android:background="@drawable/field_time"-->
+<!--                                        android:gravity="start|center"-->
+<!--                                        android:text="Select Time"-->
+<!--                                        android:textColor="@color/black"-->
+<!--                                        android:textSize="@dimen/txt_14"-->
+<!--                                        android:textStyle="normal" />-->
+
+<!--                                </LinearLayout>-->
+
+
+
+<!--                            </LinearLayout>-->
+<!--                        </LinearLayout>-->
+
+
+
+
+<!--                        <LinearLayout-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:orientation="vertical"-->
+<!--                            android:visibility="visible">-->
+
+<!--                            <LinearLayout-->
+<!--                                style="@style/Layout_WMHW"-->
+<!--                                android:orientation="vertical">-->
+
+<!--                                <LinearLayout-->
+<!--                                    style="@style/Layout_WMHM"-->
+<!--                                    android:layout_margin="@dimen/mar_10"-->
+<!--                                    android:orientation="vertical">-->
+
+<!--                                    <Button-->
+<!--                                        android:id="@+id/choose_images"-->
+<!--                                        android:layout_width="match_parent"-->
+<!--                                        android:layout_height="40dp"-->
+<!--                                        android:layout_gravity="center"-->
+<!--                                        android:drawableRight="@android:drawable/ic_menu_camera"-->
+<!--                                        android:gravity="center"-->
+<!--                                        android:singleLine="true"-->
+<!--                                        android:text="@string/choose_img"-->
+<!--                                        android:textSize="@dimen/txt_14"-->
+<!--                                        android:textStyle="normal"-->
+<!--                                        android:textColor="@color/white"-->
+<!--                                        android:background="@color/purple_700"/>-->
+
+<!--                                    <androidx.recyclerview.widget.RecyclerView-->
+<!--                                        android:id="@+id/damage_images"-->
+<!--                                        android:layout_width="match_parent"-->
+<!--                                        android:layout_height="220dp"-->
+<!--                                        android:layout_marginTop="@dimen/mar_10"-->
+<!--                                        android:scrollbars="horizontal"-->
+<!--                                        android:fadeScrollbars="false"-->
+<!--                                        android:scrollbarSize="@dimen/mar_4"-->
+<!--                                        android:scrollbarThumbHorizontal="@color/purple_700"-->
+<!--                                        android:layout_marginBottom="@dimen/mar_5"-->
+<!--                                        android:visibility="visible"/>-->
+
+
+<!--                                    <androidx.cardview.widget.CardView-->
+<!--                                        android:layout_width="80dp"-->
+<!--                                        android:layout_height="@dimen/btn_35"-->
+<!--                                        android:layout_gravity="center"-->
+<!--                                        app:cardCornerRadius="@dimen/mar_10">-->
+
+<!--                                        <Button-->
+<!--                                            android:id="@+id/upload_images"-->
+<!--                                            android:layout_width="80dp"-->
+<!--                                            android:layout_height="@dimen/btn_35"-->
+<!--                                            android:layout_gravity="center"-->
+<!--                                            android:text="Upload"-->
+<!--                                            android:background="@color/purple_700"-->
+<!--                                            android:textColor="@color/white"-->
+<!--                                            android:visibility="visible"/>-->
+
+<!--                                    </androidx.cardview.widget.CardView>-->
+
+
+<!--                                </LinearLayout>-->
+<!--                            </LinearLayout>-->
+
+<!--                        </LinearLayout>-->
+
+
+
+
+<!--                        <LinearLayout-->
+<!--                            style="@style/Layout_WMHW"-->
+<!--                            android:orientation="vertical">-->
+
+<!--                            <LinearLayout-->
+<!--                                style="@style/Layout_WMHM"-->
+<!--                                android:layout_margin="@dimen/mar_10"-->
+<!--                                android:orientation="vertical">-->
+
+
+<!--                                <LinearLayout-->
+<!--                                    android:layout_width="match_parent"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:orientation="horizontal">-->
+
+
+<!--                                    <Button-->
+<!--                                        android:id="@+id/buttonclear"-->
+<!--                                        android:layout_width="match_parent"-->
+<!--                                        android:layout_height="40dp"-->
+<!--                                        android:layout_weight="1"-->
+<!--                                        android:background="@drawable/field_blank"-->
+<!--                                        android:text="@string/clear"-->
+<!--                                        android:textColor="@color/colorPrimary" />-->
+
+<!--                                    <Button-->
+<!--                                        android:id="@+id/buttonsave"-->
+<!--                                        android:layout_width="match_parent"-->
+<!--                                        android:layout_height="40dp"-->
+<!--                                        android:layout_weight="1"-->
+<!--                                        android:text="@string/save"-->
+<!--                                        android:background="@color/purple_700"-->
+<!--                                        android:textColor="@color/white"/>-->
+
+<!--                                </LinearLayout>-->
+<!--                            </LinearLayout>-->
+<!--                        </LinearLayout>-->
+
+<!--                    </LinearLayout>-->
+
+
+<!--                </LinearLayout>-->
+
+
+<!--                </FrameLayout>-->
+
+
+
+<!--            </ScrollView>-->
+
+<!--        </androidx.coordinatorlayout.widget.CoordinatorLayout>-->
+
+<!--        <LinearLayout-->
+<!--            android:id="@+id/mLeftDrawer"-->
+<!--            android:layout_width="180dp"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_gravity="start|bottom"-->
+<!--            android:layout_marginTop="56dp"-->
+<!--            android:choiceMode="singleChoice"-->
+<!--            android:divider="@android:color/transparent"-->
+<!--            android:dividerHeight="0dp"-->
+<!--            android:fitsSystemWindows="true"-->
+<!--            android:orientation="vertical"-->
+<!--            android:visibility="gone">-->
+
+<!--&lt;!&ndash;            <include&ndash;&gt;-->
+<!--&lt;!&ndash;                style="@style/Layout_WMHM"&ndash;&gt;-->
+<!--&lt;!&ndash;                layout="@layout/nav_header_main"&ndash;&gt;-->
+<!--&lt;!&ndash;                android:visibility="visible"/>&ndash;&gt;-->
+
+<!--        </LinearLayout>-->
+
+<!--    </androidx.drawerlayout.widget.DrawerLayout>-->
+
+
+</LinearLayout>

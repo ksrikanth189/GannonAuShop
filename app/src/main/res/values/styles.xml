@@ -1,0 +1,126 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+
+    <!-- Default Theme -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="toolbarStyle">@style/Widget.Toolbar</item>
+        <item name="android:windowAnimationStyle">@null</item>
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+        <!--  <item name="android:windowBackground">@mipmap/ic_launcher</item>-->
+    </style>
+
+
+
+    <style name="NameStyle">
+        <item name="android:fontFamily">@font/roboto</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:textSize">18dp</item>
+    </style>
+
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="spinBars">true</item>
+        <item name="color">@android:color/white</item>
+    </style>
+
+    <style name="Widget.Toolbar" parent="@style/Widget.AppCompat.Toolbar">
+        <item name="contentInsetStart">0dp</item>
+    </style>
+
+    <!-- Layout Themes -->
+
+    <style name="Layout_WMHW">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+
+    <!-- TextView styles. -->
+
+    <style name="Txt_WMHW">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+
+    <!-- EditText styles. -->
+
+    <!-- Toolbar styles. -->
+
+    <!-- ImageView style. -->
+
+
+    <!-- Button styles -->
+
+
+    <!-- Recycle View styles -->
+
+    <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
+        <!-- Customize color of navigation drawer icon and back arrow -->
+        <item name="colorControlNormal">@color/textWhite</item>
+    </style>
+
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+
+
+    <style name="Layout_WMHM">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="Spinner_btn_WMH40">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/btn_40</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:background">@drawable/field_drop</item>
+        <item name="android:gravity">left|center_vertical</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/txt_14</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:visibility">visible</item>
+    </style>
+
+    <style name="MirratMenuArrowTextView">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:textColor">@color/hint_color</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:layout_weight">80</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="MirratMenuLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">80dp</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:weightSum">100</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+    </style>
+
+    <style name="MirratMenuIconImage">
+        <item name="android:layout_height">30dp</item>
+        <item name="android:layout_width">30dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+
+
+
+</resources>

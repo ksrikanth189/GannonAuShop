@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical">
+
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:background="@mipmap/develop_icon"
+        android:visibility="gone"/>
+
+
+    <include
+        style="@style/Layout_WMHW"
+        layout="@layout/app_bar_layout"
+        android:visibility="visible" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/back_groud">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:id="@+id/approve_deny_ll"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/auction_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/btn_35"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:text="Auction"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        android:background="@color/green" />
+
+                    <TextView
+                        android:id="@+id/donation_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/btn_35"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:text="Donation"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        android:background="@color/red" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_gravity="center">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/btn_40"
+                    android:orientation="horizontal"
+                    android:visibility="visible"
+                    android:background="@color/cardWhite">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/btn_40"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:text="User name"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/txt_16"
+                        android:textColor="@color/black"
+                        android:background="@drawable/rect_background"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/btn_40"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:text="Auction date"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/txt_16"
+                        android:textColor="@color/black"
+                        android:background="@drawable/rect_background"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/btn_40"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:text="Amount"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/txt_16"
+                        android:textColor="@color/black"
+                        android:background="@drawable/rect_background"/>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/idNestedSV"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+                <LinearLayout
+                    style="@style/Layout_WMHM"
+                    android:orientation="vertical">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:divider="@null"
+                        android:visibility="visible"></androidx.recyclerview.widget.RecyclerView>
+
+
+                    <ProgressBar
+                        android:id="@+id/idPBLoading"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone" />
+
+
+                    <TextView
+                        android:id="@+id/no_cat_display_id"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="No history data to show"
+                        android:textSize="@dimen/txt_18"
+                        android:visibility="gone" />
+
+
+                </LinearLayout>
+
+            </androidx.core.widget.NestedScrollView>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+
+</LinearLayout>

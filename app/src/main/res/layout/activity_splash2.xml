@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorPrimary">
+
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:background="@mipmap/develop_icon" />
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+
+                    <ImageView
+                        android:layout_width="250dp"
+                        android:layout_height="250dp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/mar_30"
+                        android:layout_marginBottom="@dimen/mar_30"
+                        android:background="@mipmap/icon6" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:gravity="bottom"
+                        android:layout_margin="@dimen/mar_30"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="Already an user"
+                            android:textColor="@color/white"
+                            android:layout_marginBottom="@dimen/mar_5"
+                            android:textStyle="bold"
+                            android:textSize="@dimen/txt_18" />
+
+                        <Button
+                            android:layout_width="200dp"
+                            android:layout_height="@dimen/btn_40"
+                            android:layout_marginTop="@dimen/mar_15"
+                            android:background="@drawable/reclangle_shape"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:onClick="signIn"
+                            android:text="@string/signIn"
+                            android:layout_marginBottom="@dimen/mar_5"
+                            android:textColor="@color/textWhite"
+                            android:textStyle="bold" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:layout_margin="@dimen/mar_30"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="New to the App"
+                            android:textColor="@color/white"
+                            android:layout_marginBottom="@dimen/mar_5"
+                            android:textStyle="bold"
+                            android:textSize="@dimen/txt_18" />
+
+                        <Button
+                            android:layout_width="200dp"
+                            android:layout_height="@dimen/btn_40"
+                            android:layout_marginTop="@dimen/mar_15"
+                            android:background="@drawable/reclangle_shape"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:onClick="REGISTER"
+                            android:text="REGISTER"
+                            android:layout_marginBottom="@dimen/mar_5"
+                            android:textColor="@color/textWhite"
+                            android:textStyle="bold" />
+
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right|bottom|center"
+                    android:text="Settings"
+                    android:onClick="settings_txt"
+                    android:layout_marginBottom="@dimen/mar_30"
+                    android:layout_marginRight="@dimen/mar_10"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/txt_18"
+                    android:layout_gravity="right|bottom" />
+
+            </LinearLayout>
+
+        </ScrollView>
+
+
+    </FrameLayout>
+
+
+</LinearLayout>

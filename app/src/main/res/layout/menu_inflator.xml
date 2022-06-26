@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/Layout_WMHM"
+    android:background="@color/textWhite"
+    android:orientation="vertical"
+    android:stateListAnimator="@null">
+
+    <ScrollView style="@style/Layout_WMHM">
+
+        <LinearLayout style="@style/Layout_WMHM">
+
+            <LinearLayout
+                android:id="@+id/user_profile"
+                style="@style/MirratMenuLayout"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:id="@+id/user_name"
+                    android:layout_width="match_parent"
+                    android:text="username"
+                    android:layout_height="40dp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/txt_15"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_marginBottom="@dimen/mar_15"
+                    android:textStyle="bold" />
+
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/black"/>
+
+            <LinearLayout
+                android:id="@+id/userManagement_menu"
+                style="@style/MirratMenuLayout"
+                android:onClick="menuBerth">
+
+                <ImageView
+                    style="@style/MirratMenuIconImage"
+                    android:layout_gravity="center"
+                    android:background="@drawable/notifica"
+                    android:onClick="menuBerth"
+                    android:visibility="gone"/>
+
+                <TextView
+                    style="@style/MirratMenuArrowTextView"
+                    android:onClick="UserManagement"
+                    android:text="User Management"/>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/black"/>
+
+
+
+
+
+
+
+
+            <LinearLayout
+                android:id="@+id/AUCTIONDONATION_menu"
+                style="@style/MirratMenuLayout"
+                android:onClick="AUCTIONDONATION">
+
+                <ImageView
+                    style="@style/MirratMenuIconImage"
+                    android:layout_gravity="center"
+                    android:background="@drawable/notifica"
+                    android:onClick="AUCTIONDONATION"
+                    android:visibility="gone"/>
+
+                <TextView
+                    style="@style/MirratMenuArrowTextView"
+                    android:onClick="AUCTIONDONATION"
+                    android:text="AUCTION / DONATION"/>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/black"/>
+
+            <LinearLayout
+                android:id="@+id/MySales_menu"
+                style="@style/MirratMenuLayout"
+                android:onClick="MySales">
+
+                <ImageView
+                    style="@style/MirratMenuIconImage"
+                    android:layout_gravity="center"
+                    android:background="@drawable/notifica"
+                    android:onClick="MySales"
+                    android:visibility="gone"/>
+
+                <TextView
+                    style="@style/MirratMenuArrowTextView"
+                    android:onClick="MySales"
+                    android:text="My Sales"/>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/black"/>
+
+
+
+
+            <LinearLayout
+                android:id="@+id/berth_menu"
+                style="@style/MirratMenuLayout"
+                android:onClick="MyWins"
+                android:layout_gravity="bottom">
+
+                <ImageView
+                    style="@style/MirratMenuIconImage"
+                    android:layout_gravity="center"
+                    android:background="@drawable/notifica"
+                    android:onClick="MyWins"
+                    android:visibility="gone"/>
+
+                <TextView
+                    style="@style/MirratMenuArrowTextView"
+                    android:onClick="MyWins"
+                    android:text="My Wins"/>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/black"/>
+
+
+
+
+
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>

@@ -1,0 +1,42 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <!-- Margin values. -->
+    <dimen name="mar_4">4dp</dimen>
+    <dimen name="mar_5">5dp</dimen>
+    <dimen name="mar_6">6dp</dimen>
+    <dimen name="mar_10">10dp</dimen>
+    <dimen name="mar_15">15dp</dimen>
+    <!-- Padding values. -->
+
+
+    <!-- TextView values. -->
+    <dimen name="txt_14">14dp</dimen>
+    <dimen name="txt_15">15dp</dimen>
+    <dimen name="txt_16">16dp</dimen>
+    <dimen name="txt_17">17dp</dimen>
+    <dimen name="txt_18">18dp</dimen>
+    <dimen name="txt_20">20dp</dimen>
+    <dimen name="txt_24">24dp</dimen>
+    <!-- EditText values. -->
+    <!-- Button values. -->
+
+    <!-- ImageView values  -->
+    <!--recycler view height-->
+    <!-- homescreen cards horizontal listview -->
+    <!--product details page-->
+    <dimen name="design_fab_image_size" tools:override="true">75dp</dimen>
+    <dimen name="mar_20">20dp</dimen>
+    <dimen name="mar_50">50dp</dimen>
+
+
+    <dimen name="nav_header_vertical_spacing">10dp</dimen>
+    <dimen name="mar_70">70dp</dimen>
+    <dimen name="btn_35">35dp</dimen>
+    <dimen name="btn_40">40dp</dimen>
+    <dimen name="btn_45">45dp</dimen>
+    <dimen name="mar_30">30dp</dimen>
+
+    <dimen name="item_offset">2dp</dimen>
+
+
+</resources>
