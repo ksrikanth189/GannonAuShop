@@ -2,14 +2,14 @@
 <com.google.android.material.appbar.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/Layout_WMHW"
-    android:theme="@style/AppTheme.AppBarOverlay">
+    android:theme="@style/AppTheme.AppBarOverlay"
+    android:background="@color/colorPrimary">
 
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/mar_50"
-        android:background="@color/colorPrimary"
         android:orientation="vertical"
         android:theme="@style/ToolbarTheme"
         app:contentInsetEnd="0dp"

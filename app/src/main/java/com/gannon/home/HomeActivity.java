@@ -17,6 +17,7 @@ import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -70,6 +71,7 @@ import com.gannon.mysales.MySalesScreen;
 import com.gannon.uploadAuctionDonation.activity.MultiPhotoSelectActivity;
 import com.gannon.uploadAuctionDonation.activity.NewAuctionDonation;
 import com.gannon.uploadAuctionDonation.interactor.model.SaveResponsePayLoad;
+import com.gannon.usermanagement.UserManagementScreen;
 import com.gannon.utils.ApplicationContext;
 import com.gannon.utils.RestAPI;
 import com.gannon.utils.SuperCompatActivity;
@@ -358,19 +360,25 @@ public class HomeActivity extends SuperCompatActivity implements NavigationView.
         if (SharedPrefHelper.getLogin(context) != null && SharedPrefHelper.getLogin(context).getMessage() != null && SharedPrefHelper.getLogin(context).getMessage().getAdminFlag() == false) {
             hideLeftMenuItem();
         } else {
-            approve_deny_ll.setVisibility(View.INVISIBLE);
+            approve_deny_ll.setVisibility(View.GONE);
         }
 
-        if (SharedPrefHelper.getLogin(context) != null && SharedPrefHelper.getLogin(context).getMessage() != null && SharedPrefHelper.getLogin(context).getMessage().getAdminFlag() == false) {
+//        if (SharedPrefHelper.getLogin(context) != null && SharedPrefHelper.getLogin(context).getMessage() != null && SharedPrefHelper.getLogin(context).getMessage().getAdminFlag() == false) {
+//
+//            if (checkInternet()) {
+//                getHomeAllListService("auction");
+//            } else {
+//                CustomErrorToast(getResources().getString(R.string.server_not_responding));
+//            }
+//
+//        }
 
-            if (checkInternet()) {
-                getHomeAllListService("auction");
-            } else {
-                CustomErrorToast(getResources().getString(R.string.server_not_responding));
-            }
 
+        if (checkInternet()) {
+            getHomeAllListService("auction");
+        } else {
+            CustomErrorToast(getResources().getString(R.string.server_not_responding));
         }
-
 
         auction_list.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -573,13 +581,16 @@ public class HomeActivity extends SuperCompatActivity implements NavigationView.
 
         int id = item.getItemId();
         if (id == R.id.nav_newregister) {
-            approve_deny_ll.setVisibility(View.VISIBLE);
+            approve_deny_ll.setVisibility(View.GONE);
 
-            if (checkInternet()) {
-                getCategoryList();
-            } else {
-                CustomErrorToast(getResources().getString(R.string.server_not_responding));
-            }
+            startActivity(new Intent(HomeActivity.this, UserManagementScreen.class));
+
+
+//            if (checkInternet()) {
+//                getCategoryList();
+//            } else {
+//                CustomErrorToast(getResources().getString(R.string.server_not_responding));
+//            }
 
 //            if (checkInternet()) {
 //                getHomeDenyListResCall();
@@ -1312,6 +1323,12 @@ public class HomeActivity extends SuperCompatActivity implements NavigationView.
                                 getHomeAllListService("auction");
                             }
 
+                            auction_list.setTextColor(getResources().getColor(R.color.white));
+                            auction_list.setBackgroundColor(getResources().getColor(R.color.btn_bg));
+
+                            donation_list.setTextColor(getResources().getColor(R.color.white));
+                            donation_list.setBackgroundColor(getResources().getColor(R.color.black));
+
                         } else {
                             CustomErrorToast(responsePayLoad.getMessage());
                         }
@@ -1352,6 +1369,7 @@ public class HomeActivity extends SuperCompatActivity implements NavigationView.
 
         customDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         customDialog.setContentView(R.layout.search_home_dialog);
+        customDialog.getWindow().setGravity(Gravity.CENTER);
         customDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         customDialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 

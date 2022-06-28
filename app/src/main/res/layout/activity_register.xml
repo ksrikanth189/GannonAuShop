@@ -30,7 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -38,12 +38,21 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:gravity="center"
                 android:text="SIGN UP"
                 android:textColor="@color/textWhite"
                 android:textSize="@dimen/mar_30"
                 android:textStyle="bold" />
+
+            <ImageView
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:layout_gravity="center"
+                android:alpha="0.10"
+                android:scaleType="fitXY"
+                android:backgroundTintMode="src_over"
+                android:src="@mipmap/icon6"/>
+
 
 
             <include
@@ -54,8 +63,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/back_groud"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginTop="@dimen/mar_50">
 
                 <LinearLayout
                     style="@style/Layout_WMHW"
@@ -86,7 +95,7 @@
                             android:layout_height="@dimen/btn_45"
                             android:layout_marginTop="@dimen/mar_5"
                             android:layout_marginBottom="@dimen/mar_5"
-                            android:background="@drawable/rect_background"
+                            android:background="@drawable/reclangle_shape_white"
                             android:hint="@string/pls_enter_first_name"
                             android:inputType="text"
                             android:maxLength="50"
@@ -119,7 +128,7 @@
                             android:layout_height="@dimen/btn_45"
                             android:layout_marginTop="@dimen/mar_5"
                             android:layout_marginBottom="@dimen/mar_5"
-                            android:background="@drawable/rect_background"
+                            android:background="@drawable/reclangle_shape_white"
                             android:hint="@string/pls_enter_last_name"
                             android:inputType="text"
                             android:maxLength="50"
@@ -152,7 +161,7 @@
                             android:layout_height="@dimen/btn_45"
                             android:layout_marginTop="@dimen/mar_5"
                             android:layout_marginBottom="@dimen/mar_5"
-                            android:background="@drawable/rect_background"
+                            android:background="@drawable/reclangle_shape_white"
                             android:hint="@string/pls_enter_email"
                             android:inputType="text"
                             android:maxLength="50"
@@ -185,7 +194,7 @@
                             android:layout_height="@dimen/btn_45"
                             android:layout_marginTop="@dimen/mar_5"
                             android:layout_marginBottom="@dimen/mar_5"
-                            android:background="@drawable/rect_background"
+                            android:background="@drawable/reclangle_shape_white"
                             android:hint="@string/pls_enter_mobile"
                             android:inputType="number"
                             android:maxLength="50"
@@ -218,7 +227,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/mar_50"
                             android:layout_marginTop="@dimen/mar_4"
-                            android:background="@drawable/rect_background"
+                            android:background="@drawable/reclangle_shape_white"
                             android:fontFamily="sans-serif"
                             android:hint="@string/pls_enter_password"
                             android:inputType="textPassword"
@@ -253,7 +262,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/mar_50"
                             android:layout_marginTop="@dimen/mar_4"
-                            android:background="@drawable/rect_background"
+                            android:background="@drawable/reclangle_shape_white"
                             android:fontFamily="sans-serif"
                             android:hint="@string/pls_enter_studentId"
                             android:inputType="text"
@@ -322,7 +331,7 @@
 
             </LinearLayout>
 
-        </LinearLayout>
+        </FrameLayout>
 
 
     </ScrollView>

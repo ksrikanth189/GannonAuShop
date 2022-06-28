@@ -2,16 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/mar_5"
-    android:background="@color/txt_white"
-    android:clickable="true"
-    android:focusable="true"
+    android:layout_margin="2dp"
     android:orientation="vertical">
 
     <LinearLayout
         style="@style/Layout_WMHM"
         android:layout_gravity="center"
-        android:background="@drawable/rect_background"
+        android:background="@drawable/reclangle_shape_white"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -45,6 +42,7 @@
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:gravity="start|center"
+                    android:paddingLeft="@dimen/mar_10"
                     android:text=""
                     android:textColor="@color/black"
                     android:textSize="@dimen/txt_16" />
@@ -57,6 +55,7 @@
                     android:layout_weight="1"
                     android:gravity="start|center"
                     android:text=""
+                    android:paddingLeft="@dimen/mar_10"
                     android:textColor="@color/black"
                     android:textSize="@dimen/txt_14"
                     android:visibility="gone"/>

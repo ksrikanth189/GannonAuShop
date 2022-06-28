@@ -55,6 +55,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -489,6 +490,16 @@ public class NewAuctionDonation extends SuperCompatActivity implements DatePicke
 //            Uri tempUri = getImageUri(getApplicationContext(), bitmap);
 //            String finalFile = getRealPathFromURI(tempUri);
 
+
+//            URI uri = null;
+//             set this uri in camera Intent
+//            if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+//                uri = getApplicationContext().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, new ContentValues());
+//            } else {
+//                uri = getApplicationContext().getContentResolver().insert(MediaStore.Images.Media.INTERNAL_CONTENT_URI, new ContentValues());
+//            }
+
+
             if (captureImageUri != null)
                 arrayListImages.add(captureImageUri.toString());
 
@@ -573,6 +584,7 @@ public class NewAuctionDonation extends SuperCompatActivity implements DatePicke
                             // cameraIntent.putExtra("android.intent.extras.CAMERA_FACING", cameraId);
                             captureImageUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(), "wwl_" +
                                     String.valueOf(System.currentTimeMillis()) + ".png"));
+//                                    String.valueOf(System.currentTimeMillis()) + ".png"));
                             cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, captureImageUri);
                             startActivityForResult(cameraIntent, CAMERA_REQUEST);
                         }
@@ -592,7 +604,7 @@ public class NewAuctionDonation extends SuperCompatActivity implements DatePicke
 
     private File createImageFile() throws IOException {
         // Create an image file name
-        File fileNougat = new File(Environment.getExternalStorageDirectory(), "wwl_" +
+        File fileNougat = new File(Environment.getExternalStorageDirectory(), "gannon" +
                 String.valueOf(System.currentTimeMillis()) + ".jpeg");
         //imageUriNouGat = Uri.parse(file.getAbsolutePath());
         return fileNougat;
@@ -635,6 +647,7 @@ public class NewAuctionDonation extends SuperCompatActivity implements DatePicke
             public void onClick(View v) {
 
                 customDialog.dismiss();
+
                 Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     cameraIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);

@@ -35,7 +35,7 @@ public class RegisterActivity extends SuperCompatActivity implements RegisterVie
     private Context context;
     private EditText email_edt;
     private EditText mobile_edt;
-    private EditText name_edt;
+    private EditText name_edt,lastname_edt;
     private EditText password,studentId;
     private ProgressDialog progressDialog;
     private RegisterActivityReq registerActivityReq;
@@ -111,7 +111,7 @@ public class RegisterActivity extends SuperCompatActivity implements RegisterVie
         } else {
             RegisterActivityReq registerActivityReq2 = new RegisterActivityReq();
             registerActivityReq2.setFirstName(name_edt.getText().toString().trim());
-            registerActivityReq2.setLastName(name_edt.getText().toString().trim());
+            registerActivityReq2.setLastName(lastname_edt.getText().toString().trim());
             registerActivityReq2.setEmail(email_edt.getText().toString().trim());
             registerActivityReq2.setPhoneNumber(mobile_edt.getText().toString().trim());
             registerActivityReq2.setPassword(password.getText().toString().trim());
@@ -155,6 +155,7 @@ public class RegisterActivity extends SuperCompatActivity implements RegisterVie
         restAPI = getRestAPIObj();
         progressDialog = initializeProgressDialog(this);
         name_edt = (EditText) findViewById(R.id.name_edt);
+        lastname_edt = (EditText) findViewById(R.id.lastname_edt);
         email_edt = (EditText) findViewById(R.id.email_edt);
         mobile_edt = (EditText) findViewById(R.id.mobile_edt);
         password = (EditText) findViewById(R.id.password);

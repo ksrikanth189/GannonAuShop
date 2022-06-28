@@ -53,7 +53,7 @@ public class MySalesScreen extends SuperCompatActivity {
 
     private TextView no_cat_display_id;
     private LinearLayout header_linear;
-    private RecyclerView recyclerView,donation_recycler_view;
+    private RecyclerView recyclerView, donation_recycler_view;
     private String cargoId = null, barcode = null;
     private String message;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -117,7 +117,6 @@ public class MySalesScreen extends SuperCompatActivity {
 
         GridLayoutManager manager3 = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
         donation_recycler_view.setLayoutManager(manager3);
-
 
 
         if (!checkInternet()) {
@@ -225,9 +224,9 @@ public class MySalesScreen extends SuperCompatActivity {
                         message = responsePayLoad.getStatus();
 
                         if (responsePayLoad.getStatusCode() == 200 && responsePayLoad.getMessage().size() > 0) {
-                            loadHistoryData(responsePayLoad,typestr);
+                            loadHistoryData(responsePayLoad, typestr);
                         } else {
-                            CustomErrorToast(message);
+                            CustomErrorToast("No data found");
                         }
                     }
 
@@ -257,12 +256,12 @@ public class MySalesScreen extends SuperCompatActivity {
         }
     }
 
-    private void loadHistoryData(MySalesResponsePayLoad responsePayLoad,String type) {
+    private void loadHistoryData(MySalesResponsePayLoad responsePayLoad, String type) {
         if (responsePayLoad.getMessage() != null) {
             if (responsePayLoad.getMessage().size() > 0) {
                 recyclerView.setVisibility(View.VISIBLE);
                 donation_recycler_view.setVisibility(View.VISIBLE);
-                ProductAdapter ca = new ProductAdapter(responsePayLoad, getApplicationContext(),type);
+                ProductAdapter ca = new ProductAdapter(responsePayLoad, getApplicationContext(), type);
                 recyclerView.setAdapter(ca);
             } else {
                 recyclerView.setVisibility(View.GONE);
@@ -277,10 +276,10 @@ public class MySalesScreen extends SuperCompatActivity {
         MySalesResponsePayLoad damageHistoryResPayLoad;
         String type;
 
-        public ProductAdapter(MySalesResponsePayLoad damageHistoryResPayLoad, Context context,String type1) {
+        public ProductAdapter(MySalesResponsePayLoad damageHistoryResPayLoad, Context context, String type1) {
             this.damageHistoryResPayLoad = damageHistoryResPayLoad;
             mContext = context;
-            type =type1;
+            type = type1;
         }
 
         @Override
@@ -304,14 +303,18 @@ public class MySalesScreen extends SuperCompatActivity {
 
             productViewHolder.item_txt.setText(damageHistoryResPayLoad.getMessage().get(position).getProductName() != null ? damageHistoryResPayLoad.getMessage().get(position).getProductName() : "");
 
-            String url = ApplicationContext.BASE_URL +"/" + damageHistoryResPayLoad.getMessage().get(position).getImageUrl().replace(".png",".jpg");
+            String url = "";
 
-            Glide.with(MySalesScreen.this)
+            if (damageHistoryResPayLoad.getMessage().get(position).getImageUrl() != null) {
+                url = ApplicationContext.BASE_URL + "/" + damageHistoryResPayLoad.getMessage().get(position).getImageUrl().replace(".png", ".jpg");
+            }
+                Glide.with(MySalesScreen.this)
 //                    .load("http://192.168.1.207:8080/img/mob.jpg")
-                    .load(url)
-                    .error(R.mipmap.icon6)
-                    .placeholder(R.mipmap.icon6)
-                    .into(productViewHolder.item_img);
+                        .load(url)
+                        .error(R.mipmap.icon6)
+                        .placeholder(R.mipmap.icon6)
+                        .into(productViewHolder.item_img);
+
 
 
 //            Glide.with(MySalesScreen.this)

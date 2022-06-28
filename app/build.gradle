@@ -1,4 +1,7 @@
-apply plugin: 'com.android.application'
+plugins {
+    id 'com.android.application'
+}
+//apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
 
@@ -73,5 +76,11 @@ dependencies {
 
 
     implementation 'com.wdullaer:materialdatetimepicker:3.5.1'
+
+    implementation 'androidx.camera:camera-camera2:1.0.0-alpha01'
+    implementation 'androidx.camera:camera-core:1.0.0-alpha02'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.media:media:1.0.1'
+
 
 }

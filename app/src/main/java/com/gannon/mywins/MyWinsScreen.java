@@ -87,7 +87,7 @@ public class MyWinsScreen extends SuperCompatActivity {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         setCustomTheme(getApplicationContext());
-        setContentView(R.layout.auction_donations_list_activity);
+        setContentView(R.layout.mywins_recycle_activity);
         initializeUiElements();
 
         Bundle extras = getIntent().getExtras();
@@ -233,7 +233,7 @@ public class MyWinsScreen extends SuperCompatActivity {
                         if (responsePayLoad.getStatusCode() == 200 && responsePayLoad.getMessage().size() > 0) {
                             loadHistoryData(responsePayLoad);
                         } else {
-                            CustomErrorToast(message);
+                            CustomErrorToast("No data found");
                         }
                     }
 
@@ -310,8 +310,11 @@ public class MyWinsScreen extends SuperCompatActivity {
             productViewHolder.item_txt.setText(damageHistoryResPayLoad.getMessage().get(position).getProductName() != null ? damageHistoryResPayLoad.getMessage().get(position).getProductName() : "");
             productViewHolder.totalCount_txt.setText(damageHistoryResPayLoad.getMessage().get(position).getTotalCount().toString());
 
+            String url = "";
 
-            String url = ApplicationContext.BASE_URL +"/" + damageHistoryResPayLoad.getMessage().get(position).getImageUrl().replace(".png",".jpg");
+            if (damageHistoryResPayLoad.getMessage().get(position).getImageUrl() != null) {
+                url = ApplicationContext.BASE_URL + "/" + damageHistoryResPayLoad.getMessage().get(position).getImageUrl().replace(".png", ".jpg");
+            }
 
             Glide.with(MyWinsScreen.this)
 //                    .load("http://192.168.1.207:8080/img/mob.jpg")
@@ -321,13 +324,7 @@ public class MyWinsScreen extends SuperCompatActivity {
                     .into(productViewHolder.item_img);
 
 
-//            Glide.with(MyWinsScreen.this)
-//                    .load(damageHistoryResPayLoad.getMessage().get(position).getImageUrl())
-//                    .centerCrop()
-//                    .placeholder(R.mipmap.icon6)
-//                    .error(R.mipmap.icon6)
-//                    .into(productViewHolder.item_img);
-
+            productViewHolder.totalCount_txt.setVisibility(View.GONE);
 
 //            productViewHolder.liner_ll.setOnClickListener(new View.OnClickListener() {
 //                @Override

@@ -21,10 +21,19 @@
         android:visibility="visible" />
 
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/back_groud">
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_gravity="center"
+            android:alpha="0.10"
+            android:backgroundTintMode="src_over"
+            android:scaleType="fitXY"
+            android:src="@mipmap/icon6" />
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -203,7 +212,7 @@
                                             android:id="@+id/auctionStatus_edt"
                                             style="@style/Spinner_btn_WMH40"
                                             android:layout_marginTop="@dimen/mar_4"
-                                            android:onClick="showTypeList"
+                                            android:onClick="showStatusList"
                                             android:text="OPEN"
                                             android:layout_gravity="center"
                                             android:gravity="center"
@@ -424,7 +433,7 @@
 
         </LinearLayout>
 
-    </LinearLayout>
+    </FrameLayout>
 
 
     <!--    <androidx.drawerlayout.widget.DrawerLayout-->

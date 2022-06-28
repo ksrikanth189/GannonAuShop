@@ -579,7 +579,7 @@ public class MySalesEditScreen extends SuperCompatActivity implements DatePicker
                         } else {
 
                             // cameraIntent.putExtra("android.intent.extras.CAMERA_FACING", cameraId);
-                            captureImageUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(), "wwl_" +
+                            captureImageUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(), "gannon" +
                                     String.valueOf(System.currentTimeMillis()) + ".png"));
                             cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, captureImageUri);
                             startActivityForResult(cameraIntent, CAMERA_REQUEST);
@@ -656,7 +656,7 @@ public class MySalesEditScreen extends SuperCompatActivity implements DatePicker
                 } else {
 
                     // cameraIntent.putExtra("android.intent.extras.CAMERA_FACING", cameraId);
-                    captureImageUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(), "wwl_" +
+                    captureImageUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(), "gannon" +
                             String.valueOf(System.currentTimeMillis()) + ".jpeg"));
                     cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, captureImageUri);
                     startActivityForResult(cameraIntent, CAMERA_REQUEST);
@@ -853,12 +853,12 @@ public class MySalesEditScreen extends SuperCompatActivity implements DatePicker
 
     }
 
-    public void showTypeList(View view) {
-        showTypePop();
+    public void showStatusList(View view) {
+        showStatusPop();
     }
 
 
-    public void showTypePop() {
+    public void showStatusPop() {
 
         ArrayList<String> strVesselList = new ArrayList<String>();
         strVesselList.add("OPEN");
@@ -884,7 +884,7 @@ public class MySalesEditScreen extends SuperCompatActivity implements DatePicker
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 //                if (position > 0) {
-                type_btn.setText("" + strVesselList.get(position));
+                auctionStatus_edt.setText("" + strVesselList.get(position));
 
 //                if (type_btn.getText().toString().equalsIgnoreCase("Auction")) {
 //                    auction_ll.setVisibility(View.VISIBLE);
@@ -1021,8 +1021,12 @@ public class MySalesEditScreen extends SuperCompatActivity implements DatePicker
         @Override
         public void onBindViewHolder(final ProductAdapter.ProductViewHolder productViewHolder, int position) {
 
-            String url = ApplicationContext.BASE_URL +"/" + damageHistoryResPayLoad.getMessage().getImagesList().get(position).replace(".png",".jpg");
 
+            String url = "";
+
+            if (damageHistoryResPayLoad.getMessage().getImagesList().get(position) != null) {
+                url = ApplicationContext.BASE_URL + "/" + damageHistoryResPayLoad.getMessage().getImagesList().get(position).replace(".png", ".jpg");
+            }
             Glide.with(MySalesEditScreen.this)
 //                    .load("http://192.168.1.207:8080/img/mob.jpg")
                     .load(url)

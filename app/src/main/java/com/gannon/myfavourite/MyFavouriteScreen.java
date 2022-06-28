@@ -68,6 +68,8 @@ public class MyFavouriteScreen extends SuperCompatActivity {
     private ProgressBar idPBLoading;
     private NestedScrollView idNestedSV;
     int page = 0, limit = 20;
+    String typeStr = "auction";
+
 
 
 //    @Override
@@ -155,6 +157,7 @@ public class MyFavouriteScreen extends SuperCompatActivity {
             public void onClick(View v) {
                 donation_recycler_view.setVisibility(View.GONE);
 
+                typeStr = "auction";
 
                 auction_list.setTextColor(getResources().getColor(R.color.white));
                 auction_list.setBackgroundColor(getResources().getColor(R.color.btn_bg));
@@ -176,6 +179,8 @@ public class MyFavouriteScreen extends SuperCompatActivity {
             @Override
             public void onClick(View v) {
                 recyclerView.setVisibility(View.GONE);
+
+                typeStr = "donation";
 
                 donation_list.setTextColor(getResources().getColor(R.color.white));
                 donation_list.setBackgroundColor(getResources().getColor(R.color.btn_bg));
@@ -233,7 +238,7 @@ public class MyFavouriteScreen extends SuperCompatActivity {
                         if (responsePayLoad.getStatusCode() == 200 && responsePayLoad.getMessage().size() > 0) {
                             loadHistoryData(responsePayLoad);
                         } else {
-                            CustomErrorToast(message);
+                            CustomErrorToast("No data found");
                         }
                     }
 
@@ -329,6 +334,7 @@ public class MyFavouriteScreen extends SuperCompatActivity {
                     Intent intent = new Intent(MyFavouriteScreen.this, HomeListEditScreen.class);
                     intent.putExtra("cargoId", damageHistoryResPayLoad.getMessage().get(position).getAuctionId());
                     intent.putExtra("barcode", damageHistoryResPayLoad.getMessage().get(position).getDonationId());
+                    intent.putExtra("type", typeStr);
                     startActivity(intent);
 
                 }
