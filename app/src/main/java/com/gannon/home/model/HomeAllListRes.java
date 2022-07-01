@@ -66,7 +66,16 @@ public class HomeAllListRes {
         private float auctionAmount;
         @JsonProperty("closingDate")
         private String closingDate;
+        @JsonProperty("favouriteCheck")
+        private boolean favouriteCheck;
 
+        public boolean isFavouriteCheck() {
+            return favouriteCheck;
+        }
+
+        public void setFavouriteCheck(boolean favouriteCheck) {
+            this.favouriteCheck = favouriteCheck;
+        }
 
         public String getProductName() {
             return productName;

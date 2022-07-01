@@ -55,11 +55,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:gravity="start|center"
-                android:paddingLeft="@dimen/mar_50"
+                android:gravity="center"
                 android:text="Name "
                 android:textColor="#FFFFFF"
-                android:textSize="18dp"
+                android:textSize="@dimen/txt_16"
                 android:textStyle="bold" />
 
             <LinearLayout
@@ -98,7 +97,7 @@
 
 
             <LinearLayout
-                android:id="@+id/logout_ll"
+                android:id="@+id/notifica_ll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

@@ -199,7 +199,11 @@ public class HomeActivity extends SuperCompatActivity implements NavigationView.
 //        setSupportActionBar(toolbar);
 
 
-        setToolBar(getApplicationContext(), "Home", "yes");
+        if (SharedPrefHelper.getLogin(context) != null && SharedPrefHelper.getLogin(context).getMessage() != null && SharedPrefHelper.getLogin(context).getMessage().getAdminFlag() == true) {
+            setToolBar(getApplicationContext(), "ALL AUCTION/DONATION", "yes");
+        } else {
+            setToolBar(getApplicationContext(), "HOME ", "yes");
+        }
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -357,9 +361,10 @@ public class HomeActivity extends SuperCompatActivity implements NavigationView.
             }
         });
 
-        if (SharedPrefHelper.getLogin(context) != null && SharedPrefHelper.getLogin(context).getMessage() != null && SharedPrefHelper.getLogin(context).getMessage().getAdminFlag() == false) {
+        if (SharedPrefHelper.getLogin(context) != null && SharedPrefHelper.getLogin(context).getMessage() != null && SharedPrefHelper.getLogin(context).getMessage().getAdminFlag() == true) {
             hideLeftMenuItem();
         } else {
+            hideLeftMenuHomeItem();
             approve_deny_ll.setVisibility(View.GONE);
         }
 
@@ -386,10 +391,10 @@ public class HomeActivity extends SuperCompatActivity implements NavigationView.
 
                 typeStr = "auction";
                 auction_list.setTextColor(getResources().getColor(R.color.white));
-                auction_list.setBackgroundColor(getResources().getColor(R.color.btn_bg));
+                auction_list.setBackground(getResources().getDrawable(R.drawable.rect_background_merron));
 
                 donation_list.setTextColor(getResources().getColor(R.color.white));
-                donation_list.setBackgroundColor(getResources().getColor(R.color.black));
+                donation_list.setBackground(getResources().getDrawable(R.drawable.rect_background_black));
 
                 if (checkInternet()) {
                     getHomeAllListService("auction");
@@ -405,11 +410,10 @@ public class HomeActivity extends SuperCompatActivity implements NavigationView.
                 typeStr = "donation";
 
                 donation_list.setTextColor(getResources().getColor(R.color.white));
-                donation_list.setBackgroundColor(getResources().getColor(R.color.btn_bg));
+                donation_list.setBackground(getResources().getDrawable(R.drawable.rect_background_merron));
 
                 auction_list.setTextColor(getResources().getColor(R.color.white));
-                auction_list.setBackgroundColor(getResources().getColor(R.color.black));
-
+                auction_list.setBackground(getResources().getDrawable(R.drawable.rect_background_black));
 
 
                 if (checkInternet()) {
@@ -426,7 +430,22 @@ public class HomeActivity extends SuperCompatActivity implements NavigationView.
     private void hideLeftMenuItem() {
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         Menu nav_Menu = navigationView.getMenu();
+        nav_Menu.findItem(R.id.nav_newregister).setVisible(true);
+        nav_Menu.findItem(R.id.nav_all_auctiondonations).setVisible(true);
+        nav_Menu.findItem(R.id.nav_newauction).setVisible(false);
+        nav_Menu.findItem(R.id.nav_mysales).setVisible(false);
+        nav_Menu.findItem(R.id.nav_mywins).setVisible(false);
+
+    }
+
+    private void hideLeftMenuHomeItem() {
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        Menu nav_Menu = navigationView.getMenu();
         nav_Menu.findItem(R.id.nav_newregister).setVisible(false);
+        nav_Menu.findItem(R.id.nav_all_auctiondonations).setVisible(false);
+        nav_Menu.findItem(R.id.nav_newauction).setVisible(true);
+        nav_Menu.findItem(R.id.nav_mysales).setVisible(true);
+        nav_Menu.findItem(R.id.nav_mywins).setVisible(true);
 
     }
 
@@ -549,7 +568,6 @@ public class HomeActivity extends SuperCompatActivity implements NavigationView.
             logoutDialog();
         }
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -1133,7 +1151,7 @@ public class HomeActivity extends SuperCompatActivity implements NavigationView.
                         Log.v("damage his", "damge his res" + gson.toJson(mySalesEditResponsePayLoad));
 
                         if (mySalesEditResponsePayLoad.getStatusCode() == 200) {
-                            loadHistoryData(mySalesEditResponsePayLoad,str);
+                            loadHistoryData(mySalesEditResponsePayLoad, str);
                         } else {
                             CustomOKAlertDialog(mySalesEditResponsePayLoad.getStatus());
                         }
@@ -1168,11 +1186,11 @@ public class HomeActivity extends SuperCompatActivity implements NavigationView.
         }
     }
 
-    private void loadHistoryData(HomeAllListRes mySalesEditResponsePayLoad,String str) {
+    private void loadHistoryData(HomeAllListRes mySalesEditResponsePayLoad, String str) {
         if (mySalesEditResponsePayLoad.getMessage() != null) {
             if (mySalesEditResponsePayLoad.getMessage().size() > 0) {
                 home_all_recycle.setVisibility(View.VISIBLE);
-                HomeProductAdapter ca = new HomeProductAdapter(mySalesEditResponsePayLoad, getApplicationContext(),str);
+                HomeProductAdapter ca = new HomeProductAdapter(mySalesEditResponsePayLoad, getApplicationContext(), str);
                 home_all_recycle.setAdapter(ca);
             } else {
                 home_all_recycle.setVisibility(View.GONE);
@@ -1189,7 +1207,7 @@ public class HomeActivity extends SuperCompatActivity implements NavigationView.
         public HomeProductAdapter(HomeAllListRes damageHistoryResPayLoad, Context context, String str) {
             this.damageHistoryResPayLoad = damageHistoryResPayLoad;
             mContext = context;
-            type =str;
+            type = str;
         }
 
         @Override
@@ -1225,9 +1243,9 @@ public class HomeActivity extends SuperCompatActivity implements NavigationView.
             productViewHolder.datetime_txt.setText(damageHistoryResPayLoad.getMessage().get(position).getClosingDate());
 
 
-            if (type.equalsIgnoreCase("donation")){
+            if (type.equalsIgnoreCase("donation")) {
                 productViewHolder.amount_txt.setVisibility(View.GONE);
-            }else {
+            } else {
                 productViewHolder.amount_txt.setVisibility(View.VISIBLE);
                 productViewHolder.amount_txt.setText("$ " + damageHistoryResPayLoad.getMessage().get(position).getAuctionAmount());
             }
@@ -1246,17 +1264,26 @@ public class HomeActivity extends SuperCompatActivity implements NavigationView.
             });
 
 
+            if (damageHistoryResPayLoad.getMessage().get(position).isFavouriteCheck()) {
+                productViewHolder.fav_img.setBackground(getResources().getDrawable(R.mipmap.favorite_y));
+            } else {
+                productViewHolder.fav_img.setBackground(getResources().getDrawable(R.mipmap.favourite));
+            }
+
             productViewHolder.fav_img.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    productViewHolder.fav_img.setImageResource(R.drawable.profile);
 
                     MyFavouriteUpdateReqPayLoad myFavouriteUpdateReqPayLoad = new MyFavouriteUpdateReqPayLoad();
-
                     myFavouriteUpdateReqPayLoad.setAuctionId(damageHistoryResPayLoad.getMessage().get(position).getAuctionId());
                     myFavouriteUpdateReqPayLoad.setDonationId(damageHistoryResPayLoad.getMessage().get(position).getDonationId());
                     myFavouriteUpdateReqPayLoad.setUserId(SharedPrefHelper.getLogin(context).getMessage().getUserId());
-                    myFavouriteUpdateReqPayLoad.setOnOffFlag(true);
+
+                    if (damageHistoryResPayLoad.getMessage().get(position).isFavouriteCheck()) {
+                        myFavouriteUpdateReqPayLoad.setOnOffFlag(false);
+                    } else {
+                        myFavouriteUpdateReqPayLoad.setOnOffFlag(true);
+                    }
 
                     getFavouriteUpdateService(myFavouriteUpdateReqPayLoad);
 
@@ -1314,7 +1341,7 @@ public class HomeActivity extends SuperCompatActivity implements NavigationView.
                         gson.toJson(responsePayLoad);
                         Log.v("damage his", "damge his res" + gson.toJson(responsePayLoad));
 
-                        if (responsePayLoad.getStatusCode().equalsIgnoreCase("200") ) {
+                        if (responsePayLoad.getStatusCode().equalsIgnoreCase("200")) {
                             CustomErrorToast(responsePayLoad.getMessage());
 
                             if (!checkInternet()) {
@@ -1324,10 +1351,10 @@ public class HomeActivity extends SuperCompatActivity implements NavigationView.
                             }
 
                             auction_list.setTextColor(getResources().getColor(R.color.white));
-                            auction_list.setBackgroundColor(getResources().getColor(R.color.btn_bg));
+                            auction_list.setBackground(getResources().getDrawable(R.drawable.rect_background_merron));
 
                             donation_list.setTextColor(getResources().getColor(R.color.white));
-                            donation_list.setBackgroundColor(getResources().getColor(R.color.black));
+                            donation_list.setBackground(getResources().getDrawable(R.drawable.rect_background_black));
 
                         } else {
                             CustomErrorToast(responsePayLoad.getMessage());
@@ -1361,7 +1388,6 @@ public class HomeActivity extends SuperCompatActivity implements NavigationView.
     }
 
 
-
     private void customSearchDialog(String typeStr) {
 
         final Dialog customDialog = new Dialog(HomeActivity.this);
@@ -1390,7 +1416,7 @@ public class HomeActivity extends SuperCompatActivity implements NavigationView.
                     // An item has been selected from the list. Ignore.
                     return;
                 } else {
-                    getSearchService(typeStr,autoCompleteTextView.getText().toString().trim(),autoCompleteTextView);
+                    getSearchService(typeStr, autoCompleteTextView.getText().toString().trim(), autoCompleteTextView);
                 }
             }
 
@@ -1423,7 +1449,7 @@ public class HomeActivity extends SuperCompatActivity implements NavigationView.
     }
 
 
-    public void getSearchService(String typeStr,String searchVal, AutoCompleteTextView autoCompleteTextView) {
+    public void getSearchService(String typeStr, String searchVal, AutoCompleteTextView autoCompleteTextView) {
 
         try {
 

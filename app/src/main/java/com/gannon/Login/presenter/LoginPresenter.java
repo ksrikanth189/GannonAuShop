@@ -4,12 +4,15 @@ package
         com.gannon.Login.presenter;
 
 
+import android.util.Log;
+
 import com.gannon.Login.activity.LoginActivity;
 import com.gannon.Login.interactor.LoginInteractorInt;
 import com.gannon.Login.interactor.model.LoginActivityReq;
 import com.gannon.Login.interactor.model.LoginActivityRes;
 import com.gannon.R;
 import com.gannon.sharedpref.SharedPrefHelper;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 public class LoginPresenter {
 
@@ -32,6 +35,9 @@ public class LoginPresenter {
             LoginActivityReq loginActivityReq = new LoginActivityReq();
             loginActivityReq.setUserName(userId);
             loginActivityReq.setPassword(password);
+
+            Log.v("token","token "+FirebaseInstanceId.getInstance().getToken());
+//            .setToken(FirebaseInstanceId.getInstance().getToken());
             loginInteractorInt.callLoginWebService(this, loginActivityReq);
 
 

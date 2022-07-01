@@ -160,10 +160,10 @@ public class MyFavouriteScreen extends SuperCompatActivity {
                 typeStr = "auction";
 
                 auction_list.setTextColor(getResources().getColor(R.color.white));
-                auction_list.setBackgroundColor(getResources().getColor(R.color.btn_bg));
+                auction_list.setBackground(getResources().getDrawable(R.drawable.rect_background_merron));
 
                 donation_list.setTextColor(getResources().getColor(R.color.white));
-                donation_list.setBackgroundColor(getResources().getColor(R.color.black));
+                donation_list.setBackground(getResources().getDrawable(R.drawable.rect_background_black));
 
 
                 if (!checkInternet()) {
@@ -183,10 +183,10 @@ public class MyFavouriteScreen extends SuperCompatActivity {
                 typeStr = "donation";
 
                 donation_list.setTextColor(getResources().getColor(R.color.white));
-                donation_list.setBackgroundColor(getResources().getColor(R.color.btn_bg));
+                donation_list.setBackground(getResources().getDrawable(R.drawable.rect_background_merron));
 
                 auction_list.setTextColor(getResources().getColor(R.color.white));
-                auction_list.setBackgroundColor(getResources().getColor(R.color.black));
+                auction_list.setBackground(getResources().getDrawable(R.drawable.rect_background_black));
 
 
                 if (!checkInternet()) {

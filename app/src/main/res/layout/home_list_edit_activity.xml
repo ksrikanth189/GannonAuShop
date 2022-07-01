@@ -113,6 +113,7 @@
                         android:textSize="@dimen/txt_16" />
 
                     <LinearLayout
+                        android:id="@+id/amount_ll"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/mar_5">
@@ -163,6 +164,7 @@
 
 
                 <LinearLayout
+                    android:id="@+id/sellerName_ll"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/mar_10"

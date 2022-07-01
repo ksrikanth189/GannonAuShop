@@ -8,6 +8,10 @@
             android:id="@+id/nav_newregister"
             android:title="USER MANAGEMENT"
             android:visible="true"/>
+        <item
+            android:id="@+id/nav_all_auctiondonations"
+            android:title="ALL AUCTION/DONATION"
+            android:visible="true"/>
 
         <item
             android:id="@+id/nav_newauction"

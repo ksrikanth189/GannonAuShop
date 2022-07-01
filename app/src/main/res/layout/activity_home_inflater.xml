@@ -63,7 +63,7 @@
                 android:text="Auction"
                 android:textStyle="bold"
                 android:textColor="@color/white"
-                android:background="@color/btn_bg" />
+                android:background="@drawable/rect_background_merron" />
 
             <TextView
                 android:id="@+id/donation_list"
@@ -75,7 +75,7 @@
                 android:text="Donation"
                 android:textStyle="bold"
                 android:textColor="@color/cardWhite"
-                android:background="@color/textBlack" />
+                android:background="@drawable/rect_background_black" />
 
         </LinearLayout>
 

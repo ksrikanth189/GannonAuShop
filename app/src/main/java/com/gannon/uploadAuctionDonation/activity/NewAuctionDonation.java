@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Build;
@@ -53,6 +54,7 @@ import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
@@ -62,13 +64,17 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import okhttp3.MediaType;
 import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -113,6 +119,12 @@ public class NewAuctionDonation extends SuperCompatActivity implements DatePicke
     LinearLayout auction_ll, auctionamount_ll;
     TextView closedate_txt;
     private ProgressDialog m_progress;
+
+
+    String imagePath = "";
+    File imageFilePath;
+    private ArrayList<File> imageFilePathImages = new ArrayList<File>();
+    String imageVersion = "old";
 
 
 //    @Override
@@ -444,6 +456,7 @@ public class NewAuctionDonation extends SuperCompatActivity implements DatePicke
 
     }
 
+    /*New Camera*/
     private byte[] getByteArrayImage(String url) {
         try {
             URL imageUrl = new URL(url);
@@ -464,8 +477,6 @@ public class NewAuctionDonation extends SuperCompatActivity implements DatePicke
         }
         return null;
     }
-
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -486,19 +497,6 @@ public class NewAuctionDonation extends SuperCompatActivity implements DatePicke
         }
 
         if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
-//            bitmap = (Bitmap) data.getExtras().get("data");
-//            Uri tempUri = getImageUri(getApplicationContext(), bitmap);
-//            String finalFile = getRealPathFromURI(tempUri);
-
-
-//            URI uri = null;
-//             set this uri in camera Intent
-//            if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-//                uri = getApplicationContext().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, new ContentValues());
-//            } else {
-//                uri = getApplicationContext().getContentResolver().insert(MediaStore.Images.Media.INTERNAL_CONTENT_URI, new ContentValues());
-//            }
-
 
             if (captureImageUri != null)
                 arrayListImages.add(captureImageUri.toString());
@@ -507,8 +505,11 @@ public class NewAuctionDonation extends SuperCompatActivity implements DatePicke
             damage_images.setAdapter(imageAdapter);
             imageAdapter.notifyDataSetChanged();
 
+            imageVersion = "old";
+
 
             cameraMultiImagesDialog();
+
         }
 
 
@@ -516,13 +517,22 @@ public class NewAuctionDonation extends SuperCompatActivity implements DatePicke
 
             try {
                 ArrayList<ArrayList<String>> getimages = (ArrayList<ArrayList<String>>) data.getExtras().get("getImages");
-
                 arrayListImages.addAll(getimages.get(0));
+                imageVersion = "old";
 
                 ImageAdapter imageAdapter1 = new ImageAdapter(arrayListImages);
                 damage_images.setAdapter(imageAdapter1);
                 imageAdapter1.notifyDataSetChanged();
 
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    for (int i = 0; i < arrayListImages.size(); i++) {
+                        File file = new File(getimages.get(0).get(i));
+                        imageFilePathImages.add(file);
+
+                        imageVersion = "latest";
+                    }
+                }
 
             } catch (Exception e) {
 
@@ -542,7 +552,12 @@ public class NewAuctionDonation extends SuperCompatActivity implements DatePicke
 
 
     }
-
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 80, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
+    }
     private void cameraMultiImagesDialog() {
 
         AlertDialog.Builder builder;
@@ -564,6 +579,7 @@ public class NewAuctionDonation extends SuperCompatActivity implements DatePicke
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         // continue with  capture
+
 //                        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 //                        cameraIntent.putExtra("android.intent.extras.CAMERA_FACING", cameraId);
 //                        startActivityForResult(cameraIntent, CAMERA_REQUEST);
@@ -573,21 +589,23 @@ public class NewAuctionDonation extends SuperCompatActivity implements DatePicke
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                             cameraIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
                             try {
-                                captureImageUri = FileProvider.getUriForFile(getApplicationContext(), BuildConfig.APPLICATION_ID + ".provider", createImageFile());
+                                captureImageUri = FileProvider.getUriForFile(getApplicationContext(),
+                                        BuildConfig.APPLICATION_ID + ".provider", createImageFile());
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
                             cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, captureImageUri);
                             startActivityForResult(cameraIntent, CAMERA_REQUEST);
+
                         } else {
 
                             // cameraIntent.putExtra("android.intent.extras.CAMERA_FACING", cameraId);
                             captureImageUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(), "wwl_" +
                                     String.valueOf(System.currentTimeMillis()) + ".png"));
-//                                    String.valueOf(System.currentTimeMillis()) + ".png"));
                             cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, captureImageUri);
                             startActivityForResult(cameraIntent, CAMERA_REQUEST);
                         }
+
                     }
                 })
                 .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -601,18 +619,12 @@ public class NewAuctionDonation extends SuperCompatActivity implements DatePicke
                 .show();
 
     }
-
-    private File createImageFile() throws IOException {
-        // Create an image file name
-        File fileNougat = new File(Environment.getExternalStorageDirectory(), "gannon" +
-                String.valueOf(System.currentTimeMillis()) + ".jpeg");
-        //imageUriNouGat = Uri.parse(file.getAbsolutePath());
-        return fileNougat;
-    }
-
     private void customDialog() {
 
         final Dialog customDialog = new Dialog(NewAuctionDonation.this);
+
+//        temImageView = imageView;
+
         customDialog.setCancelable(true);
         customDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         customDialog.setContentView(R.layout.select_or_capture_dialog);
@@ -648,59 +660,96 @@ public class NewAuctionDonation extends SuperCompatActivity implements DatePicke
 
                 customDialog.dismiss();
 
+//                Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//                cameraIntent.putExtra("android.intent.extras.CAMERA_FACING", cameraId);
+//                startActivityForResult(cameraIntent, CAMERA_REQUEST);
+
+
                 Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     cameraIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+
+
                     try {
-                        captureImageUri = FileProvider.getUriForFile(getApplicationContext(), BuildConfig.APPLICATION_ID + ".provider", createImageFile());
+                        imageFilePath = createImageFile();
+                        imageFilePathImages.add(imageFilePath);
+                        captureImageUri = FileProvider.getUriForFile(getApplicationContext(),
+                                BuildConfig.APPLICATION_ID + ".provider", imageFilePath);
+
+                        imageVersion = "latest";
+
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+
+//                    try {
+//                        captureImageUri = FileProvider.getUriForFile(getApplicationContext(),
+//                                BuildConfig.APPLICATION_ID + ".provider", createImageFile());
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+
+
                     cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, captureImageUri);
                     startActivityForResult(cameraIntent, CAMERA_REQUEST);
                 } else {
 
                     // cameraIntent.putExtra("android.intent.extras.CAMERA_FACING", cameraId);
                     captureImageUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(), "wwl_" +
-                            String.valueOf(System.currentTimeMillis()) + ".jpeg"));
+                            String.valueOf(System.currentTimeMillis()) + ".png"));
                     cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, captureImageUri);
                     startActivityForResult(cameraIntent, CAMERA_REQUEST);
+
+                    imageVersion = "old";
+
                 }
-               /* Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                cameraIntent.putExtra("android.intent.extras.CAMERA_FACING", cameraId);
-                startActivityForResult(cameraIntent, CAMERA_REQUEST);*/
+
             }
         });
     }
+    private File createImageFile() throws IOException {
+        // Create an image file name
 
-    @Override
-    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+//
+//        String root = Environment.getExternalStorageDirectory().toString();
+//        File myDir = new File(root + "/saved_images");
+//        myDir.mkdirs();
+//        Random generator = new Random();
+//        int n = 10000;
+//        n = generator.nextInt(n);
+//        String fname = "Image-" + n + ".jpg";
+//        File fileNougat = new File(myDir, fname);
+//
+////        File fileNougat = new File(Environment.getExternalStorageDirectory(), "iToms_" + String.valueOf(System.currentTimeMillis()) + ".jpeg");
+////        imageUriNouGat = Uri.parse(file.getAbsolutePath());
+//
+//                imagePath = "file:" + fileNougat.getAbsolutePath();
+//
+//        return fileNougat;
 
-        if (view.getTag().equalsIgnoreCase("Datepickerdialog")) {
-//            String date = "" + String.format("%02d", dayOfMonth) + "-" + String.format("%02d", (++monthOfYear)) + "-" + year;
 
-            String date = "" + year + "-" + String.format("%02d", monthOfYear + 1) + "-" + String.format("%02d", dayOfMonth);
-
-
-            damage_date.setText(date);
-            now.set(Calendar.YEAR, year);
-            now.set(Calendar.MONTH, monthOfYear - 1);
-            now.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+        String imageFileName = "OS_" + System.currentTimeMillis() + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS + File.separator+ "/iTOMS");
+        File file = null;
+        try {
+            file = File.createTempFile(
+                    imageFileName,  /* prefix */
+                    ".jpg",         /* suffix */
+                    storageDir      /* directory */
+            );
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-    }
 
-    @Override
-    public void onTimeSet(TimePickerDialog view, int hourOfDay, int minute, int second) {
+        imagePath = "file:" + file.getAbsolutePath();
+        ///imageUriNouGat = Uri.fromFile(file);
+        return file;
 
-        String time1 = "" + String.format("%02d", hourOfDay) + ":" + String.format("%02d", (minute)) + ":" + String.format("%02d", (second));
 
-        damage_time.setText(time1);
-        now.set(Calendar.HOUR_OF_DAY, hourOfDay);
-        now.set(Calendar.MINUTE, minute);
-        now.set(Calendar.SECOND, second);
     }
 
 
+    /*New multipart */
     private void multiPartImagesUpload() {
 
         progressDialog1 = new ProgressDialog(NewAuctionDonation.this);
@@ -715,19 +764,24 @@ public class NewAuctionDonation extends SuperCompatActivity implements DatePicke
         List<MultipartBody.Part> body = new ArrayList<>();
         try {
             body.clear();
-            for (int i = 0; i < arrayListImages.size(); i++) {
-                String selectedImage = arrayListImages.get(i);
 
-                if (selectedImage.contains("file://") || selectedImage.contains("content")) {
-                    body.add(prepareFilePart("files", Uri.parse(selectedImage)));
-                } else {
-                    body.add(prepareFilePart("files", Uri.fromFile(new File(selectedImage))));
+
+            if (imageVersion.equalsIgnoreCase("old")) {
+                for (int i = 0; i < arrayListImages.size(); i++) {
+                    String selectedImage = arrayListImages.get(i);
+                    if (selectedImage.contains("file://") || selectedImage.contains("content")) {
+                        body.add(prepareFilePart("files", Uri.parse(selectedImage)));
+                    } else {
+                        body.add(prepareFilePart("files", Uri.fromFile(new File(selectedImage))));
+                    }
+                }
+            } else if (imageVersion.equalsIgnoreCase("latest")) {
+                for (int i = 0; i < arrayListImages.size(); i++) {
+                    body.add(prepareFilePart("files", imageFilePathImages.get(i)));
                 }
             }
 
-            final Call<FileUploadRespPojo> availableMonthResponsePayLoadCall = getRestAPIObj().fileUploadService(body);
-            Log.v("prepareFilePart", "multipart Req Url == " + availableMonthResponsePayLoadCall.request().url());
-
+            final Call<FileUploadRespPojo> availableMonthResponsePayLoadCall = restAPI.fileUploadService(body);
             availableMonthResponsePayLoadCall.enqueue(new Callback<FileUploadRespPojo>() {
 
                 @Override
@@ -777,6 +831,53 @@ public class NewAuctionDonation extends SuperCompatActivity implements DatePicke
         }
 
     }
+
+    @NonNull
+    private MultipartBody.Part prepareFilePart(String partName, File fileUri) {
+
+        try {
+            Bitmap bitmap = BitmapFactory.decodeFile(fileUri.getPath());
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 30, new FileOutputStream(fileUri));
+        } catch (Throwable t) {
+            Log.e("ERROR", "Error compressing file." + t.toString());
+            t.printStackTrace();
+        }
+        RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpg"), fileUri);
+        return MultipartBody.Part.createFormData("files", fileUri.getName(), requestFile);
+    }
+
+
+
+    @Override
+    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+
+        if (view.getTag().equalsIgnoreCase("Datepickerdialog")) {
+//            String date = "" + String.format("%02d", dayOfMonth) + "-" + String.format("%02d", (++monthOfYear)) + "-" + year;
+
+            String date = "" + year + "-" + String.format("%02d", monthOfYear + 1) + "-" + String.format("%02d", dayOfMonth);
+
+
+            damage_date.setText(date);
+            now.set(Calendar.YEAR, year);
+            now.set(Calendar.MONTH, monthOfYear - 1);
+            now.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+        }
+    }
+
+    @Override
+    public void onTimeSet(TimePickerDialog view, int hourOfDay, int minute, int second) {
+
+        String time1 = "" + String.format("%02d", hourOfDay) + ":" + String.format("%02d", (minute)) + ":" + String.format("%02d", (second));
+
+        damage_time.setText(time1);
+        now.set(Calendar.HOUR_OF_DAY, hourOfDay);
+        now.set(Calendar.MINUTE, minute);
+        now.set(Calendar.SECOND, second);
+    }
+
+
+
+
 
     public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> {
         private List<String> values;

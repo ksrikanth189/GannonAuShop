@@ -8,6 +8,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -18,8 +20,12 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
 import androidx.core.widget.NestedScrollView;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,12 +39,16 @@ import com.gannon.home.model.DenySaveReq;
 import com.gannon.home.model.HomeApproveListRes;
 import com.gannon.home.model.HomeDenyListRes;
 import com.gannon.mysales.MySalesEditScreen;
+import com.gannon.mysales.MySalesScreen;
 import com.gannon.mysales.model.MySalesReqPayLoad;
 import com.gannon.mysales.model.MySalesResponsePayLoad;
+import com.gannon.mywins.MyWinsScreen;
 import com.gannon.sharedpref.SharedPrefHelper;
+import com.gannon.uploadAuctionDonation.activity.NewAuctionDonation;
 import com.gannon.utils.ApplicationContext;
 import com.gannon.utils.RestAPI;
 import com.gannon.utils.SuperCompatActivity;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 
@@ -54,7 +64,7 @@ import retrofit2.Retrofit;
  * Created by Srikanth.K on
  */
 
-public class UserManagementScreen extends SuperCompatActivity {
+public class UserManagementScreen extends SuperCompatActivity  implements NavigationView.OnNavigationItemSelectedListener {
 
 
     private ProgressDialog m_progress,progressDialog,progressDialog1,progressDialog2,m_progress1;
@@ -75,6 +85,8 @@ public class UserManagementScreen extends SuperCompatActivity {
     int page = 0, limit = 20;
 
     private HomeApproveListRes homeCategorysListRes;
+    private View navHeader;
+    private TextView name_txt, marque_txt;
 
 
 
@@ -167,10 +179,10 @@ public class UserManagementScreen extends SuperCompatActivity {
                 donation_recycler_view.setVisibility(View.GONE);
 
                 auction_list.setTextColor(getResources().getColor(R.color.white));
-                auction_list.setBackgroundColor(getResources().getColor(R.color.btn_bg));
+                auction_list.setBackground(getResources().getDrawable(R.drawable.rect_background_merron));
 
                 donation_list.setTextColor(getResources().getColor(R.color.white));
-                donation_list.setBackgroundColor(getResources().getColor(R.color.black));
+                donation_list.setBackground(getResources().getDrawable(R.drawable.rect_background_black));
 
 
                 if (!checkInternet()) {
@@ -188,10 +200,10 @@ public class UserManagementScreen extends SuperCompatActivity {
                 recyclerView.setVisibility(View.GONE);
 
                 donation_list.setTextColor(getResources().getColor(R.color.white));
-                donation_list.setBackgroundColor(getResources().getColor(R.color.btn_bg));
+                donation_list.setBackground(getResources().getDrawable(R.drawable.rect_background_merron));
 
                 auction_list.setTextColor(getResources().getColor(R.color.white));
-                auction_list.setBackgroundColor(getResources().getColor(R.color.black));
+                auction_list.setBackground(getResources().getDrawable(R.drawable.rect_background_black));
 
 
                 if (!checkInternet()) {
@@ -382,13 +394,43 @@ public class UserManagementScreen extends SuperCompatActivity {
 //    }
 
     private void initializeUiElements() {
+//
+//        //=== Set Tool Bar and Drawer layout ===
+//        setToolBar(getApplicationContext(), "User Management", "yes");
+//        String pushToken = FirebaseInstanceId.getInstance().getToken();
+//        getSupportActionBar().setDisplayShowTitleEnabled(false);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setHomeButtonEnabled(true);
 
-        //=== Set Tool Bar and Drawer layout ===
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
+
+
         setToolBar(getApplicationContext(), "User Management", "yes");
-        String pushToken = FirebaseInstanceId.getInstance().getToken();
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+//
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        navHeader = navigationView.getHeaderView(0);
+        name_txt = navHeader.findViewById(R.id.name_txt);
+
+
+        if (SharedPrefHelper.getLogin(context) != null && SharedPrefHelper.getLogin(context).getMessage() != null && SharedPrefHelper.getLogin(context).getMessage().getUserName() != null) {
+            name_txt.setText(SharedPrefHelper.getLogin(context).getMessage().getUserName());
+        }
+
+
         context = getApplicationContext();
 //        getToggleAndSlider();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -400,6 +442,18 @@ public class UserManagementScreen extends SuperCompatActivity {
         context = getApplicationContext();
         restAPI = getRestAPIObj();
 
+
+
+        hideLeftMenuItem();
+    }
+
+
+    private void hideLeftMenuItem() {
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        Menu nav_Menu = navigationView.getMenu();
+        nav_Menu.findItem(R.id.nav_newauction).setVisible(false);
+        nav_Menu.findItem(R.id.nav_mysales).setVisible(false);
+        nav_Menu.findItem(R.id.nav_mywins).setVisible(false);
 
     }
 
@@ -550,6 +604,65 @@ public class UserManagementScreen extends SuperCompatActivity {
                 recyclerView.setVisibility(View.GONE);
             }
         }
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+//            logoutDialog();
+        }
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        // getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+
+        int id = item.getItemId();
+        if (id == R.id.nav_newregister) {
+            startActivity(new Intent(UserManagementScreen.this, UserManagementScreen.class));
+        }
+        if (id == R.id.nav_newauction) {
+            startActivity(new Intent(UserManagementScreen.this, NewAuctionDonation.class));
+        }
+        if (id == R.id.nav_mysales) {
+            startActivity(new Intent(UserManagementScreen.this, MySalesScreen.class));
+        }
+        if (id == R.id.nav_mywins) {
+            startActivity(new Intent(UserManagementScreen.this, MyWinsScreen.class));
+        }
+        if (id == R.id.nav_all_auctiondonations) {
+            startActivity(new Intent(UserManagementScreen.this, HomeActivity.class));
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 
     public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ProductViewHolder> {
@@ -712,9 +825,9 @@ public class UserManagementScreen extends SuperCompatActivity {
                     ? cartListRes.get(position).getPhoneNumber() : "");
 
             if (cartListRes.get(position).getStatus().equalsIgnoreCase("Activated")) {
-                productViewHolder.deny_btn.setText(" Deactivated ");
+                productViewHolder.deny_btn.setText("Deactivate");
             } else if (cartListRes.get(position).getStatus().equalsIgnoreCase("Deactivated")) {
-                productViewHolder.deny_btn.setText(" Activated ");
+                productViewHolder.deny_btn.setText("Activated");
             }
 
             productViewHolder.deny_btn.setOnClickListener(new View.OnClickListener() {
@@ -724,7 +837,11 @@ public class UserManagementScreen extends SuperCompatActivity {
                     if (checkInternet()) {
 
                         DenySaveReq approvedSaveReq = new DenySaveReq();
-                        approvedSaveReq.setApproved("Y");
+                        if (cartListRes.get(position).getStatus().equalsIgnoreCase("Activated")){
+                            approvedSaveReq.setApproved("N");
+                        }else {
+                            approvedSaveReq.setApproved("Y");
+                        }
                         approvedSaveReq.setRegistrationId(cartListRes.get(position).getRegistrationId());
                         approvedSaveReq.setUserId(SharedPrefHelper.getLogin(context).getMessage().getUserId());
                         getDenySaveReqCall(approvedSaveReq);

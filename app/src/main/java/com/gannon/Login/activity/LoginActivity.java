@@ -34,6 +34,7 @@ import com.gannon.Register.activity.RegisterActivity;
 import com.gannon.forgetPassword.activity.ForgetPasswordActivity;
 import com.gannon.home.HomeActivity;
 import com.gannon.splash.activity.SplashActivity2;
+import com.gannon.usermanagement.UserManagementScreen;
 import com.gannon.utils.RestAPI;
 import com.gannon.utils.SuperCompatActivity;
 
@@ -89,7 +90,11 @@ public class LoginActivity extends SuperCompatActivity implements LoginView {
         if (userLoginActivityRes != null) {
             userLoginPresenter.saveLogin(userLoginActivityRes);
 
-            startActivity(new Intent(LoginActivity.this,HomeActivity.class));
+            if (userLoginActivityRes.getMessage().getAdminFlag() == true) {
+                startActivity(new Intent(LoginActivity.this, UserManagementScreen.class));
+            }else {
+                startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+            }
 
             Toast toast = Toast.makeText(getApplicationContext(), userLoginActivityRes.getStatus(), Toast.LENGTH_SHORT);
             toast.show();

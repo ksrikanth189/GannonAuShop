@@ -110,6 +110,8 @@ public class HomeListEditScreen extends SuperCompatActivity {
     private Button save_btn;
     private String type;
 
+    private LinearLayout amount_ll,sellerName_ll;
+
 
 //    @Override
 //    public void onConfigurationChanged(Configuration newConfig) {
@@ -152,6 +154,16 @@ public class HomeListEditScreen extends SuperCompatActivity {
         } else {
             getMySalesService(type);
         }
+
+        if (type.equalsIgnoreCase("auction")){
+            amount_ll.setVisibility(View.VISIBLE);
+            sellerName_ll.setVisibility(View.VISIBLE);
+        }else {
+            amount_ll.setVisibility(View.GONE);
+            sellerName_ll.setVisibility(View.VISIBLE);
+
+        }
+
     }
 
 
@@ -266,6 +278,9 @@ public class HomeListEditScreen extends SuperCompatActivity {
         slide_fram = findViewById(R.id.slide_fram);
         newAmount_edt = findViewById(R.id.newAmount_edt);
         save_btn = findViewById(R.id.save_btn);
+        amount_ll = findViewById(R.id.amount_ll);
+        sellerName_ll = findViewById(R.id.sellerName_ll);
+
 
         save_btn.setOnClickListener(new OnClickListener() {
 

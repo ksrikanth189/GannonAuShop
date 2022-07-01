@@ -42,8 +42,7 @@
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_gravity="center"
-                    android:background="@drawable/fav"
-                    android:backgroundTint="@color/red"
+                    android:background="@mipmap/favorite_y"
                     android:scaleType="fitXY"
                     android:textColor="@color/black"
                     android:textSize="@dimen/txt_14" />
