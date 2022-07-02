@@ -31,8 +31,7 @@ public class ForgetPasswordPresenter {
     }
 
     public void responseSuccess(ForgetPasswordRes adminForgetPasswordRes) {
-        if (adminForgetPasswordRes.getStatusCode() != null && adminForgetPasswordRes.getStatusCode() == 200
-                && adminForgetPasswordRes.getStatus().equalsIgnoreCase("Success")) {
+        if (adminForgetPasswordRes.getStatusCode() != null && adminForgetPasswordRes.getStatusCode() == 200) {
             context.serviceSuccess(adminForgetPasswordRes.getMessage());
         } else {
             context.serviceFailed(adminForgetPasswordRes.getMessage());

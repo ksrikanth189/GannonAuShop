@@ -63,7 +63,7 @@ public class HomeAllListRes {
         @JsonProperty("donationId")
         private int donationId;
         @JsonProperty("auctionAmount")
-        private float auctionAmount;
+        private int auctionAmount;
         @JsonProperty("closingDate")
         private String closingDate;
         @JsonProperty("favouriteCheck")
@@ -117,11 +117,11 @@ public class HomeAllListRes {
             this.donationId = donationId;
         }
 
-        public float getAuctionAmount() {
+        public int getAuctionAmount() {
             return auctionAmount;
         }
 
-        public void setAuctionAmount(float auctionAmount) {
+        public void setAuctionAmount(int auctionAmount) {
             this.auctionAmount = auctionAmount;
         }
 

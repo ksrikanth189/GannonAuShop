@@ -107,6 +107,9 @@
         <activity
             android:name=".usermanagement.UserManagementScreen"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".webview.WebViewImageUpload"
+            android:theme="@style/AppTheme.NoActionBar" />
 
 
         <!---->

@@ -60,11 +60,110 @@
                 android:textSize="@dimen/txt_16"
                 android:textStyle="bold" />
 
+            <LinearLayout
+                android:id="@+id/filter_ll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="@dimen/mar_10"
+                android:layout_weight="3"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <ImageView
+                    android:id="@+id/filter_img"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/mar_4"
+                    android:background="@drawable/filter"
+                    android:scaleType="fitXY"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="Filter"
+                    android:textColor="@color/textWhite"
+                    android:textSize="@dimen/txt_18"
+                    android:textStyle="normal"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="@dimen/mar_10"
+                android:layout_weight="3"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:visibility="visible">
+
+                <ImageView
+                    android:id="@+id/notifica_img"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/mar_4"
+                    android:background="@drawable/notifica"
+                    android:scaleType="fitXY"
+                    android:visibility="gone"/>
+
+                <ImageView
+                    android:id="@+id/logout_img"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/mar_4"
+                    android:background="@drawable/logout"
+                    android:scaleType="fitXY"
+                    android:visibility="gone"/>
+
+
+            </LinearLayout>
 
 
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/mar_5"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:visibility="gone">
 
 
+                <ImageView
+                    android:id="@+id/live_stream_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="@dimen/mar_10"
+                    android:layout_weight="2"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/liverecord_icon"
+                    android:tint="@color/textWhite"
+                    android:visibility="visible" />
+
+                <ImageView
+                    android:id="@+id/notifica_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="2"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/notification_icon"
+                    android:tint="@color/textWhite"
+                    android:visibility="visible" />
+
+            </LinearLayout>
 
 
         </LinearLayout>

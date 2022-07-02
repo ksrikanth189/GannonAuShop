@@ -8,14 +8,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SaveResponsePayLoad {
-    @JsonProperty(value = "statusCode")
     private String statusCode;
-
-    @JsonProperty(value = "status")
     private String status;
-
-    @JsonProperty(value = "message")
     private String message;
+    private String error;
 
 
     public String getStatus() {
@@ -40,5 +36,13 @@ public class SaveResponsePayLoad {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
     }
 }

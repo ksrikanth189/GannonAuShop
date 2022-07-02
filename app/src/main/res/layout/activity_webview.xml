@@ -6,7 +6,7 @@
 
     <include
         style="@style/Layout_WMHW"
-        layout="@layout/app_bar_layout_home"/>
+        layout="@layout/app_bar_layout"/>
 
     <FrameLayout
         android:layout_width="match_parent"

@@ -25,6 +25,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.gannon.R;
+import com.gannon.home.HomeActivity;
+import com.gannon.home.HomeListEditScreen;
 import com.gannon.mysales.MySalesEditScreen;
 import com.gannon.mysales.MySalesScreen;
 import com.gannon.mywins.model.MyWinsReqPayLoad;
@@ -326,16 +328,20 @@ public class MyWinsScreen extends SuperCompatActivity {
 
             productViewHolder.totalCount_txt.setVisibility(View.GONE);
 
-//            productViewHolder.liner_ll.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    Intent intent = new Intent(MyWinsScreen.this, MySalesEditScreen.class);
-//                    intent.putExtra("cargoId", damageHistoryResPayLoad.getMessage().get(position).getAuctionId());
-//                    intent.putExtra("barcode", damageHistoryResPayLoad.getMessage().get(position).getDonationId());
-//                    intent.putExtra("type", type);
-//                    startActivity(intent);
-//                }
-//            });
+            productViewHolder.liner_ll.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(MyWinsScreen.this, HomeListEditScreen.class);
+                    intent.putExtra("cargoId", damageHistoryResPayLoad.getMessage().get(position).getAuctionId());
+                    intent.putExtra("barcode", damageHistoryResPayLoad.getMessage().get(position).getDonationId());
+                    intent.putExtra("type", "auction");
+                    intent.putExtra("screen", "mywins");
+                    startActivity(intent);
+
+
+
+                }
+            });
 
 
         }

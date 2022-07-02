@@ -322,6 +322,13 @@ public class MyFavouriteScreen extends SuperCompatActivity {
                     .placeholder(R.mipmap.icon6)
                     .into(productViewHolder.item_img);
 
+
+            if (typeStr.equalsIgnoreCase("donation")){
+                productViewHolder.amount_txt.setVisibility(View.GONE);
+            }else {
+                productViewHolder.amount_txt.setVisibility(View.VISIBLE);
+            }
+
             productViewHolder.product_name_txt.setText(damageHistoryResPayLoad.getMessage().get(position).getProductName());
             productViewHolder.amount_txt.setText("$ " + damageHistoryResPayLoad.getMessage().get(position).getAuctionAmount());
             productViewHolder.datetime_txt.setText(damageHistoryResPayLoad.getMessage().get(position).getClosingDate());

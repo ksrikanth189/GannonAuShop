@@ -75,6 +75,7 @@ import com.gannon.usermanagement.UserManagementScreen;
 import com.gannon.utils.ApplicationContext;
 import com.gannon.utils.RestAPI;
 import com.gannon.utils.SuperCompatActivity;
+import com.gannon.webview.WebViewImageUpload;
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
 
@@ -441,51 +442,15 @@ public class HomeActivity extends SuperCompatActivity implements NavigationView.
     private void hideLeftMenuHomeItem() {
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         Menu nav_Menu = navigationView.getMenu();
+
         nav_Menu.findItem(R.id.nav_newregister).setVisible(false);
-        nav_Menu.findItem(R.id.nav_all_auctiondonations).setVisible(false);
+        nav_Menu.findItem(R.id.nav_all_auctiondonations).setTitle("HOME");
         nav_Menu.findItem(R.id.nav_newauction).setVisible(true);
         nav_Menu.findItem(R.id.nav_mysales).setVisible(true);
         nav_Menu.findItem(R.id.nav_mywins).setVisible(true);
 
     }
 
-    public void logoutDialog() {
-
-        final Dialog dialogComp = new Dialog(HomeActivity.this);
-        dialogComp.setCancelable(true);
-        dialogComp.setCanceledOnTouchOutside(false);
-        dialogComp.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialogComp.setContentView(R.layout.app_exit_dialog);
-        dialogComp.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        dialogComp.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-
-        final Button closeDialog = (Button) dialogComp.findViewById(R.id.closeDialog);
-        final Button clearLogin = (Button) dialogComp.findViewById(R.id.clearLogin);
-
-        closeDialog.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialogComp.dismiss();
-            }
-        });
-
-        clearLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SharedPrefHelper.clearLoginData(context);
-                dialogComp.dismiss();
-                Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                finish();
-
-            }
-        });
-
-
-        dialogComp.show();
-    }
 
     /* access modifiers changed from: protected */
     public void onPause() {
@@ -624,6 +589,18 @@ public class HomeActivity extends SuperCompatActivity implements NavigationView.
         }
         if (id == R.id.nav_mywins) {
             startActivity(new Intent(HomeActivity.this, MyWinsScreen.class));
+        }
+        if (id == R.id.nav_terms) {
+            Intent intent = new Intent(HomeActivity.this, WebViewImageUpload.class);
+            intent.putExtra("titleStr","Terms & Conditions");
+            intent.putExtra("weburl","www.google.com");
+            startActivity(intent);
+        }
+        if (id == R.id.nav_privacy) {
+            Intent intent = new Intent(HomeActivity.this, WebViewImageUpload.class);
+            intent.putExtra("titleStr","Privacy Policy");
+            intent.putExtra("weburl","www.google.com");
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -1395,7 +1372,7 @@ public class HomeActivity extends SuperCompatActivity implements NavigationView.
 
         customDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         customDialog.setContentView(R.layout.search_home_dialog);
-        customDialog.getWindow().setGravity(Gravity.CENTER);
+        customDialog.getWindow().setGravity(Gravity.TOP);
         customDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         customDialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 

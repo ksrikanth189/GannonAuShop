@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -39,8 +40,11 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.loader.content.Loader;
 
+import com.gannon.Login.activity.LoginActivity;
 import com.gannon.R;
+import com.gannon.home.HomeActivity;
 import com.gannon.sharedpref.ObscuredSharedPreferences;
+import com.gannon.sharedpref.SharedPrefHelper;
 import com.gannon.uploadAuctionDonation.FileUtils;
 
 import java.io.File;
@@ -427,6 +431,45 @@ public abstract class SuperCompatActivity extends AppCompatActivity {
 
     }
 
+
+
+    public void logoutDialog() {
+
+        final Dialog dialogComp = new Dialog(SuperCompatActivity.this);
+        dialogComp.setCancelable(true);
+        dialogComp.setCanceledOnTouchOutside(false);
+        dialogComp.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialogComp.setContentView(R.layout.app_exit_dialog);
+        dialogComp.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        dialogComp.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+
+        final Button closeDialog = (Button) dialogComp.findViewById(R.id.closeDialog);
+        final Button clearLogin = (Button) dialogComp.findViewById(R.id.clearLogin);
+
+        closeDialog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogComp.dismiss();
+            }
+        });
+
+        clearLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPrefHelper.clearLoginData(context);
+                dialogComp.dismiss();
+                Intent intent = new Intent(SuperCompatActivity.this, LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
+
+            }
+        });
+
+
+        dialogComp.show();
+    }
 
 
 

@@ -7,25 +7,61 @@
         <item
             android:id="@+id/nav_newregister"
             android:title="USER MANAGEMENT"
-            android:visible="true"/>
+            android:visible="true"
+            android:icon="@drawable/home"/>
         <item
             android:id="@+id/nav_all_auctiondonations"
             android:title="ALL AUCTION/DONATION"
-            android:visible="true"/>
+            android:visible="true"
+            android:icon="@drawable/home"/>
 
         <item
             android:id="@+id/nav_newauction"
             android:title="AUCTION/DONATION"
-            android:visible="true"/>
+            android:visible="true"
+            android:icon="@drawable/home"/>
         <item
             android:id="@+id/nav_mysales"
             android:title="My SALES"
-            android:visible="true"/>
+            android:visible="true"
+            android:icon="@drawable/home"/>
         <item
             android:id="@+id/nav_mywins"
             android:title="My WINS"
-            android:visible="true"/>
+            android:visible="true"
+            android:icon="@drawable/home"/>
 
     </group>
+
+
+    <group
+        android:checkableBehavior="single"
+        android:id="@+id/group2">
+        <item
+            android:title=""/>
+        <item
+            android:title=""/>
+        <item
+            android:title="-----------------------------------------------------"/>
+        <item
+            android:title="Support"
+            android:textSize="@dimen/txt_16"
+            android:checkable="false"/>
+        <item
+            android:title="Email: support@gannon.edu"
+            android:textSize="@dimen/txt_10"
+            android:checkable="false"/>
+        <item
+            android:title="Contact Us: +1 8148717000"
+            android:textSize="@dimen/txt_10"
+            android:checkable="false"/>
+        <item
+            android:id="@+id/nav_terms"
+            android:title="Terms &amp; Conditions" />
+        <item
+            android:id="@+id/nav_privacy"
+            android:title="Privacy Policy"/>
+    </group>
+
 
 </menu>

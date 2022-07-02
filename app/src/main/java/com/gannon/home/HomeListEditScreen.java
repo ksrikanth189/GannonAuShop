@@ -108,7 +108,7 @@ public class HomeListEditScreen extends SuperCompatActivity {
 
     private EditText newAmount_edt;
     private Button save_btn;
-    private String type;
+    private String type,screen;
 
     private LinearLayout amount_ll,sellerName_ll;
 
@@ -141,11 +141,13 @@ public class HomeListEditScreen extends SuperCompatActivity {
             cargoId = 0;
             barcode = 0;
             type = null;
+            screen = null;
 
         } else {
             cargoId = extras.getInt("cargoId");
             barcode = extras.getInt("barcode");
             type = extras.getString("type");
+            screen = extras.getString("screen");
 
         }
 
@@ -161,7 +163,14 @@ public class HomeListEditScreen extends SuperCompatActivity {
         }else {
             amount_ll.setVisibility(View.GONE);
             sellerName_ll.setVisibility(View.VISIBLE);
+        }
 
+        if (screen != null && screen.equalsIgnoreCase("mywins")){
+            amount_ll.setVisibility(View.GONE);
+            sellerName_ll.setVisibility(View.VISIBLE);
+        }else {
+//            amount_ll.setVisibility(View.VISIBLE);
+//            sellerName_ll.setVisibility(View.VISIBLE);
         }
 
     }
@@ -291,7 +300,7 @@ public class HomeListEditScreen extends SuperCompatActivity {
                 if (!auctionAmount_txt.getText().toString().equalsIgnoreCase(newAmount_edt.getText().toString()) && newAmount_edt.getText().toString().length() != 0){
 
                     AmountSaveReq amountSaveReq = new AmountSaveReq();
-                    amountSaveReq.setAuctionAmount(newAmount_edt.getText().toString());
+                    amountSaveReq.setAuctionAmount(Integer.valueOf(newAmount_edt.getText().toString()));
                     amountSaveReq.setAuctionId(cargoId);
                     amountSaveReq.setUserId(SharedPrefHelper.getLogin(context).getMessage().getUserId());
 
@@ -572,7 +581,7 @@ public class HomeListEditScreen extends SuperCompatActivity {
                             newAmount_edt.setText("");
 
                         } else {
-                            CustomErrorToast(responsePayLoad.getMessage());
+                            CustomErrorToast(responsePayLoad.getError());
                         }
                     }
 

@@ -64,7 +64,7 @@
                 android:onClick="clearLogin"
                 android:text="YES"
                 android:textSize="@dimen/txt_20"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:background="@color/btn_bg"/>
 
         </LinearLayout>

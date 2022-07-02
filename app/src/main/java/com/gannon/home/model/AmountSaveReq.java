@@ -14,7 +14,7 @@ public class AmountSaveReq {
     @JsonProperty("userId")
     private Integer userId;
     @JsonProperty("auctionAmount")
-    private String auctionAmount;
+    private Integer auctionAmount;
 
 
     public Integer getAuctionId() {
@@ -33,11 +33,11 @@ public class AmountSaveReq {
         this.userId = userId;
     }
 
-    public String getAuctionAmount() {
+    public Integer getAuctionAmount() {
         return auctionAmount;
     }
 
-    public void setAuctionAmount(String auctionAmount) {
+    public void setAuctionAmount(Integer auctionAmount) {
         this.auctionAmount = auctionAmount;
     }
 }

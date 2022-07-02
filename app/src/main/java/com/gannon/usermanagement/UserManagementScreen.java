@@ -48,6 +48,7 @@ import com.gannon.uploadAuctionDonation.activity.NewAuctionDonation;
 import com.gannon.utils.ApplicationContext;
 import com.gannon.utils.RestAPI;
 import com.gannon.utils.SuperCompatActivity;
+import com.gannon.webview.WebViewImageUpload;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
@@ -87,6 +88,11 @@ public class UserManagementScreen extends SuperCompatActivity  implements Naviga
     private HomeApproveListRes homeCategorysListRes;
     private View navHeader;
     private TextView name_txt, marque_txt;
+
+    private ImageView menu_item_img, notifica_img, logout_img,
+            home_img, fav_img, search_img, profile_img, filter_img;
+
+
 
 
 
@@ -445,6 +451,19 @@ public class UserManagementScreen extends SuperCompatActivity  implements Naviga
 
 
         hideLeftMenuItem();
+
+
+        logout_img = findViewById(R.id.logout_img);
+        logout_img.setVisibility(View.VISIBLE);
+
+        logout_img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                logoutDialog();
+            }
+        });
+
     }
 
 
@@ -647,17 +666,21 @@ public class UserManagementScreen extends SuperCompatActivity  implements Naviga
         if (id == R.id.nav_newregister) {
             startActivity(new Intent(UserManagementScreen.this, UserManagementScreen.class));
         }
-        if (id == R.id.nav_newauction) {
-            startActivity(new Intent(UserManagementScreen.this, NewAuctionDonation.class));
-        }
-        if (id == R.id.nav_mysales) {
-            startActivity(new Intent(UserManagementScreen.this, MySalesScreen.class));
-        }
-        if (id == R.id.nav_mywins) {
-            startActivity(new Intent(UserManagementScreen.this, MyWinsScreen.class));
-        }
         if (id == R.id.nav_all_auctiondonations) {
             startActivity(new Intent(UserManagementScreen.this, HomeActivity.class));
+        }
+
+        if (id == R.id.nav_terms) {
+            Intent intent = new Intent(UserManagementScreen.this, WebViewImageUpload.class);
+            intent.putExtra("titleStr","Terms & Conditions");
+            intent.putExtra("weburl","www.google.com");
+            startActivity(intent);
+        }
+        if (id == R.id.nav_privacy) {
+            Intent intent = new Intent(UserManagementScreen.this, WebViewImageUpload.class);
+            intent.putExtra("titleStr","Privacy Policy");
+            intent.putExtra("weburl","www.google.com");
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -703,10 +726,10 @@ public class UserManagementScreen extends SuperCompatActivity  implements Naviga
         @Override
         public void onBindViewHolder(final CategoryAdapter.ProductViewHolder productViewHolder, @SuppressLint("RecyclerView") final int position) {
 
-//            productViewHolder.firstname_txt.setText(cartListRes.get(position).getFirstName() + " " + cartListRes.get(position).getLastName());
-            productViewHolder.firstname_txt.setText(cartListRes.get(position).getFirstName());
-            productViewHolder.lastName_txt.setText(cartListRes.get(position).getLastName() != null
-                    ? cartListRes.get(position).getLastName() : "");
+            productViewHolder.firstname_txt.setText(cartListRes.get(position).getFirstName() + "   " + cartListRes.get(position).getLastName());
+//            productViewHolder.firstname_txt.setText(cartListRes.get(position).getFirstName());
+//            productViewHolder.lastName_txt.setText(cartListRes.get(position).getLastName() != null
+//                    ? cartListRes.get(position).getLastName() : "");
             productViewHolder.email_txt.setText(cartListRes.get(position).getEmail() != null
                     ? cartListRes.get(position).getEmail() : "");
             productViewHolder.phoneNumber_txt.setText(cartListRes.get(position).getPhoneNumber() != null
