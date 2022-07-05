@@ -293,7 +293,7 @@ public class MySalesHistoryScreen extends SuperCompatActivity {
 
             productViewHolder.name_txt.setText(damageHistoryResPayLoad.getMessage().get(position).getAuctionUser() != null ? damageHistoryResPayLoad.getMessage().get(position).getAuctionUser() : "");
             productViewHolder.date_txt.setText(damageHistoryResPayLoad.getMessage().get(position).getAuctionDate() != null ? damageHistoryResPayLoad.getMessage().get(position).getAuctionDate() : "");
-            productViewHolder.amount_txt.setText(damageHistoryResPayLoad.getMessage().get(position).getAuctionAmount() != 0 ? damageHistoryResPayLoad.getMessage().get(position).getAuctionAmount() : 0);
+            productViewHolder.amount_txt.setText(damageHistoryResPayLoad.getMessage().get(position).getAuctionAmount().toString());
 
 
 //            productViewHolder.liner_ll.setOnClickListener(new View.OnClickListener() {

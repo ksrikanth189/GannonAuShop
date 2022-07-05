@@ -155,6 +155,7 @@ public class MyFavouriteScreen extends SuperCompatActivity {
         auction_list.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 donation_recycler_view.setVisibility(View.GONE);
 
                 typeStr = "auction";
@@ -236,7 +237,7 @@ public class MyFavouriteScreen extends SuperCompatActivity {
                         message = responsePayLoad.getStatus();
 
                         if (responsePayLoad.getStatusCode() == 200 && responsePayLoad.getMessage().size() > 0) {
-                            loadHistoryData(responsePayLoad);
+                            loadHistoryData(responsePayLoad,typestr);
                         } else {
                             CustomErrorToast("No data found");
                         }
@@ -268,13 +269,25 @@ public class MyFavouriteScreen extends SuperCompatActivity {
         }
     }
 
-    private void loadHistoryData(MyFavouriteResponsePayLoad responsePayLoad) {
+    private void loadHistoryData(MyFavouriteResponsePayLoad responsePayLoad,String typeStr) {
         if (responsePayLoad.getMessage() != null) {
             if (responsePayLoad.getMessage().size() > 0) {
-                recyclerView.setVisibility(View.VISIBLE);
-                donation_recycler_view.setVisibility(View.VISIBLE);
-                ProductAdapter ca = new ProductAdapter(responsePayLoad, getApplicationContext());
-                recyclerView.setAdapter(ca);
+
+                if (typeStr.equalsIgnoreCase("auction")){
+                    recyclerView.setVisibility(View.VISIBLE);
+                    donation_recycler_view.setVisibility(View.GONE);
+
+                    ProductAdapter ca = new ProductAdapter(responsePayLoad, getApplicationContext());
+                    recyclerView.setAdapter(ca);
+                }else {
+                    recyclerView.setVisibility(View.GONE);
+                    donation_recycler_view.setVisibility(View.VISIBLE);
+
+                    ProductAdapter ca = new ProductAdapter(responsePayLoad, getApplicationContext());
+                    donation_recycler_view.setAdapter(ca);
+
+                }
+
             } else {
                 recyclerView.setVisibility(View.GONE);
                 donation_recycler_view.setVisibility(View.GONE);

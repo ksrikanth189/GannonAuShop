@@ -35,6 +35,7 @@ public class LoginPresenter {
             LoginActivityReq loginActivityReq = new LoginActivityReq();
             loginActivityReq.setUserName(userId);
             loginActivityReq.setPassword(password);
+//            loginActivityReq.setToken(FirebaseInstanceId.getInstance().getToken());
 
             Log.v("token","token "+FirebaseInstanceId.getInstance().getToken());
 //            .setToken(FirebaseInstanceId.getInstance().getToken());

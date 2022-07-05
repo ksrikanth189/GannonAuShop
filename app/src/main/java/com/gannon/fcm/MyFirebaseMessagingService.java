@@ -55,6 +55,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public void onMessageReceived(RemoteMessage remoteMessage) {
         Log.e(TAG, "From: " + remoteMessage.getFrom());
 
+        showNotification(remoteMessage.getData().get("message"));
+
         if (remoteMessage == null)
             return;
 
@@ -75,6 +77,24 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 Log.e(TAG, "Exception: " + e.getMessage());
             }
         }
+    }
+
+
+    private void showNotification(String message) {
+
+        Intent i = new Intent(this,SplashActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(this,0,i,PendingIntent.FLAG_UPDATE_CURRENT);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+                .setAutoCancel(true)
+                .setContentTitle("FCM Example")
+                .setContentText(message)
+                .setSmallIcon(R.mipmap.icon6)
+                .setContentIntent(pendingIntent);
+        NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        manager.notify(0,builder.build());
     }
 
     private void handleNotification(String message) {

@@ -8,12 +8,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class LoginActivityReq {
-
-    @JsonProperty("userName")
     private String userName;
-    @JsonProperty("password")
     private String password;
-
+//    private String token;
 
     public String getUserName() {
         return userName;
@@ -30,4 +27,13 @@ public class LoginActivityReq {
     public void setPassword(String password) {
         this.password = password;
     }
+
+//    public String getToken() {
+//        return token;
+//    }
+//
+//    public void setToken(String token) {
+//        this.token = token;
+//    }
+
 }
