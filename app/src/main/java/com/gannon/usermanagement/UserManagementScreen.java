@@ -334,7 +334,7 @@ public class UserManagementScreen extends SuperCompatActivity {
                     // An item has been selected from the list. Ignore.
                     return;
                 } else {
-                    getSearchService("Newly", autocomp_search.getText().toString().trim());
+//                    getSearchService("Newly", autocomp_search.getText().toString().trim());
                 }
             }
 
@@ -378,7 +378,7 @@ public class UserManagementScreen extends SuperCompatActivity {
                     // An item has been selected from the list. Ignore.
                     return;
                 } else {
-                    getSearchService("Old", autocomp_donat_search.getText().toString().trim());
+//                    getSearchService("Old", autocomp_donat_search.getText().toString().trim());
                 }
             }
 

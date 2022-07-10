@@ -729,7 +729,7 @@ public class HomeActivity extends SuperCompatActivity{
                     // An item has been selected from the list. Ignore.
                     return;
                 } else {
-                    getSearchService(typeStr, autoCompleteTextView.getText().toString().trim(), autoCompleteTextView);
+//                    getSearchService(typeStr, autoCompleteTextView.getText().toString().trim(), autoCompleteTextView);
                 }
             }
 

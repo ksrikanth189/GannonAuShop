@@ -190,19 +190,6 @@
                     android:background="@color/black" />
 
 
-                <TextView
-                    android:id="@+id/version_txt"
-                    style="@style/MirratMenuArrowTextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:layout_marginLeft="@dimen/mar_5"
-                    android:gravity="right|bottom"
-                    android:text="Version 1.0 "
-                    android:textSize="@dimen/txt_14"
-                    android:textStyle="bold"
-                    android:clickable="false"
-                    android:visibility="visible" />
 
 
             </LinearLayout>
@@ -352,6 +339,21 @@
                                 android:textStyle="normal" />
 
                         </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/version_txt"
+                            style="@style/MirratMenuArrowTextView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom"
+                            android:layout_marginLeft="@dimen/mar_5"
+                            android:gravity="right|bottom"
+                            android:text="Version 1.0 "
+                            android:textSize="@dimen/txt_14"
+                            android:textStyle="bold"
+                            android:clickable="false"
+                            android:visibility="visible" />
+
 
 
                     </LinearLayout>
