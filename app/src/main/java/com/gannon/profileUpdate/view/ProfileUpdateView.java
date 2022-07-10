@@ -1,7 +1,4 @@
-package
-
-
-        com.gannon.profileUpdate.view;
+package com.gannon.profileUpdate.view;
 
 
 public interface ProfileUpdateView {

@@ -597,7 +597,7 @@ public class NewAuctionDonation extends SuperCompatActivity implements DatePicke
             builder = new AlertDialog.Builder(this);
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 1);
             }
@@ -616,7 +616,7 @@ public class NewAuctionDonation extends SuperCompatActivity implements DatePicke
 
 
                         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                             cameraIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
                             try {
                                 captureImageUri = FileProvider.getUriForFile(getApplicationContext(),
@@ -761,7 +761,7 @@ public class NewAuctionDonation extends SuperCompatActivity implements DatePicke
 
 
         String imageFileName = "OS_" + System.currentTimeMillis() + "_";
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS + File.separator + "/iTOMS");
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS + File.separator + "/gannon");
         File file = null;
         try {
             file = File.createTempFile(

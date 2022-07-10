@@ -43,6 +43,12 @@
         <entry key="..\:/EncryptionKeys/GannonAuShop/app/src/main/res/menu/activity_main_drawer.xml" value="0.184375" />
         <entry key="..\:/EncryptionKeys/GannonAuShop/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
         <entry key="..\:/EncryptionKeys/GannonAuShop/app/src/main/res/xml/provider_paths.xml" value="0.1" />
+        <entry key="..\:/Users/18179/AndroidStudioProjects/GannonAuctionShopJul/app/src/main/res/layout/activity_home.xml" value="0.1" />
+        <entry key="..\:/Users/18179/AndroidStudioProjects/GannonAuctionShopJul/app/src/main/res/layout/activity_login.xml" value="0.14130434782608695" />
+        <entry key="..\:/Users/18179/AndroidStudioProjects/GannonAuctionShopJul/app/src/main/res/layout/activity_splash.xml" value="0.14130434782608695" />
+        <entry key="..\:/Users/18179/AndroidStudioProjects/GannonAuctionShopJul/app/src/main/res/layout/activity_splash2.xml" value="0.1" />
+        <entry key="..\:/Users/18179/AndroidStudioProjects/GannonAuctionShopJul/app/src/main/res/layout/auction_donations_list_inflator.xml" value="0.14130434782608695" />
+        <entry key="..\:/Users/18179/AndroidStudioProjects/GannonAuctionShopJul/app/src/main/res/layout/mywins_recycle_activity.xml" value="0.14130434782608695" />
       </map>
     </option>
   </component>
