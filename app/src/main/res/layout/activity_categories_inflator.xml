@@ -22,7 +22,18 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/firstname_txt"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="start|center"
+                android:layout_weight="2"
+                android:text="StudentID "
+                android:textStyle="bold"
+                android:textSize="@dimen/txt_16"
+                android:textColor="@color/black"
+                android:visibility="visible"/>
+            <TextView
+                android:id="@+id/studentId_txt"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
@@ -53,7 +64,53 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="start|center"
+                android:layout_weight="2"
+                android:text="Name"
+                android:textStyle="bold"
+                android:textSize="@dimen/txt_16"
+                android:textColor="@color/black"
+                android:visibility="visible"/>
+
+
+            <TextView
+                android:id="@+id/firstname_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="start|center"
+                android:layout_weight="1"
+                android:text=""
+                android:textStyle="bold"
+                android:textSize="@dimen/txt_16"/>
+
+
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="start|center"
+                android:layout_weight="2"
+                android:text="Email"
+                android:textStyle="bold"
+                android:textSize="@dimen/txt_16"
+                android:textColor="@color/black"
+                android:visibility="visible"/>
+
 
             <TextView
                 android:id="@+id/email_txt"
@@ -65,7 +122,6 @@
                 android:text=""
                 android:textStyle="bold"
                 android:textSize="@dimen/txt_16"/>
-
             <TextView
                 android:id="@+id/phoneNumber_txt"
                 android:layout_width="match_parent"
@@ -75,7 +131,9 @@
                 android:text=""
                 android:layout_weight="1"
                 android:textStyle="bold"
-                android:textSize="@dimen/txt_16"/>
+                android:textSize="@dimen/txt_16"
+                android:visibility="gone"/>
+
 
 
 
@@ -86,6 +144,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
+            android:layout_marginTop="@dimen/mar_5"
             android:orientation="horizontal">
 
             <Button

@@ -4,11 +4,11 @@ public class  ApplicationContext {
 
     public static int TIME_INT = 1000;
 
-    public static String BASE_URL = "http://192.168.1.5:8080/";
-    public static String RESET_BASE_URL = "http://192.168.1.5:8080/";
-
-//    public static String BASE_URL = "http://192.168.1.207:8080/";
-//    public static String RESET_BASE_URL = "http://192.168.1.207:8080/";
+//    public static String BASE_URL = "http://192.168.1.5:8080/";
+//    public static String RESET_BASE_URL = "http://192.168.1.5:8080/";
+//
+    public static String BASE_URL = "http://192.168.1.207:8080/";
+    public static String RESET_BASE_URL = "http://192.168.1.207:8080/";
 
 
     public static final String RELATIVE_PATH = "Gannon/rest/";
@@ -35,6 +35,8 @@ public class  ApplicationContext {
     public static final String myFavouriteServiceUpdate = "myFavouriteService/update";
     public static final String searchallAuctionDonationsServiceList = "allAuctionDonationsService/list";
     public static final String allAuctionDonationsServiceAmountupdate = "allAuctionDonationsService/update";
+    public static final String usersListDropDownService = "usersListDropDownService";
+    public static final String allAuctionDonationsService_adminUpdate = "allAuctionDonationsService/adminUpdate";
 
 }
 

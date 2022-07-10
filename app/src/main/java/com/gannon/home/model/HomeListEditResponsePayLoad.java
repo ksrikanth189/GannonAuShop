@@ -69,6 +69,16 @@ public class HomeListEditResponsePayLoad {
         private String sellerEMail;
         @JsonProperty("sellerPhoneNumber")
         private String sellerPhoneNumber;
+        @JsonProperty("status")
+        private String status;
+
+        public String getStatus() {
+            return status;
+        }
+
+        public void setStatus(String status) {
+            this.status = status;
+        }
 
         @JsonProperty("imagesList")
         private List<String> imagesList = null;

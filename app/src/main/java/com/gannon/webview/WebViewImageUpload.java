@@ -28,6 +28,9 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.gannon.R;
+import com.gannon.Register.activity.RegisterActivity;
+import com.gannon.home.HomeActivity;
+import com.gannon.splash.activity.SplashActivity2;
 import com.gannon.utils.RestAPI;
 import com.gannon.utils.SuperCompatActivity;
 
@@ -245,6 +248,12 @@ public class WebViewImageUpload extends SuperCompatActivity {
         }
 
     }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(WebViewImageUpload.this, HomeActivity.class));
+    }
+
 
     // Create an image file
     private File createImageFile() throws IOException {

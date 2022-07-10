@@ -3,20 +3,53 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="350dp"
     android:layout_height="wrap_content"
+    android:layout_marginTop="100dp"
+    android:layout_marginBottom="100dp"
     android:layout_gravity="center">
 
-    <AutoCompleteTextView
-        android:id="@+id/autocomp_search"
+    <LinearLayout
+        android:id="@+id/auction_search_ll"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/btn_40"
-        android:layout_gravity="center"
-        android:gravity="start|center"
-        android:drawableTint="@color/blue"
-        android:drawableLeft="@android:drawable/ic_menu_search"
-        android:hint="Try typing new"
-        android:background="@drawable/rect_search"
-        android:textColor="@color/black"
-        android:textColorHint="@color/hint_color"/>
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+
+        <AutoCompleteTextView
+            android:id="@+id/autocomp_search"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/btn_40"
+            android:layout_gravity="center"
+            android:gravity="start|center"
+            android:layout_weight="2"
+            android:paddingLeft="@dimen/mar_15"
+            android:hint="Try typing new"
+            android:background="@color/white"
+            android:textColor="@color/black"
+            android:textColorHint="@color/hint_color"/>
+
+        <ImageView
+            android:id="@+id/search_imag"
+            android:layout_width="@dimen/btn_35"
+            android:layout_height="@dimen/btn_40"
+            android:layout_gravity="center"
+            android:src="@android:drawable/ic_menu_search"
+            android:background="@color/btn_bg"/>
+
+    </LinearLayout>
+
+
+<!--    <AutoCompleteTextView-->
+<!--        android:id="@+id/autocomp_search"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="@dimen/btn_40"-->
+<!--        android:layout_gravity="center"-->
+<!--        android:gravity="start|center"-->
+<!--        android:drawableTint="@color/blue"-->
+<!--        android:drawableLeft="@android:drawable/ic_menu_search"-->
+<!--        android:hint="Try typing new"-->
+<!--        android:background="@drawable/rect_search"-->
+<!--        android:textColor="@color/black"-->
+<!--        android:textColorHint="@color/hint_color"/>-->
 
 
 

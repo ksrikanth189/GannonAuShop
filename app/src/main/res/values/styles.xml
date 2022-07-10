@@ -107,7 +107,7 @@
 
     <style name="MirratMenuLayout">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">80dp</item>
+        <item name="android:layout_height">60dp</item>
         <item name="android:orientation">horizontal</item>
         <item name="android:weightSum">100</item>
         <item name="android:gravity">center</item>

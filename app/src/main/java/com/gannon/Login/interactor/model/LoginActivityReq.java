@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class LoginActivityReq {
     private String userName;
     private String password;
-//    private String token;
+    private String token;
 
     public String getUserName() {
         return userName;
@@ -28,12 +28,12 @@ public class LoginActivityReq {
         this.password = password;
     }
 
-//    public String getToken() {
-//        return token;
-//    }
-//
-//    public void setToken(String token) {
-//        this.token = token;
-//    }
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 
 }

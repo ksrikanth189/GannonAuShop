@@ -62,7 +62,8 @@
                         android:layout_alignParentTop="true"
                         android:layout_gravity="center"
                         android:layout_margin="@dimen/mar_5"
-                        android:fitsSystemWindows="true" />
+                        android:fitsSystemWindows="true"
+                        android:background="@mipmap/icon6"/>
 
                     <LinearLayout
                         android:id="@+id/ll_dots"
@@ -120,7 +121,7 @@
 
                         <TextView
                             android:id="@+id/auctionAmount_txt"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_weight="1"
@@ -132,7 +133,7 @@
 
                         <EditText
                             android:id="@+id/newAmount_edt"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="@dimen/btn_40"
                             android:layout_gravity="center"
                             android:layout_weight="1"
@@ -146,7 +147,7 @@
 
                         <Button
                             android:id="@+id/save_btn"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="@dimen/btn_40"
                             android:layout_gravity="center"
                             android:layout_marginLeft="@dimen/mar_10"
@@ -158,6 +159,68 @@
                             android:textColor="@color/white" />
 
                     </LinearLayout>
+
+
+                    <LinearLayout
+                        android:id="@+id/status_ll"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/mar_5"
+                        android:layout_marginBottom="@dimen/mar_5"
+                        android:orientation="vertical">
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/btn_40"
+                                android:text="Status"
+                                android:layout_weight="1.5"
+                                android:layout_gravity="center"
+                                android:gravity="start|center"
+                                android:textSize="@dimen/txt_16"
+                                android:textStyle="bold"
+                                android:textColor="@color/white" />
+
+                            <Button
+                                android:id="@+id/auctionStatus_btn"
+                                style="@style/Spinner_btn_WMH40"
+                                android:onClick="showStatusList"
+                                android:text="OPEN"
+                                android:paddingLeft="@dimen/mar_10"
+                                android:layout_gravity="center"
+                                android:gravity="start|center"
+                                android:layout_weight="1"
+                                android:textColor="@color/black"/>
+
+
+                            <Button
+                                android:id="@+id/status_btn"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/btn_40"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="@dimen/mar_10"
+                                android:layout_marginRight="@dimen/mar_10"
+                                android:layout_weight="1"
+                                android:background="@color/btn_bg"
+                                android:gravity="center"
+                                android:text="Save"
+                                android:textColor="@color/white" />
+
+
+                        </LinearLayout>
+
+
+
+
+                    </LinearLayout>
+
+
 
 
                 </LinearLayout>

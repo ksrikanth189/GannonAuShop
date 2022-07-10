@@ -4,8 +4,11 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -14,10 +17,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -33,11 +40,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.gannon.R;
 import com.gannon.home.HomeActivity;
+import com.gannon.home.HomeListEditScreen;
 import com.gannon.home.model.ApprovedDenySaveRes;
 import com.gannon.home.model.ApprovedSaveReq;
 import com.gannon.home.model.DenySaveReq;
 import com.gannon.home.model.HomeApproveListRes;
 import com.gannon.home.model.HomeDenyListRes;
+import com.gannon.home.model.SearchProductReq;
+import com.gannon.home.model.SearchProductRes;
 import com.gannon.mysales.MySalesEditScreen;
 import com.gannon.mysales.MySalesScreen;
 import com.gannon.mysales.model.MySalesReqPayLoad;
@@ -53,6 +63,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -65,16 +76,17 @@ import retrofit2.Retrofit;
  * Created by Srikanth.K on
  */
 
-public class UserManagementScreen extends SuperCompatActivity  implements NavigationView.OnNavigationItemSelectedListener {
+//public class UserManagementScreen extends SuperCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class UserManagementScreen extends SuperCompatActivity {
 
 
-    private ProgressDialog m_progress,progressDialog,progressDialog1,progressDialog2,m_progress1;
+    private ProgressDialog m_progress, progressDialog, progressDialog1, progressDialog2, m_progress1;
     private Retrofit retrofit;
     private RestAPI restAPI;
 
     private TextView no_cat_display_id;
     private LinearLayout header_linear;
-    private RecyclerView recyclerView,donation_recycler_view;
+    private RecyclerView recyclerView, donation_recycler_view;
     private String cargoId = null, barcode = null;
     private String message;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -82,38 +94,36 @@ public class UserManagementScreen extends SuperCompatActivity  implements Naviga
     private TextView auction_list, donation_list;
 
     private ProgressBar idPBLoading;
-    private NestedScrollView idNestedSV;
+    private ScrollView idNestedSV;
     int page = 0, limit = 20;
 
     private HomeApproveListRes homeCategorysListRes;
-    private View navHeader;
-    private TextView name_txt, marque_txt;
 
-    private ImageView menu_item_img, notifica_img, logout_img,
-            home_img, fav_img, search_img, profile_img, filter_img;
-
-
-
+    private ImageView logout_img, search_imag, donat_search_imag;
+    private AutoCompleteTextView autocomp_search, autocomp_donat_search;
+    private UserMangSearchRes searchProductRes;
+    private String typeStr = "auction";
+    private LinearLayout auction_search_ll, donation_search_ll;
 
 
-//    @Override
-//    public void onConfigurationChanged(Configuration newConfig) {
-//        super.onConfigurationChanged(newConfig);
-//        mDrawerToggle.onConfigurationChanged(newConfig);
-//    }
-//
-//    @Override
-//    protected void onPostCreate(Bundle savedInstanceState) {
-//        super.onPostCreate(savedInstanceState);
-//        mDrawerToggle.syncState();
-//    }
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        mDrawerToggle.syncState();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         setCustomTheme(getApplicationContext());
-        setContentView(R.layout.auction_donations_list_activity);
+        setContentView(R.layout.usermanagement_list_activity);
         initializeUiElements();
 
         Bundle extras = getIntent().getExtras();
@@ -136,7 +146,7 @@ public class UserManagementScreen extends SuperCompatActivity  implements Naviga
 
         auction_list = (TextView) findViewById(R.id.auction_list);
         donation_list = (TextView) findViewById(R.id.donation_list);
-        idNestedSV = (NestedScrollView) findViewById(R.id.idNestedSV);
+        idNestedSV = findViewById(R.id.idNestedSV);
         idPBLoading = findViewById(R.id.idPBLoading);
 
         auction_list.setText("Newly Registered");
@@ -145,43 +155,23 @@ public class UserManagementScreen extends SuperCompatActivity  implements Naviga
         recyclerView.setLayoutManager(new LinearLayoutManager(UserManagementScreen.this, LinearLayoutManager.VERTICAL, false));
         donation_recycler_view.setLayoutManager(new LinearLayoutManager(UserManagementScreen.this, LinearLayoutManager.VERTICAL, false));
 
-
-//        GridLayoutManager manager2 = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
-//        recyclerView.setLayoutManager(manager2);
-//
-//        GridLayoutManager manager3 = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
-//        donation_recycler_view.setLayoutManager(manager3);
-//
-
-
         if (!checkInternet()) {
             CustomErrorToast(getResourceStr(context, R.string.plz_chk_your_net));
         } else {
-            getCategoryList();
+            UserMangSearchReq mangSearchReq = new UserMangSearchReq();
+            mangSearchReq.setSearchValue(null);
+            getCategoryList(mangSearchReq);
         }
-
-
-//        // adding on scroll change listener method for our nested scroll view.
-//        idNestedSV.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
-//            @Override
-//            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-//                // on scroll change we are checking when users scroll as bottom.
-//                if (scrollY == v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight()) {
-//                    // in this method we are incrementing page number,
-//                    // making progress bar visible and calling get data method.
-//                    page++;
-//                    idPBLoading.setVisibility(View.VISIBLE);
-//
-//                    getMySalesService("auction", page, limit);
-//
-//                }
-//            }
-//        });
 
 
         auction_list.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                typeStr = "auction";
+
+                auction_search_ll.setVisibility(View.VISIBLE);
+                donation_search_ll.setVisibility(View.GONE);
                 donation_recycler_view.setVisibility(View.GONE);
 
                 auction_list.setTextColor(getResources().getColor(R.color.white));
@@ -190,11 +180,16 @@ public class UserManagementScreen extends SuperCompatActivity  implements Naviga
                 donation_list.setTextColor(getResources().getColor(R.color.white));
                 donation_list.setBackground(getResources().getDrawable(R.drawable.rect_background_black));
 
+                autocomp_search.setText("");
+                autocomp_search.setAdapter(null);
+
 
                 if (!checkInternet()) {
                     CustomErrorToast(getResourceStr(context, R.string.plz_chk_your_net));
                 } else {
-                    getCategoryList();
+                    UserMangSearchReq mangSearchReq = new UserMangSearchReq();
+                    mangSearchReq.setSearchValue(null);
+                    getCategoryList(mangSearchReq);
                 }
 
             }
@@ -203,6 +198,13 @@ public class UserManagementScreen extends SuperCompatActivity  implements Naviga
         donation_list.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                typeStr = "donation";
+
+
+                auction_search_ll.setVisibility(View.GONE);
+                donation_search_ll.setVisibility(View.VISIBLE);
+
                 recyclerView.setVisibility(View.GONE);
 
                 donation_list.setTextColor(getResources().getColor(R.color.white));
@@ -211,207 +213,35 @@ public class UserManagementScreen extends SuperCompatActivity  implements Naviga
                 auction_list.setTextColor(getResources().getColor(R.color.white));
                 auction_list.setBackground(getResources().getDrawable(R.drawable.rect_background_black));
 
+                autocomp_donat_search.setText("");
+                autocomp_donat_search.setAdapter(null);
+
 
                 if (!checkInternet()) {
                     CustomErrorToast(getResourceStr(context, R.string.plz_chk_your_net));
                 } else {
-                    getHomeDenyListResCall();
+                    UserMangSearchReq mangSearchReq = new UserMangSearchReq();
+                    mangSearchReq.setSearchValue(null);
+                    getHomeDenyListResCall(mangSearchReq);
                 }
-
             }
         });
+    }
 
+    private void getToggleAndSlider() {
+
+        mDrawerToggle = new ActionBarDrawerToggle(
+                this, mDrawerLayout, (Toolbar) findViewById(R.id.toolbar),
+                R.string.app_name, R.string.app_name
+        );
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        mDrawerToggle.syncState();
 
     }
 
-//    public void getMySalesService(String typestr, int page, int limit) {
-//
-//        try {
-//
-//
-//            m_progress = new ProgressDialog(UserManagementScreen.this);
-//            m_progress.setMessage("Please wait....");
-//            m_progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-//            m_progress.setIndeterminate(true);
-//            m_progress.setProgress(0);
-//            m_progress.setCancelable(false);
-//            m_progress.show();
-//
-//            MySalesReqPayLoad dmgreq = new MySalesReqPayLoad();
-//            dmgreq.setAuctionOrDonation(typestr);
-//            dmgreq.setOffset(page);
-//            dmgreq.setLimit(limit);
-//            dmgreq.setUserId(SharedPrefHelper.getLogin(context).getMessage().getUserId());
-//
-//
-//            Call<MySalesResponsePayLoad> damageHistoryResPayLoadCall = restAPI.getMySalesListResPayLoadCall(dmgreq);
-//            damageHistoryResPayLoadCall.enqueue(new Callback<MySalesResponsePayLoad>() {
-//                @Override
-//                public void onResponse(Call<MySalesResponsePayLoad> call, Response<MySalesResponsePayLoad> response) {
-//                    if (response.isSuccessful()) {
-//
-//                        MySalesResponsePayLoad responsePayLoad = response.body();
-//
-//                        Gson gson = new Gson();
-//                        gson.toJson(responsePayLoad);
-//                        Log.v("damage his", "damge his res" + gson.toJson(responsePayLoad));
-//
-//                        message = responsePayLoad.getStatus();
-//
-//                        if (responsePayLoad.getStatusCode() == 200 && responsePayLoad.getMessage().size() > 0) {
-//                            loadHistoryData(responsePayLoad,typestr);
-//                        } else {
-//                            CustomErrorToast(message);
-//                        }
-//                    }
-//
-//
-//                    if (m_progress != null && m_progress.isShowing()) {
-//                        m_progress.dismiss();
-//                    }
-//                }
-//
-//                @Override
-//                public void onFailure(Call<MySalesResponsePayLoad> call, Throwable t) {
-//                    CustomErrorToast(getResources().getString(R.string.server_not_responding));
-//
-//                    if (m_progress != null && m_progress.isShowing()) {
-//                        m_progress.dismiss();
-//                    }
-//
-//                }
-//            });
-//
-//        } catch (Exception e) {
-//
-//            if (m_progress != null && m_progress.isShowing()) {
-//                m_progress.dismiss();
-//            }
-//
-//        }
-//    }
-//    private void loadHistoryData(MySalesResponsePayLoad responsePayLoad,String type) {
-//        if (responsePayLoad.getMessage() != null) {
-//            if (responsePayLoad.getMessage().size() > 0) {
-//                recyclerView.setVisibility(View.VISIBLE);
-//                donation_recycler_view.setVisibility(View.VISIBLE);
-//                ProductAdapter ca = new ProductAdapter(responsePayLoad, getApplicationContext(),type);
-//                recyclerView.setAdapter(ca);
-//            } else {
-//                recyclerView.setVisibility(View.GONE);
-//                donation_recycler_view.setVisibility(View.GONE);
-//            }
-//        }
-//    }
-//    public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
-//
-//        Context mContext;
-//        MySalesResponsePayLoad damageHistoryResPayLoad;
-//        String type;
-//
-//        public ProductAdapter(MySalesResponsePayLoad damageHistoryResPayLoad, Context context,String type1) {
-//            this.damageHistoryResPayLoad = damageHistoryResPayLoad;
-//            mContext = context;
-//            type =type1;
-//        }
-//
-//        @Override
-//        public int getItemCount() {
-//            return damageHistoryResPayLoad.getMessage().size();
-//
-//        }
-//
-//
-//        @Override
-//        public ProductViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-//            View itemView = LayoutInflater.
-//                    from(viewGroup.getContext()).
-//                    inflate(R.layout.mysales_list_inflator, viewGroup, false);
-//
-//            return new ProductViewHolder(itemView);
-//        }
-//
-//        @Override
-//        public void onBindViewHolder(final ProductViewHolder productViewHolder, @SuppressLint("RecyclerView") int position) {
-//
-//            productViewHolder.item_txt.setText(damageHistoryResPayLoad.getMessage().get(position).getProductName() != null ? damageHistoryResPayLoad.getMessage().get(position).getProductName() : "");
-//
-//            String url = ApplicationContext.BASE_URL +"/" + damageHistoryResPayLoad.getMessage().get(position).getImageUrl().replace(".png",".jpg");
-//
-//            Glide.with(UserManagementScreen.this)
-////                    .load("http://192.168.1.207:8080/img/mob.jpg")
-//                    .load(url)
-//                    .error(R.mipmap.icon6)
-//                    .placeholder(R.mipmap.icon6)
-//                    .into(productViewHolder.item_img);
-//
-//
-////            Glide.with(MySalesScreen.this)
-////                    .load(damageHistoryResPayLoad.getMessage().get(position).getImageUrl())
-////                    .centerCrop()
-////                    .placeholder(R.mipmap.icon6)
-////                    .error(R.mipmap.icon6)
-////                    .into(productViewHolder.item_img);
-//
-//
-//            productViewHolder.liner_ll.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//
-//                    Intent intent = new Intent(UserManagementScreen.this, MySalesEditScreen.class);
-//                    intent.putExtra("cargoId", damageHistoryResPayLoad.getMessage().get(position).getAuctionId());
-//                    intent.putExtra("barcode", damageHistoryResPayLoad.getMessage().get(position).getDonationId());
-//                    intent.putExtra("type", type);
-//                    startActivity(intent);
-//
-//                }
-//            });
-//
-//
-//        }
-//
-//        public class ProductViewHolder extends RecyclerView.ViewHolder {
-//
-//            protected TextView item_txt;
-//            protected ImageView item_img;
-//            protected LinearLayout liner_ll;
-//
-//            public ProductViewHolder(View v) {
-//                super(v);
-//                item_txt = v.findViewById(R.id.item_txt);
-//                item_img = v.findViewById(R.id.item_img);
-//                liner_ll = v.findViewById(R.id.liner_ll);
-//
-//
-//            }
-//        }
-//
-//    }
-
-    //    private void getToggleAndSlider() {
-//
-//        mDrawerToggle = new ActionBarDrawerToggle(
-//                this, mDrawerLayout, (Toolbar) findViewById(R.id.toolbar),
-//                R.string.app_name, R.string.app_name
-//        );
-//        mDrawerLayout.setDrawerListener(mDrawerToggle);
-//        mDrawerToggle.syncState();
-//
-//    }
-
     private void initializeUiElements() {
 //
-//        //=== Set Tool Bar and Drawer layout ===
-//        setToolBar(getApplicationContext(), "User Management", "yes");
-//        String pushToken = FirebaseInstanceId.getInstance().getToken();
-//        getSupportActionBar().setDisplayShowTitleEnabled(false);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        getSupportActionBar().setHomeButtonEnabled(true);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-
-
+        //=== Set Tool Bar and Drawer layout ===
         setToolBar(getApplicationContext(), "User Management", "yes");
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -419,26 +249,34 @@ public class UserManagementScreen extends SuperCompatActivity  implements Naviga
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
+
+
 //
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+//                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+//        drawer.addDrawerListener(toggle);
+//        toggle.syncState();
+////
+//        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+//        navigationView.setNavigationItemSelectedListener(this);
 
-        navHeader = navigationView.getHeaderView(0);
-        name_txt = navHeader.findViewById(R.id.name_txt);
+//        navHeader = navigationView.getHeaderView(0);
+//        name_txt = navHeader.findViewById(R.id.name_txt);
 
 
-        if (SharedPrefHelper.getLogin(context) != null && SharedPrefHelper.getLogin(context).getMessage() != null && SharedPrefHelper.getLogin(context).getMessage().getUserName() != null) {
-            name_txt.setText(SharedPrefHelper.getLogin(context).getMessage().getUserName());
-        }
+//        if (SharedPrefHelper.getLogin(context) != null && SharedPrefHelper.getLogin(context).getMessage() != null && SharedPrefHelper.getLogin(context).getMessage().getUserName() != null) {
+//            name_txt.setText(SharedPrefHelper.getLogin(context).getMessage().getUserName());
+//        }
 
 
         context = getApplicationContext();
-//        getToggleAndSlider();
+
+        setupdrawerLayout();
+        getToggleAndSlider();
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -449,11 +287,18 @@ public class UserManagementScreen extends SuperCompatActivity  implements Naviga
         restAPI = getRestAPIObj();
 
 
+//        hideLeftMenuItem();
 
-        hideLeftMenuItem();
 
-
+        autocomp_search = findViewById(R.id.autocomp_search);
+        autocomp_donat_search = findViewById(R.id.autocomp_donat_search);
         logout_img = findViewById(R.id.logout_img);
+        search_imag = findViewById(R.id.search_imag);
+        donat_search_imag = findViewById(R.id.donat_search_imag);
+
+        auction_search_ll = findViewById(R.id.auction_search_ll);
+        donation_search_ll = findViewById(R.id.donation_search_ll);
+
         logout_img.setVisibility(View.VISIBLE);
 
         logout_img.setOnClickListener(new View.OnClickListener() {
@@ -464,20 +309,124 @@ public class UserManagementScreen extends SuperCompatActivity  implements Naviga
             }
         });
 
+
+        autocomp_search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                donation_recycler_view.setAdapter(null);
+
+//                if (s.length() == 0) {
+//
+//                    if (!checkInternet()) {
+//                        CustomErrorToast(getResourceStr(context, R.string.plz_chk_your_net));
+//                    } else {
+//                        UserMangSearchReq mangSearchReq = new UserMangSearchReq();
+//                        mangSearchReq.setSearchValue(autocomp_search.getText().toString().trim());
+//                        getCategoryList(mangSearchReq);
+//                    }
+//                }
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (autocomp_search.isPerformingCompletion()) {
+                    // An item has been selected from the list. Ignore.
+                    return;
+                } else {
+                    getSearchService("Newly", autocomp_search.getText().toString().trim());
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        autocomp_search.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                autocomp_search.dismissDropDown();
+                hideKeyboard();
+            }
+        });
+
+
+        autocomp_donat_search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                recyclerView.setAdapter(null);
+
+//                if (s.length() == 0) {
+//
+//                    if (!checkInternet()) {
+//                        CustomErrorToast(getResourceStr(context, R.string.plz_chk_your_net));
+//                    } else {
+//                        UserMangSearchReq mangSearchReq = new UserMangSearchReq();
+//                        mangSearchReq.setSearchValue(autocomp_donat_search.getText().toString().trim());
+//                        getHomeDenyListResCall(mangSearchReq);
+//                    }
+//                }
+
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (autocomp_donat_search.isPerformingCompletion()) {
+                    // An item has been selected from the list. Ignore.
+                    return;
+                } else {
+                    getSearchService("Old", autocomp_donat_search.getText().toString().trim());
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        autocomp_donat_search.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                autocomp_donat_search.dismissDropDown();
+                hideKeyboard();
+            }
+        });
+
+
+        search_imag.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!checkInternet()) {
+                    CustomErrorToast(getResourceStr(context, R.string.plz_chk_your_net));
+                } else {
+                    UserMangSearchReq mangSearchReq = new UserMangSearchReq();
+                    mangSearchReq.setSearchValue(autocomp_search.getText().toString().trim());
+                    getCategoryList(mangSearchReq);
+                }
+            }
+        });
+
+        donat_search_imag.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (!checkInternet()) {
+                    CustomErrorToast(getResourceStr(context, R.string.plz_chk_your_net));
+                } else {
+                    UserMangSearchReq mangSearchReq = new UserMangSearchReq();
+                    mangSearchReq.setSearchValue(autocomp_donat_search.getText().toString().trim());
+                    getHomeDenyListResCall(mangSearchReq);
+                }
+
+            }
+        });
+
     }
 
-
-    private void hideLeftMenuItem() {
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        Menu nav_Menu = navigationView.getMenu();
-        nav_Menu.findItem(R.id.nav_newauction).setVisible(false);
-        nav_Menu.findItem(R.id.nav_mysales).setVisible(false);
-        nav_Menu.findItem(R.id.nav_mywins).setVisible(false);
-
-    }
-
-
-    public void getCategoryList() {
+    public void getCategoryList(UserMangSearchReq mangSearchReq) {
         try {
             progressDialog = new ProgressDialog(this);
             progressDialog.setMessage("Please Wait......");
@@ -487,7 +436,7 @@ public class UserManagementScreen extends SuperCompatActivity  implements Naviga
             progressDialog.show();
 
 
-            final Call<HomeApproveListRes> adminSlideResCall = restAPI.getHomeCategorysListResCall();
+            final Call<HomeApproveListRes> adminSlideResCall = restAPI.getUserMangApproveListResCall(mangSearchReq);
             adminSlideResCall.enqueue(new Callback<HomeApproveListRes>() {
                 @Override
                 public void onResponse(Call<HomeApproveListRes> call, Response<HomeApproveListRes> response) {
@@ -495,22 +444,15 @@ public class UserManagementScreen extends SuperCompatActivity  implements Naviga
                         homeCategorysListRes = response.body();
                         if (homeCategorysListRes.getStatusCode() == 200 && homeCategorysListRes.getStatus().equalsIgnoreCase("success")) {
 
-                            if (homeCategorysListRes.getMessage().size() > 0)
+                            if (homeCategorysListRes.getMessage().size() > 0) {
                                 loadCategDaoryData(homeCategorysListRes);
-
-
-//                            if (homeCategorysListRes.getBanners().size() > 0) {
-//
-//                                for (int i = 0; i < homeCategorysListRes.getBanners().size(); i++) {
-//                                    slider_image_array.add(homeCategorysListRes.getBanners().get(i).getImage());
-//                                }
-//
-//                                slidingMethod();
-//
-//                            }
+                            } else {
+                                recyclerView.setAdapter(null);
+                            }
 
                         } else {
-                            CustomErrorToast(homeCategorysListRes.getStatus());
+                            CustomErrorToast(homeCategorysListRes.getError());
+                            recyclerView.setAdapter(null);
                         }
                     }
                     if (progressDialog.isShowing()) {
@@ -535,7 +477,7 @@ public class UserManagementScreen extends SuperCompatActivity  implements Naviga
         }
     }
 
-    public void getHomeDenyListResCall() {
+    public void getHomeDenyListResCall(UserMangSearchReq searchReq) {
         try {
             progressDialog1 = new ProgressDialog(this);
             progressDialog1.setMessage("Please Wait......");
@@ -545,7 +487,7 @@ public class UserManagementScreen extends SuperCompatActivity  implements Naviga
             progressDialog1.show();
 
 
-            final Call<HomeDenyListRes> adminSlideResCall = restAPI.getHomeDenyListResCall();
+            final Call<HomeDenyListRes> adminSlideResCall = restAPI.getUserMangDenyListResCall(searchReq);
             adminSlideResCall.enqueue(new Callback<HomeDenyListRes>() {
                 @Override
                 public void onResponse(Call<HomeDenyListRes> call, Response<HomeDenyListRes> response) {
@@ -553,18 +495,29 @@ public class UserManagementScreen extends SuperCompatActivity  implements Naviga
                         HomeDenyListRes homeCategorysListRes = response.body();
                         if (homeCategorysListRes.getStatusCode() == 200 && homeCategorysListRes.getStatus().equalsIgnoreCase("success")) {
 
-                            if (homeCategorysListRes.getMessage().size() > 0)
+                            if (homeCategorysListRes.getMessage().size() > 0) {
                                 loadProductData(homeCategorysListRes);
+                            } else {
+                                donation_recycler_view.setAdapter(null);
+                            }
 
-//                            if (homeCategorysListRes.getBanners().size() > 0) {
-//
-//                                for (int i = 0; i < homeCategorysListRes.getBanners().size(); i++) {
-//                                    slider_image_array.add(homeCategorysListRes.getBanners().get(i).getImage());
-//                                }
-//
-//                                slidingMethod();
-//
+
+//                            ArrayList<String> vinList = new ArrayList<String>();
+//                            for (int i = 0; i < homeCategorysListRes.getMessage().size(); i++) {
+//                                if (homeCategorysListRes.getMessage().get(i).getFirstName() != null)
+//                                    vinList.add(homeCategorysListRes.getMessage().get(i).getFirstName());
 //                            }
+//
+//                            if (vinList != null) {
+//                                if (vinList.size() != 0) {
+//                                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+//                                            context,
+//                                            R.layout.search_text_inflator, R.id.vinId, vinList);
+//                                    autocomp_search.setAdapter(adapter);
+//                                    adapter.notifyDataSetChanged();
+//                                }
+//                            }
+
 
                         } else {
                             CustomErrorToast(homeCategorysListRes.getStatus());
@@ -625,68 +578,31 @@ public class UserManagementScreen extends SuperCompatActivity  implements Naviga
         }
     }
 
-
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-//            logoutDialog();
-        }
-    }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        // getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+        logoutDialog();
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-
-        int id = item.getItemId();
-        if (id == R.id.nav_newregister) {
-            startActivity(new Intent(UserManagementScreen.this, UserManagementScreen.class));
-        }
-        if (id == R.id.nav_all_auctiondonations) {
-            startActivity(new Intent(UserManagementScreen.this, HomeActivity.class));
-        }
-
-        if (id == R.id.nav_terms) {
-            Intent intent = new Intent(UserManagementScreen.this, WebViewImageUpload.class);
-            intent.putExtra("titleStr","Terms & Conditions");
-            intent.putExtra("weburl","www.google.com");
-            startActivity(intent);
-        }
-        if (id == R.id.nav_privacy) {
-            Intent intent = new Intent(UserManagementScreen.this, WebViewImageUpload.class);
-            intent.putExtra("titleStr","Privacy Policy");
-            intent.putExtra("weburl","www.google.com");
-            startActivity(intent);
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        // getMenuInflater().inflate(R.menu.main, menu);
+//        return true;
+//    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        // Handle action bar item clicks here. The action bar will
+//        // automatically handle clicks on the Home/Up button, so long
+//        // as you specify a parent activity in AndroidManifest.xml.
+//        int id = item.getItemId();
+//
+//        //noinspection SimplifiableIfStatement
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
+//
+//        return super.onOptionsItemSelected(item);
+//    }
 
     public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ProductViewHolder> {
 
@@ -726,14 +642,17 @@ public class UserManagementScreen extends SuperCompatActivity  implements Naviga
         @Override
         public void onBindViewHolder(final CategoryAdapter.ProductViewHolder productViewHolder, @SuppressLint("RecyclerView") final int position) {
 
-            productViewHolder.firstname_txt.setText(cartListRes.get(position).getFirstName() + "   " + cartListRes.get(position).getLastName());
-//            productViewHolder.firstname_txt.setText(cartListRes.get(position).getFirstName());
+            productViewHolder.firstname_txt.setText(": " + cartListRes.get(position).getFirstName() + "   " + cartListRes.get(position).getLastName());
 //            productViewHolder.lastName_txt.setText(cartListRes.get(position).getLastName() != null
 //                    ? cartListRes.get(position).getLastName() : "");
-            productViewHolder.email_txt.setText(cartListRes.get(position).getEmail() != null
-                    ? cartListRes.get(position).getEmail() : "");
-            productViewHolder.phoneNumber_txt.setText(cartListRes.get(position).getPhoneNumber() != null
-                    ? cartListRes.get(position).getPhoneNumber() : "");
+            productViewHolder.email_txt.setText(": " + cartListRes.get(position).getEmail() != null
+                    ? ": " + cartListRes.get(position).getEmail() : "");
+
+//            productViewHolder.phoneNumber_txt.setText(": " + cartListRes.get(position).getPhoneNumber() != null
+//                    ? ": " + cartListRes.get(position).getPhoneNumber() : "");
+
+            productViewHolder.studentId_txt.setText(": " + cartListRes.get(position).getStudentId() != null
+                    ? ": " + cartListRes.get(position).getStudentId() : "");
 
 
             productViewHolder.approve_btn.setOnClickListener(new View.OnClickListener() {
@@ -784,11 +703,12 @@ public class UserManagementScreen extends SuperCompatActivity  implements Naviga
 
         public class ProductViewHolder extends RecyclerView.ViewHolder {
 
-            protected TextView firstname_txt, lastName_txt, email_txt, phoneNumber_txt;
+            protected TextView firstname_txt, lastName_txt, email_txt, phoneNumber_txt, studentId_txt;
             protected Button approve_btn, deny_btn;
 
             public ProductViewHolder(View v) {
                 super(v);
+                studentId_txt = (TextView) v.findViewById(R.id.studentId_txt);
                 firstname_txt = (TextView) v.findViewById(R.id.firstname_txt);
                 lastName_txt = (TextView) v.findViewById(R.id.lastName_txt);
                 email_txt = (TextView) v.findViewById(R.id.email_txt);
@@ -838,19 +758,25 @@ public class UserManagementScreen extends SuperCompatActivity  implements Naviga
         @Override
         public void onBindViewHolder(final ProductAdapter.ProductViewHolder productViewHolder, @SuppressLint("RecyclerView") final int position) {
 
-//            productViewHolder.firstname_txt.setText(cartListRes.get(position).getFirstName() + " " + cartListRes.get(position).getLastName());
-            productViewHolder.firstname_txt.setText(cartListRes.get(position).getFirstName());
-            productViewHolder.lastName_txt.setText(cartListRes.get(position).getLastName() != null
-                    ? cartListRes.get(position).getLastName() : "");
-            productViewHolder.email_txt.setText(cartListRes.get(position).getEmail() != null
-                    ? cartListRes.get(position).getEmail() : "");
-            productViewHolder.phoneNumber_txt.setText(cartListRes.get(position).getPhoneNumber() != null
-                    ? cartListRes.get(position).getPhoneNumber() : "");
+            productViewHolder.firstname_txt.setText(": " + cartListRes.get(position).getFirstName() + " " + cartListRes.get(position).getLastName());
+//            productViewHolder.lastName_txt.setText(": "+cartListRes.get(position).getLastName() != null
+//                    ? cartListRes.get(position).getLastName() : "");
+
+            productViewHolder.email_txt.setText(": " + cartListRes.get(position).getEmail() != null
+                    ? ": " + cartListRes.get(position).getEmail() : "");
+
+            productViewHolder.studentId_txt.setText(": " + cartListRes.get(position).getStudentId() != null
+                    ? ": " + cartListRes.get(position).getStudentId() : "");
+//            productViewHolder.phoneNumber_txt.setText(": " + cartListRes.get(position).getPhoneNumber() != null
+//                    ? ": " + cartListRes.get(position).getPhoneNumber() : "");
 
             if (cartListRes.get(position).getStatus().equalsIgnoreCase("Activated")) {
                 productViewHolder.deny_btn.setText("Deactivate");
+                productViewHolder.deny_btn.setBackgroundColor(getResources().getColor(R.color.btn_bg));
             } else if (cartListRes.get(position).getStatus().equalsIgnoreCase("Deactivated")) {
                 productViewHolder.deny_btn.setText("Activated");
+                productViewHolder.deny_btn.setBackgroundColor(getResources().getColor(R.color.green));
+
             }
 
             productViewHolder.deny_btn.setOnClickListener(new View.OnClickListener() {
@@ -860,9 +786,9 @@ public class UserManagementScreen extends SuperCompatActivity  implements Naviga
                     if (checkInternet()) {
 
                         DenySaveReq approvedSaveReq = new DenySaveReq();
-                        if (cartListRes.get(position).getStatus().equalsIgnoreCase("Activated")){
+                        if (cartListRes.get(position).getStatus().equalsIgnoreCase("Activated")) {
                             approvedSaveReq.setApproved("N");
-                        }else {
+                        } else {
                             approvedSaveReq.setApproved("Y");
                         }
                         approvedSaveReq.setRegistrationId(cartListRes.get(position).getRegistrationId());
@@ -880,11 +806,12 @@ public class UserManagementScreen extends SuperCompatActivity  implements Naviga
 
         public class ProductViewHolder extends RecyclerView.ViewHolder {
 
-            protected TextView firstname_txt, lastName_txt, email_txt, phoneNumber_txt;
+            protected TextView firstname_txt, lastName_txt, email_txt, phoneNumber_txt, studentId_txt;
             protected Button approve_btn, deny_btn;
 
             public ProductViewHolder(View v) {
                 super(v);
+                studentId_txt = (TextView) v.findViewById(R.id.studentId_txt);
                 firstname_txt = (TextView) v.findViewById(R.id.firstname_txt);
                 lastName_txt = (TextView) v.findViewById(R.id.lastName_txt);
                 email_txt = (TextView) v.findViewById(R.id.email_txt);
@@ -915,7 +842,7 @@ public class UserManagementScreen extends SuperCompatActivity  implements Naviga
                         if (homeCategorysListRes.getStatusCode() == 200 && homeCategorysListRes.getStatus().equalsIgnoreCase("success")) {
                             CustomErrorToast(homeCategorysListRes.getMessage());
 
-                            startActivity(new Intent(UserManagementScreen.this,UserManagementScreen.class));
+                            startActivity(new Intent(UserManagementScreen.this, UserManagementScreen.class));
                             finish();
 
 //                            if (checkInternet()) {
@@ -975,7 +902,7 @@ public class UserManagementScreen extends SuperCompatActivity  implements Naviga
                             CustomErrorToast(homeCategorysListRes.getMessage());
 
 
-                            startActivity(new Intent(UserManagementScreen.this,UserManagementScreen.class));
+                            startActivity(new Intent(UserManagementScreen.this, UserManagementScreen.class));
                             finish();
 
 //                            if (checkInternet()) {
@@ -1015,6 +942,107 @@ public class UserManagementScreen extends SuperCompatActivity  implements Naviga
         }
     }
 
+    public void getSearchService(String typeStr, String searchVal) {
+
+        try {
+
+
+//            m_progress = new ProgressDialog(HomeActivity.this);
+//            m_progress.setMessage("Please wait....");
+//            m_progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+//            m_progress.setIndeterminate(true);
+//            m_progress.setProgress(0);
+//            m_progress.setCancelable(false);
+//            m_progress.show();
+
+            UserMangAuctionSearchReq dmgreq = new UserMangAuctionSearchReq();
+
+            dmgreq.setUserId(SharedPrefHelper.getLogin(context).getMessage().getUserId().toString());
+            dmgreq.setSearchValue(searchVal);
+            dmgreq.setType(typeStr);
+
+
+            Call<UserMangSearchRes> damageHistoryResPayLoadCall = restAPI.getUserMangSearchResCall(dmgreq);
+            damageHistoryResPayLoadCall.enqueue(new Callback<UserMangSearchRes>() {
+                @Override
+                public void onResponse(Call<UserMangSearchRes> call, Response<UserMangSearchRes> response) {
+                    if (response.isSuccessful()) {
+
+                        searchProductRes = response.body();
+
+                        Gson gson = new Gson();
+                        gson.toJson(searchProductRes);
+                        Log.v("damage his", "damge his res" + gson.toJson(searchProductRes));
+
+                        if (searchProductRes.getStatusCode() == 200) {
+                            if (searchProductRes.getMessage() != null && searchProductRes.getMessage().size() > 0) {
+
+                                ArrayList<String> vinList = new ArrayList<String>();
+                                for (int i = 0; i < searchProductRes.getMessage().size(); i++) {
+                                    if (searchProductRes.getMessage().get(i) != null)
+                                        vinList.add(searchProductRes.getMessage().get(i));
+                                }
+                                if (vinList != null) {
+                                    if (vinList.size() != 0) {
+                                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                                                context,
+                                                R.layout.search_text_inflator, R.id.vinId, vinList);
+                                        autocomp_search.setAdapter(adapter);
+                                        adapter.notifyDataSetChanged();
+                                    }
+                                }
+
+
+                                ArrayList<String> vinList1 = new ArrayList<String>();
+                                for (int i = 0; i < searchProductRes.getMessage().size(); i++) {
+                                    if (searchProductRes.getMessage().get(i) != null)
+                                        vinList1.add(searchProductRes.getMessage().get(i));
+                                }
+                                if (vinList1 != null) {
+                                    if (vinList1.size() != 0) {
+                                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                                                context,
+                                                R.layout.search_text_inflator, R.id.vinId, vinList1);
+                                        autocomp_donat_search.setAdapter(adapter);
+                                        adapter.notifyDataSetChanged();
+                                    }
+                                }
+
+
+                            }
+                        } else {
+                            CustomOKAlertDialog(searchProductRes.getStatus());
+                        }
+
+                    }
+
+
+//                    if (m_progress != null && m_progress.isShowing()) {
+//                        m_progress.dismiss();
+//                    }
+                }
+
+                @Override
+                public void onFailure(Call<UserMangSearchRes> call, Throwable t) {
+                    CustomErrorToast(getResources().getString(R.string.server_not_responding));
+//                    if (m_progress != null && m_progress.isShowing()) {
+//                        m_progress.dismiss();
+//                    }
+
+                }
+            });
+
+        } catch (Exception e) {
+
+//            if (m_progress != null && m_progress.isShowing()) {
+//                m_progress.dismiss();
+//            }
+
+            CustomErrorToast(getResources().getString(R.string.server_not_responding));
+
+
+        }
+    }
 
 
 }

@@ -355,6 +355,8 @@ public class MyFavouriteScreen extends SuperCompatActivity {
                     intent.putExtra("cargoId", damageHistoryResPayLoad.getMessage().get(position).getAuctionId());
                     intent.putExtra("barcode", damageHistoryResPayLoad.getMessage().get(position).getDonationId());
                     intent.putExtra("type", typeStr);
+                    intent.putExtra("productname", damageHistoryResPayLoad.getMessage().get(position).getProductName());
+
                     startActivity(intent);
 
                 }

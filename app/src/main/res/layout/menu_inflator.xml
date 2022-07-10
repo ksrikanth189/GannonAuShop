@@ -5,155 +5,367 @@
     android:orientation="vertical"
     android:stateListAnimator="@null">
 
-    <ScrollView style="@style/Layout_WMHM">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <LinearLayout style="@style/Layout_WMHM">
 
             <LinearLayout
-                android:id="@+id/user_profile"
-                style="@style/MirratMenuLayout"
-                android:orientation="vertical">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_gravity="center">
+
+                <LinearLayout
+                    android:id="@+id/user_profile"
+                    style="@style/MirratMenuLayout"
+                    android:orientation="vertical"
+                    android:clickable="false">
 
 
-                <TextView
-                    android:id="@+id/user_name"
+                    <TextView
+                        android:id="@+id/user_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="@dimen/mar_15"
+                        android:gravity="center"
+                        android:text="username"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/txt_20"
+                        android:textStyle="bold" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:text="username"
-                    android:layout_height="40dp"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/txt_15"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:layout_marginBottom="@dimen/mar_15"
-                    android:textStyle="bold" />
+                    android:layout_height="1dp"
+                    android:background="@color/black" />
+
+                <LinearLayout
+                    android:id="@+id/userManagement_menu"
+                    style="@style/MirratMenuLayout"
+                    android:onClick="userManagement">
+
+                    <ImageView
+                        style="@style/MirratMenuIconImage"
+                        android:layout_gravity="center"
+                        android:background="@drawable/user_management"
+                        android:onClick="userManagement"
+                        android:visibility="visible" />
+
+                    <TextView
+                        style="@style/MirratMenuArrowTextView"
+                        android:onClick="userManagement"
+                        android:text="User Management"
+                        android:textAllCaps="true"
+                        android:textColor="@color/btn_bg"
+                        android:textSize="@dimen/txt_14" />
 
 
+                </LinearLayout>
 
-            </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/black" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/black"/>
 
-            <LinearLayout
-                android:id="@+id/userManagement_menu"
-                style="@style/MirratMenuLayout"
-                android:onClick="menuBerth">
+                <LinearLayout
+                    android:id="@+id/home_menu"
+                    style="@style/MirratMenuLayout"
+                    android:onClick="menuHome">
 
-                <ImageView
-                    style="@style/MirratMenuIconImage"
-                    android:layout_gravity="center"
-                    android:background="@drawable/notifica"
-                    android:onClick="menuBerth"
-                    android:visibility="gone"/>
+                    <ImageView
+                        android:id="@+id/homemenu_img"
+                        style="@style/MirratMenuIconImage"
+                        android:layout_gravity="center"
+                        android:background="@drawable/home"
+                        android:backgroundTint="@color/black"
+                        android:onClick="menuHome"
+                        android:visibility="visible" />
+
+                    <TextView
+                        android:id="@+id/home_txt"
+                        style="@style/MirratMenuArrowTextView"
+                        android:onClick="menuHome"
+                        android:text="Home"
+                        android:textAllCaps="true"
+                        android:textColor="@color/btn_bg"
+                        android:textSize="@dimen/txt_14" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/black" />
+
+
+                <LinearLayout
+                    android:id="@+id/AUCTIONDONATION_menu"
+                    style="@style/MirratMenuLayout"
+                    android:onClick="AUCTIONDONATION">
+
+                    <ImageView
+                        style="@style/MirratMenuIconImage"
+                        android:layout_gravity="center"
+                        android:background="@drawable/auction"
+                        android:onClick="AUCTIONDONATION"
+                        android:visibility="visible" />
+
+                    <TextView
+                        style="@style/MirratMenuArrowTextView"
+                        android:onClick="AUCTIONDONATION"
+                        android:text="AUCTION / DONATION"
+                        android:textAllCaps="true"
+                        android:textColor="@color/btn_bg"
+                        android:textSize="@dimen/txt_14" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/black" />
+
+                <LinearLayout
+                    android:id="@+id/MySales_menu"
+                    style="@style/MirratMenuLayout"
+                    android:onClick="MySales">
+
+                    <ImageView
+                        style="@style/MirratMenuIconImage"
+                        android:layout_gravity="center"
+                        android:background="@drawable/mysales"
+                        android:onClick="MySales"
+                        android:visibility="visible" />
+
+                    <TextView
+                        style="@style/MirratMenuArrowTextView"
+                        android:onClick="MySales"
+                        android:text="My Sales"
+                        android:textAllCaps="true"
+                        android:textColor="@color/btn_bg"
+                        android:textSize="@dimen/txt_14" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/black" />
+
+
+                <LinearLayout
+                    android:id="@+id/MyWins_menu"
+                    style="@style/MirratMenuLayout"
+                    android:layout_gravity="bottom"
+                    android:onClick="MyWins">
+
+                    <ImageView
+                        style="@style/MirratMenuIconImage"
+                        android:layout_gravity="center"
+                        android:background="@drawable/mywins"
+                        android:onClick="MyWins"
+                        android:visibility="visible" />
+
+                    <TextView
+                        style="@style/MirratMenuArrowTextView"
+                        android:onClick="MyWins"
+                        android:text="My Wins"
+                        android:textAllCaps="true"
+                        android:textColor="@color/btn_bg"
+                        android:textSize="@dimen/txt_14" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/black" />
+
 
                 <TextView
+                    android:id="@+id/version_txt"
                     style="@style/MirratMenuArrowTextView"
-                    android:onClick="UserManagement"
-                    android:text="User Management"/>
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginLeft="@dimen/mar_5"
+                    android:gravity="right|bottom"
+                    android:text="Version 1.0 "
+                    android:textSize="@dimen/txt_14"
+                    android:textStyle="bold"
+                    android:clickable="false"
+                    android:visibility="visible" />
 
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/black"/>
-
-
-
-
-
-
-
-
-            <LinearLayout
-                android:id="@+id/AUCTIONDONATION_menu"
-                style="@style/MirratMenuLayout"
-                android:onClick="AUCTIONDONATION">
-
-                <ImageView
-                    style="@style/MirratMenuIconImage"
-                    android:layout_gravity="center"
-                    android:background="@drawable/notifica"
-                    android:onClick="AUCTIONDONATION"
-                    android:visibility="gone"/>
-
-                <TextView
-                    style="@style/MirratMenuArrowTextView"
-                    android:onClick="AUCTIONDONATION"
-                    android:text="AUCTION / DONATION"/>
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/black"/>
-
-            <LinearLayout
-                android:id="@+id/MySales_menu"
-                style="@style/MirratMenuLayout"
-                android:onClick="MySales">
-
-                <ImageView
-                    style="@style/MirratMenuIconImage"
-                    android:layout_gravity="center"
-                    android:background="@drawable/notifica"
-                    android:onClick="MySales"
-                    android:visibility="gone"/>
-
-                <TextView
-                    style="@style/MirratMenuArrowTextView"
-                    android:onClick="MySales"
-                    android:text="My Sales"/>
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/black"/>
-
-
-
-
-            <LinearLayout
-                android:id="@+id/berth_menu"
-                style="@style/MirratMenuLayout"
-                android:onClick="MyWins"
+                android:layout_height="wrap_content"
                 android:layout_gravity="bottom">
 
-                <ImageView
-                    style="@style/MirratMenuIconImage"
-                    android:layout_gravity="center"
-                    android:background="@drawable/notifica"
-                    android:onClick="MyWins"
-                    android:visibility="gone"/>
 
-                <TextView
-                    style="@style/MirratMenuArrowTextView"
-                    android:onClick="MyWins"
-                    android:text="My Wins"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/black" />
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/mar_10"
+                        android:gravity="center"
+                        android:text="Support"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/txt_16"
+                        android:textStyle="normal" />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/mar_10"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/mar_10"
+                            android:orientation="horizontal">
+
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="2"
+                                android:gravity="start|center"
+                                android:text="Email "
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/txt_14"
+                                android:textStyle="normal" />
+
+
+                            <TextView
+                                android:id="@+id/email_txt"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:gravity="start|center"
+                                android:text=" : support@gannon.edu"
+                                android:textColor="@color/btn_bg"
+                                android:textSize="@dimen/txt_14"
+                                android:textStyle="normal" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="2"
+                                android:gravity="start|center"
+                                android:text="Contact Us"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/txt_14"
+                                android:textStyle="normal" />
+
+
+                            <TextView
+                                android:id="@+id/mobile_txt"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:gravity="start|center"
+                                android:text=" : +1 8148717000"
+                                android:textColor="@color/btn_bg"
+                                android:textSize="@dimen/txt_14"
+                                android:textStyle="normal" />
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="@dimen/mar_10"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="@dimen/mar_10"
+                                android:layout_marginBottom="@dimen/mar_10"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:onClick="Terms_condition"
+                                android:text="Terms &amp; Conditions"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/txt_14"
+                                android:textStyle="normal" />
+
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="@dimen/mar_10"
+                                android:layout_marginBottom="@dimen/mar_10"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:onClick="PrivacyPolicy"
+                                android:text="Privacy Policy"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/txt_14"
+                                android:textStyle="normal" />
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/black"/>
 
 
+        </FrameLayout>
 
 
-
-
-        </LinearLayout>
-    </ScrollView>
 
 
 </LinearLayout>

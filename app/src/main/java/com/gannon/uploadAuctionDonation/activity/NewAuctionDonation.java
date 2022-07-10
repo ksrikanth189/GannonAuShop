@@ -127,17 +127,17 @@ public class NewAuctionDonation extends SuperCompatActivity implements DatePicke
     String imageVersion = "old";
 
 
-//    @Override
-//    public void onConfigurationChanged(Configuration newConfig) {
-//        super.onConfigurationChanged(newConfig);
-//        mDrawerToggle.onConfigurationChanged(newConfig);
-//    }
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
+    }
 
-//    @Override
-//    protected void onPostCreate(Bundle savedInstanceState) {
-//        super.onPostCreate(savedInstanceState);
-//        mDrawerToggle.syncState();
-//    }
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        mDrawerToggle.syncState();
+    }
 
 
     @Override
@@ -202,16 +202,15 @@ public class NewAuctionDonation extends SuperCompatActivity implements DatePicke
 
     }
 
-//    private void getToggleAndSlider() {
-//
-//        mDrawerToggle = new ActionBarDrawerToggle(
-//                this, mDrawerLayout, (Toolbar) findViewById(R.id.toolbar),
-//                R.string.app_name, R.string.app_name
-//        );
-//        mDrawerLayout.setDrawerListener(mDrawerToggle);
-//        mDrawerToggle.syncState();
-//
-//    }
+    private void getToggleAndSlider() {
+        mDrawerToggle = new ActionBarDrawerToggle(
+                this, mDrawerLayout, (Toolbar) findViewById(R.id.toolbar),
+                R.string.app_name, R.string.app_name
+        );
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        mDrawerToggle.syncState();
+
+    }
 
     public void showProgress() {
         if (!isFinishing()) {
@@ -234,7 +233,8 @@ public class NewAuctionDonation extends SuperCompatActivity implements DatePicke
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         context = getApplicationContext();
-//        getToggleAndSlider();
+        setupdrawerLayout();
+        getToggleAndSlider();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -252,6 +252,7 @@ public class NewAuctionDonation extends SuperCompatActivity implements DatePicke
         clear_btn = ((Button) findViewById(R.id.buttonclear));
 
         type_btn = (Button) findViewById(R.id.type_btn);
+        type_btn.setText("Auction");
         damage_date = (Button) findViewById(R.id.damage_date);
         damage_time = (Button) findViewById(R.id.damage_time);
         choose_images = (Button) findViewById(R.id.choose_images);
@@ -265,18 +266,19 @@ public class NewAuctionDonation extends SuperCompatActivity implements DatePicke
         auctionamount_ll = findViewById(R.id.auctionamount_ll);
         closedate_txt = findViewById(R.id.closedate_txt);
 
-        /*auction*/
+        /*upload images*/
 
-        upload_images.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if (arrayListImages.size() > 0)
-                    multiPartImagesUpload();
-                else
-                    CustomErrorToast("Please select or capture images");
-            }
-        });
+//        upload_images.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                if (arrayListImages.size() > 0) {
+//                    multiPartImagesUpload();
+//                } else {
+//                    CustomErrorToast("Please select or capture images");
+//                }
+//            }
+//        });
         damage_images.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(NewAuctionDonation.this, LinearLayoutManager.HORIZONTAL, false);
         damage_images.setLayoutManager(mLayoutManager);
@@ -324,6 +326,14 @@ public class NewAuctionDonation extends SuperCompatActivity implements DatePicke
             @Override
             public void onClick(View arg0) {
 
+//
+//                if (arrayListImages.size() > 0) {
+//                    multiPartImagesUpload();
+//                } else {
+//                    CustomErrorToast("Please select or capture images");
+//                }
+
+
                 if (type_btn.getText().toString().equalsIgnoreCase("Auction")) {
                     if (productname_edt.getText().toString().length() == 0) {
                         CustomErrorToast(getResources().getString(R.string.plz_enter_productname));
@@ -336,11 +346,19 @@ public class NewAuctionDonation extends SuperCompatActivity implements DatePicke
                     } else if (damage_time.getText().toString().equalsIgnoreCase("Select Time")) {
                         CustomErrorToast(getResources().getString(R.string.pls_select_time));
                     } else {
-                        if (checkInternet()) {
-                            NewAuctionDonationDetailstSave();
+//                        if (checkInternet()) {
+//                            NewAuctionDonationDetailstSave();
+//                        } else {
+//                            CustomErrorToast(getResourceStr(context, R.string.plz_chk_your_net));
+//                        }
+
+
+                        if (arrayListImages.size() > 0) {
+                            multiPartImagesUpload();
                         } else {
-                            CustomErrorToast(getResourceStr(context, R.string.plz_chk_your_net));
+                            CustomErrorToast("Please select or capture images");
                         }
+
                     }
                 } else {
                     if (productname_edt.getText().toString().length() == 0) {
@@ -352,10 +370,17 @@ public class NewAuctionDonation extends SuperCompatActivity implements DatePicke
                     } else if (damage_time.getText().toString().equalsIgnoreCase("Select Time")) {
                         CustomErrorToast(getResources().getString(R.string.pls_select_time));
                     } else {
-                        if (checkInternet()) {
-                            NewAuctionDonationDetailstSave();
+//                        if (checkInternet()) {
+//                            NewAuctionDonationDetailstSave();
+//                        } else {
+//                            CustomErrorToast(getResourceStr(context, R.string.plz_chk_your_net));
+//                        }
+
+
+                        if (arrayListImages.size() > 0) {
+                            multiPartImagesUpload();
                         } else {
-                            CustomErrorToast(getResourceStr(context, R.string.plz_chk_your_net));
+                            CustomErrorToast("Please select or capture images");
                         }
                     }
                 }
@@ -386,13 +411,13 @@ public class NewAuctionDonation extends SuperCompatActivity implements DatePicke
             requestPayLoad.setProductDescription(productdes_edt.getText().toString());
             requestPayLoad.setUserId(SharedPrefHelper.getLogin(context).getMessage().getUserId());
             requestPayLoad.setCloseDate(damage_date.getText().toString().trim() + " " + damage_time.getText().toString().trim());
-           if (auctionamount_edt.getText().toString().length() == 0) {
-               requestPayLoad.setAuctionAmount(0);
-           }else {
-               requestPayLoad.setAuctionAmount(Integer.valueOf(auctionamount_edt.getText().toString()));
+            if (auctionamount_edt.getText().toString().length() == 0) {
+                requestPayLoad.setAuctionAmount(0);
+            } else {
+                requestPayLoad.setAuctionAmount(Integer.valueOf(auctionamount_edt.getText().toString()));
 
-           }
-           requestPayLoad.setImagesList(multiPartImagesList);
+            }
+            requestPayLoad.setImagesList(multiPartImagesList);
 
             Gson gson = new Gson();
             gson.toJson(requestPayLoad);
@@ -413,10 +438,11 @@ public class NewAuctionDonation extends SuperCompatActivity implements DatePicke
                             startActivity(intent);
                             finish();
 
-
                         } else {
+                            CustomOKAlertDialog(damage_saveResponsePayLoad.getError());
 
-                            CustomOKAlertDialog(damage_saveResponsePayLoad.getMessage());
+                            damage_images.setAdapter(null);
+                            multiPartImagesList.clear();
                         }
 
                     }
@@ -426,12 +452,11 @@ public class NewAuctionDonation extends SuperCompatActivity implements DatePicke
                     }
 
 
-
                 }
 
                 @Override
                 public void onFailure(Call<SaveResponsePayLoad> call, Throwable t) {
-                    CustomOKAlertDialog(damage_saveResponsePayLoad.getMessage());
+                    CustomErrorToast(getResources().getString(R.string.server_not_responding));
 
                     if (m_progress != null && m_progress.isShowing()) {
                         m_progress.dismiss();
@@ -450,8 +475,10 @@ public class NewAuctionDonation extends SuperCompatActivity implements DatePicke
                 m_progress.dismiss();
             }
 
+            CustomErrorToast(getResources().getString(R.string.server_not_responding));
+
             //     hideProgress();
-            e.getMessage();
+//            e.getMessage();
         }
 
     }
@@ -477,6 +504,7 @@ public class NewAuctionDonation extends SuperCompatActivity implements DatePicke
         }
         return null;
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -552,12 +580,14 @@ public class NewAuctionDonation extends SuperCompatActivity implements DatePicke
 
 
     }
+
     public Uri getImageUri(Context inContext, Bitmap inImage) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         inImage.compress(Bitmap.CompressFormat.JPEG, 80, bytes);
         String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
         return Uri.parse(path);
     }
+
     private void cameraMultiImagesDialog() {
 
         AlertDialog.Builder builder;
@@ -619,6 +649,7 @@ public class NewAuctionDonation extends SuperCompatActivity implements DatePicke
                 .show();
 
     }
+
     private void customDialog() {
 
         final Dialog customDialog = new Dialog(NewAuctionDonation.this);
@@ -707,6 +738,7 @@ public class NewAuctionDonation extends SuperCompatActivity implements DatePicke
             }
         });
     }
+
     private File createImageFile() throws IOException {
         // Create an image file name
 
@@ -729,7 +761,7 @@ public class NewAuctionDonation extends SuperCompatActivity implements DatePicke
 
 
         String imageFileName = "OS_" + System.currentTimeMillis() + "_";
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS + File.separator+ "/iTOMS");
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS + File.separator + "/iTOMS");
         File file = null;
         try {
             file = File.createTempFile(
@@ -798,6 +830,44 @@ public class NewAuctionDonation extends SuperCompatActivity implements DatePicke
 
                             Toast.makeText(NewAuctionDonation.this, "Images uploaded successfully", Toast.LENGTH_SHORT).show();
 
+                            arrayListImages.clear();
+
+                            if (type_btn.getText().toString().equalsIgnoreCase("Auction")) {
+                                if (productname_edt.getText().toString().length() == 0) {
+                                    CustomErrorToast(getResources().getString(R.string.plz_enter_productname));
+                                } else if (productdes_edt.getText().toString().length() == 0) {
+                                    CustomErrorToast(getResources().getString(R.string.plz_enter_productdes));
+                                } else if (auctionamount_edt.getText().toString().length() == 0) {
+                                    CustomErrorToast("Enter amount");
+                                } else if (damage_date.getText().toString().equalsIgnoreCase("Select Date")) {
+                                    CustomErrorToast(getResources().getString(R.string.pls_select_date));
+                                } else if (damage_time.getText().toString().equalsIgnoreCase("Select Time")) {
+                                    CustomErrorToast(getResources().getString(R.string.pls_select_time));
+                                } else {
+                                    if (checkInternet()) {
+                                        NewAuctionDonationDetailstSave();
+                                    } else {
+                                        CustomErrorToast(getResourceStr(context, R.string.plz_chk_your_net));
+                                    }
+                                }
+                            } else {
+                                if (productname_edt.getText().toString().length() == 0) {
+                                    CustomErrorToast(getResources().getString(R.string.plz_enter_productname));
+                                } else if (productdes_edt.getText().toString().length() == 0) {
+                                    CustomErrorToast(getResources().getString(R.string.plz_enter_productdes));
+                                } else if (damage_date.getText().toString().equalsIgnoreCase("Select Date")) {
+                                    CustomErrorToast(getResources().getString(R.string.pls_select_date));
+                                } else if (damage_time.getText().toString().equalsIgnoreCase("Select Time")) {
+                                    CustomErrorToast(getResources().getString(R.string.pls_select_time));
+                                } else {
+                                    if (checkInternet()) {
+                                        NewAuctionDonationDetailstSave();
+                                    } else {
+                                        CustomErrorToast(getResourceStr(context, R.string.plz_chk_your_net));
+                                    }
+                                }
+                            }
+
                         }
                     }
                     if (progressDialog1.isShowing()) {
@@ -847,7 +917,6 @@ public class NewAuctionDonation extends SuperCompatActivity implements DatePicke
     }
 
 
-
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
 
@@ -874,9 +943,6 @@ public class NewAuctionDonation extends SuperCompatActivity implements DatePicke
         now.set(Calendar.MINUTE, minute);
         now.set(Calendar.SECOND, second);
     }
-
-
-
 
 
     public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> {

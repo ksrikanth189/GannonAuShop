@@ -21,39 +21,42 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/firstname_txt"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:gravity="start|center"
-            android:layout_weight="1"
-            android:text=""
-            android:textStyle="bold"
-            android:textSize="@dimen/txt_16"/>
-
-
-        <TextView
-            android:id="@+id/lastName_txt"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="@dimen/mar_5"
-            android:gravity="start|center"
-            android:text=""
-            android:textStyle="bold"
-            android:visibility="gone"/>
-
             <TextView
-                android:id="@+id/phoneNumber_txt"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="start|center"
+                android:layout_weight="2"
+                android:text="StudentID "
+                android:textStyle="bold"
+                android:textSize="@dimen/txt_16"
+                android:textColor="@color/black"
+                android:visibility="visible"/>
+            <TextView
+                android:id="@+id/studentId_txt"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="start|center"
+                android:layout_weight="1"
+                android:text=""
+                android:textStyle="bold"
+                android:textSize="@dimen/txt_16"
+                android:visibility="visible"/>
+
+
+            <TextView
+                android:id="@+id/lastName_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="start|center"
                 android:text=""
                 android:layout_weight="1"
                 android:textStyle="bold"
-                android:textSize="@dimen/txt_16"/>
+                android:textSize="@dimen/txt_16"
+                android:visibility="gone"/>
+
 
 
         </LinearLayout>
@@ -64,15 +67,74 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/email_txt"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="start|center"
+                android:layout_weight="2"
+                android:text="Name"
+                android:textStyle="bold"
+                android:textSize="@dimen/txt_16"
+                android:textColor="@color/black"
+                android:visibility="visible"/>
+
+
+            <TextView
+                android:id="@+id/firstname_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="start|center"
                 android:layout_weight="1"
                 android:text=""
                 android:textStyle="bold"
                 android:textSize="@dimen/txt_16"/>
+
+
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="start|center"
+                android:layout_weight="2"
+                android:text="Email"
+                android:textStyle="bold"
+                android:textSize="@dimen/txt_16"
+                android:textColor="@color/black"
+                android:visibility="visible"/>
+
+
+            <TextView
+                android:id="@+id/email_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="start|center"
+                android:layout_weight="1"
+                android:text=""
+                android:textStyle="bold"
+                android:textSize="@dimen/txt_16"/>
+            <TextView
+                android:id="@+id/phoneNumber_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="start|center"
+                android:text=""
+                android:layout_weight="1"
+                android:textStyle="bold"
+                android:textSize="@dimen/txt_16"
+                android:visibility="gone"/>
+
+
 
 
         </LinearLayout>
@@ -82,6 +144,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
+            android:layout_marginTop="@dimen/mar_5"
             android:orientation="horizontal">
 
             <Button
@@ -99,8 +162,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_marginLeft="@dimen/mar_10"
-                android:background="@drawable/reclangle_shape"
                 android:text="Deny"
+                android:background="@color/btn_bg"
                 android:textColor="@color/white" />
 
         </LinearLayout>

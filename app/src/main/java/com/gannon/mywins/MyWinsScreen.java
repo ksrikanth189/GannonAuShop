@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +19,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -62,27 +64,24 @@ public class MyWinsScreen extends SuperCompatActivity {
     private String message;
     private ActionBarDrawerToggle mDrawerToggle;
 
-    private TextView auction_list, donation_list;
-
     private ProgressBar idPBLoading;
     private NestedScrollView idNestedSV;
     int page = 0, limit = 20;
     String type;
-    LinearLayout approve_deny_ll;
 
 
 
-//    @Override
-//    public void onConfigurationChanged(Configuration newConfig) {
-//        super.onConfigurationChanged(newConfig);
-//        mDrawerToggle.onConfigurationChanged(newConfig);
-//    }
-//
-//    @Override
-//    protected void onPostCreate(Bundle savedInstanceState) {
-//        super.onPostCreate(savedInstanceState);
-//        mDrawerToggle.syncState();
-//    }
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        mDrawerToggle.syncState();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,11 +109,8 @@ public class MyWinsScreen extends SuperCompatActivity {
         donation_recycler_view = (RecyclerView) findViewById(R.id.donation_recycler_view);
         no_cat_display_id = (TextView) findViewById(R.id.no_cat_display_id);
 
-        auction_list = (TextView) findViewById(R.id.auction_list);
-        donation_list = (TextView) findViewById(R.id.donation_list);
         idNestedSV = (NestedScrollView) findViewById(R.id.idNestedSV);
         idPBLoading = findViewById(R.id.idPBLoading);
-        approve_deny_ll = findViewById(R.id.approve_deny_ll);
 
 //        recyclerView.setLayoutManager(new LinearLayoutManager(MyWinsScreen.this, LinearLayoutManager.VERTICAL, false));
 //        donation_recycler_view.setLayoutManager(new LinearLayoutManager(MyWinsScreen.this, LinearLayoutManager.VERTICAL, false));
@@ -126,7 +122,6 @@ public class MyWinsScreen extends SuperCompatActivity {
         donation_recycler_view.setLayoutManager(manager3);
 
 
-        approve_deny_ll.setVisibility(View.GONE);
 
         if (!checkInternet()) {
             CustomErrorToast(getResourceStr(context, R.string.plz_chk_your_net));
@@ -151,57 +146,11 @@ public class MyWinsScreen extends SuperCompatActivity {
                 }
             }
         });
-
-
-        auction_list.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                donation_recycler_view.setVisibility(View.GONE);
-
-                auction_list.setTextColor(getResources().getColor(R.color.white));
-                auction_list.setBackground(getResources().getDrawable(R.drawable.rect_background_merron));
-
-                donation_list.setTextColor(getResources().getColor(R.color.white));
-                donation_list.setBackground(getResources().getDrawable(R.drawable.rect_background_black));
-
-
-                if (!checkInternet()) {
-                    CustomErrorToast(getResourceStr(context, R.string.plz_chk_your_net));
-                } else {
-                    getMyWinsService("auction", page, limit);
-                }
-
-            }
-        });
-
-        donation_list.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                recyclerView.setVisibility(View.GONE);
-
-                donation_list.setTextColor(getResources().getColor(R.color.white));
-                donation_list.setBackground(getResources().getDrawable(R.drawable.rect_background_merron));
-
-                auction_list.setTextColor(getResources().getColor(R.color.white));
-                auction_list.setBackground(getResources().getDrawable(R.drawable.rect_background_black));
-
-
-                if (!checkInternet()) {
-                    CustomErrorToast(getResourceStr(context, R.string.plz_chk_your_net));
-                } else {
-                    getMyWinsService("donation", page, limit);
-                }
-
-            }
-        });
-
-
     }
 
     public void getMyWinsService(String typestr, int page, int limit) {
 
         try {
-
 
             m_progress = new ProgressDialog(MyWinsScreen.this);
             m_progress.setMessage("Please wait....");
@@ -336,6 +285,8 @@ public class MyWinsScreen extends SuperCompatActivity {
                     intent.putExtra("barcode", damageHistoryResPayLoad.getMessage().get(position).getDonationId());
                     intent.putExtra("type", "auction");
                     intent.putExtra("screen", "mywins");
+                    intent.putExtra("productname", damageHistoryResPayLoad.getMessage().get(position).getProductName());
+
                     startActivity(intent);
 
 
@@ -365,16 +316,16 @@ public class MyWinsScreen extends SuperCompatActivity {
 
     }
 
-//    private void getToggleAndSlider() {
-//
-//        mDrawerToggle = new ActionBarDrawerToggle(
-//                this, mDrawerLayout, (Toolbar) findViewById(R.id.toolbar),
-//                R.string.app_name, R.string.app_name
-//        );
-//        mDrawerLayout.setDrawerListener(mDrawerToggle);
-//        mDrawerToggle.syncState();
-//
-//    }
+    private void getToggleAndSlider() {
+
+        mDrawerToggle = new ActionBarDrawerToggle(
+                this, mDrawerLayout, (Toolbar) findViewById(R.id.toolbar),
+                R.string.app_name, R.string.app_name
+        );
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        mDrawerToggle.syncState();
+
+    }
 
     private void initializeUiElements() {
 
@@ -385,7 +336,11 @@ public class MyWinsScreen extends SuperCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         context = getApplicationContext();
-//        getToggleAndSlider();
+
+        setupdrawerLayout();
+        getToggleAndSlider();
+
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);

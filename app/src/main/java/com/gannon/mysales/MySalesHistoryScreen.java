@@ -213,7 +213,7 @@ public class MySalesHistoryScreen extends SuperCompatActivity {
                         if (responsePayLoad.getStatusCode() == 200 && responsePayLoad.getMessage().size() > 0) {
                             loadHistoryData(responsePayLoad);
                         } else {
-                            CustomErrorToast(message);
+                            CustomErrorToast(getResources().getString(R.string.nodatafound));
                         }
                     }
 

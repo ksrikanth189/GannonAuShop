@@ -309,16 +309,18 @@ public class MySalesEditScreen extends SuperCompatActivity implements DatePicker
 
         /*auction*/
 
-        upload_images.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
+//        upload_images.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                if (arrayListImages.size() > 0)
+//                    multiPartImagesUpload();
+//                else
+//                    CustomErrorToast("Please select or capture images");
+//            }
+//        });
 
-                if (arrayListImages.size() > 0)
-                    multiPartImagesUpload();
-                else
-                    CustomErrorToast("Please select or capture images");
-            }
-        });
+
         damage_images.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(MySalesEditScreen.this, LinearLayoutManager.HORIZONTAL, false);
         damage_images.setLayoutManager(mLayoutManager);
@@ -356,6 +358,11 @@ public class MySalesEditScreen extends SuperCompatActivity implements DatePicker
             @Override
             public void onClick(View arg0) {
 
+//                if (arrayListImages.size() > 0)
+//                    multiPartImagesUpload();
+//                else
+//                    CustomErrorToast("Please select or capture images");
+
                     if (productname_edt.getText().toString().length() == 0) {
                         CustomErrorToast(getResources().getString(R.string.plz_enter_productname));
                     } else if (productdes_edt.getText().toString().length() == 0) {
@@ -365,10 +372,21 @@ public class MySalesEditScreen extends SuperCompatActivity implements DatePicker
                     } else if (damage_time.getText().toString().equalsIgnoreCase("Select Time")) {
                         CustomErrorToast(getResources().getString(R.string.pls_select_time));
                     } else {
-                        if (checkInternet()) {
-                            NewAuctionDonationDetailstSave();
-                        } else {
-                            CustomErrorToast(getResourceStr(context, R.string.plz_chk_your_net));
+
+//                        if(mySalesEditResponsePayLoad.getMessage().getImagesList().size() > 0){
+//
+//                        }
+                        if (arrayListImages.size() > 0) {
+                            multiPartImagesUpload();
+                        }else {
+//                            CustomErrorToast("Please select or capture images");
+
+                            if (checkInternet()) {
+                                NewAuctionDonationDetailstSave();
+                            } else {
+                                CustomErrorToast(getResourceStr(context, R.string.plz_chk_your_net));
+                            }
+
                         }
                     }
             }
@@ -433,7 +451,7 @@ public class MySalesEditScreen extends SuperCompatActivity implements DatePicker
 
                         } else {
 
-                            CustomOKAlertDialog(damage_saveResponsePayLoad.getMessage());
+                            CustomOKAlertDialog(damage_saveResponsePayLoad.getError());
                         }
 
                     }
@@ -802,8 +820,27 @@ public class MySalesEditScreen extends SuperCompatActivity implements DatePicker
                                 String path = res.getData().get(i);
                                 multiPartImagesList.add(path);
                             }
-
                             Toast.makeText(MySalesEditScreen.this, "Images uploaded successfully", Toast.LENGTH_SHORT).show();
+
+
+                            arrayListImages.clear();
+
+                            if (productname_edt.getText().toString().length() == 0) {
+                                CustomErrorToast(getResources().getString(R.string.plz_enter_productname));
+                            } else if (productdes_edt.getText().toString().length() == 0) {
+                                CustomErrorToast(getResources().getString(R.string.plz_enter_productdes));
+                            } else if (damage_date.getText().toString().equalsIgnoreCase("Select Date")) {
+                                CustomErrorToast(getResources().getString(R.string.pls_select_date));
+                            } else if (damage_time.getText().toString().equalsIgnoreCase("Select Time")) {
+                                CustomErrorToast(getResources().getString(R.string.pls_select_time));
+                            } else {
+                                if (checkInternet()) {
+                                    NewAuctionDonationDetailstSave();
+                                } else {
+                                    CustomErrorToast(getResourceStr(context, R.string.plz_chk_your_net));
+                                }
+                            }
+
 
                         }
                     }
@@ -970,7 +1007,6 @@ public class MySalesEditScreen extends SuperCompatActivity implements DatePicker
     public void showStatusList(View view) {
         showStatusPop();
     }
-
 
     public void showStatusPop() {
 

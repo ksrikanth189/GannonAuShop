@@ -50,8 +50,10 @@ import com.gannon.R;
 import com.gannon.home.model.AmountSaveReq;
 import com.gannon.home.model.HomeListEditReqPayLoad;
 import com.gannon.home.model.HomeListEditResponsePayLoad;
+import com.gannon.home.model.StatusSaveReq;
 import com.gannon.myfavourite.MyFavouriteScreen;
 import com.gannon.myfavourite.model.MyFavouriteUpdateReqPayLoad;
+import com.gannon.mysales.MySalesEditScreen;
 import com.gannon.mysales.model.MySalesUpdateReq;
 import com.gannon.sharedpref.SharedPrefHelper;
 import com.gannon.uploadAuctionDonation.FileUploadRespPojo;
@@ -108,9 +110,10 @@ public class HomeListEditScreen extends SuperCompatActivity {
 
     private EditText newAmount_edt;
     private Button save_btn;
-    private String type,screen;
+    private String type,screen,productname;
 
-    private LinearLayout amount_ll,sellerName_ll;
+    private LinearLayout amount_ll,sellerName_ll,status_ll;
+    private Button auctionStatus_btn,status_btn;
 
 
 //    @Override
@@ -133,23 +136,26 @@ public class HomeListEditScreen extends SuperCompatActivity {
         setCustomTheme(getApplicationContext());
         setContentView(R.layout.home_list_edit_activity);
 
-        initializeUiElements();
-
-
         Bundle extras = getIntent().getExtras();
         if (extras == null) {
             cargoId = 0;
             barcode = 0;
             type = null;
             screen = null;
+            productname = null;
 
         } else {
             cargoId = extras.getInt("cargoId");
             barcode = extras.getInt("barcode");
             type = extras.getString("type");
             screen = extras.getString("screen");
+            productname = extras.getString("productname");
 
         }
+
+
+        initializeUiElements();
+
 
         if (!checkInternet()) {
             CustomErrorToast(getResourceStr(context, R.string.plz_chk_your_net));
@@ -174,6 +180,47 @@ public class HomeListEditScreen extends SuperCompatActivity {
         }
 
     }
+
+
+    public void showStatusList(View view) {
+        showStatusPop();
+    }
+
+    public void showStatusPop() {
+
+        ArrayList<String> strVesselList = new ArrayList<String>();
+        strVesselList.add("OPEN");
+        strVesselList.add("CLOSED");
+//        for (int k = 0; k < strVesselList.size(); k++) {
+//            strVesselList.add(strVesselList.get(k));
+//        }
+
+        final Dialog dialogComp = new Dialog(HomeListEditScreen.this);
+        dialogComp.setCancelable(true);
+        dialogComp.setCanceledOnTouchOutside(false);
+        dialogComp.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialogComp.setContentView(R.layout.popup_list_dialog);
+        dialogComp.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        ListView strListView = (ListView) dialogComp.findViewById(R.id.str_area);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                context,
+                R.layout.textview_inflator, R.id.strAreaId, strVesselList);
+        strListView.setAdapter(adapter);
+
+        strListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                auctionStatus_btn.setText("" + strVesselList.get(position));
+
+                dialogComp.dismiss();
+            }
+        });
+
+        dialogComp.show();
+    }
+
 
 
     private void slidingMethod() {
@@ -253,7 +300,12 @@ public class HomeListEditScreen extends SuperCompatActivity {
     private void initializeUiElements() {
 
         //=== Set Tool Bar and Drawer layout ===
-        setToolBar(getApplicationContext(), "Products", "yes");
+
+        if (productname != null) {
+            setToolBar(getApplicationContext(), productname, "yes");
+        }else {
+            setToolBar(getApplicationContext(), "Products", "yes");
+        }
         String pushToken = FirebaseInstanceId.getInstance().getToken();
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -289,6 +341,9 @@ public class HomeListEditScreen extends SuperCompatActivity {
         save_btn = findViewById(R.id.save_btn);
         amount_ll = findViewById(R.id.amount_ll);
         sellerName_ll = findViewById(R.id.sellerName_ll);
+        status_ll = findViewById(R.id.status_ll);
+        status_btn = findViewById(R.id.status_btn);
+        auctionStatus_btn = findViewById(R.id.auctionStatus_btn);
 
 
         save_btn.setOnClickListener(new OnClickListener() {
@@ -372,6 +427,31 @@ public class HomeListEditScreen extends SuperCompatActivity {
         }, 100, 3000);
 
 
+
+        if (SharedPrefHelper.getLogin(context) != null && SharedPrefHelper.getLogin(context).getMessage().getAdminFlag() == true){
+            status_ll.setVisibility(View.VISIBLE);
+            newAmount_edt.setVisibility(View.GONE);
+            save_btn.setVisibility(View.GONE);
+        }else {
+            status_ll.setVisibility(View.GONE);
+            newAmount_edt.setVisibility(View.VISIBLE);
+            save_btn.setVisibility(View.VISIBLE);
+
+        }
+
+        status_btn.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                StatusSaveReq statusSaveReq = new StatusSaveReq();
+                statusSaveReq.setAuctionId(cargoId);
+                statusSaveReq.setDonationId(barcode);
+                statusSaveReq.setUserId(SharedPrefHelper.getLogin(context).getMessage().getUserId());
+                statusSaveReq.setStatus(auctionStatus_btn.getText().toString().trim());
+
+                getStatusUpdateService(statusSaveReq);
+            }
+        });
     }
 
     /*save service */
@@ -417,7 +497,7 @@ public class HomeListEditScreen extends SuperCompatActivity {
 
                         } else {
 
-                            CustomOKAlertDialog(damage_saveResponsePayLoad.getMessage());
+                            CustomOKAlertDialog(damage_saveResponsePayLoad.getError());
                         }
 
                     }
@@ -483,16 +563,22 @@ public class HomeListEditScreen extends SuperCompatActivity {
 
                             productname_edt.setText(mySalesEditResponsePayLoad.getMessage().getProductName());
                             productdes_edt.setText(mySalesEditResponsePayLoad.getMessage().getProductDescription());
-                            auctionAmount_txt.setText("$ "+mySalesEditResponsePayLoad.getMessage().getAuctionAmount().toString());
-                            auctionAmount_txt.setText("$ "+mySalesEditResponsePayLoad.getMessage().getAuctionAmount().toString());
+
+                            if (SharedPrefHelper.getLogin(context) != null && SharedPrefHelper.getLogin(context).getMessage().getAdminFlag() == true) {
+                                auctionAmount_txt.setText(" Amount  : $ " + mySalesEditResponsePayLoad.getMessage().getAuctionAmount().toString());
+                            }else{
+                                auctionAmount_txt.setText("$ "+mySalesEditResponsePayLoad.getMessage().getAuctionAmount().toString());
+                            }
                             auctionCloseDate_txt.setText(mySalesEditResponsePayLoad.getMessage().getAuctionCloseDate());
                             sellerName_txt.setText(mySalesEditResponsePayLoad.getMessage().getSellerName());
                             sellerEMail_txt.setText(mySalesEditResponsePayLoad.getMessage().getSellerEMail());
                             sellerPhoneNumber_txt.setText(mySalesEditResponsePayLoad.getMessage().getSellerPhoneNumber().toString());
+                            auctionStatus_btn.setText(mySalesEditResponsePayLoad.getMessage().getStatus() != null ? mySalesEditResponsePayLoad.getMessage().getStatus() :"OPEN");
+
 
                             if (mySalesEditResponsePayLoad.getMessage().getImagesList().size() > 0) {
 
-                                slide_fram.setVisibility(View.VISIBLE);
+//                                slide_fram.setVisibility(View.VISIBLE);
 
                                 for (int i = 0; i < mySalesEditResponsePayLoad.getMessage().getImagesList().size(); i++) {
                                     slider_image_array.add(mySalesEditResponsePayLoad.getMessage().getImagesList().get(i));
@@ -501,7 +587,7 @@ public class HomeListEditScreen extends SuperCompatActivity {
                                 slidingMethod();
 
                             }else {
-                                slide_fram.setVisibility(View.GONE);
+//                                slide_fram.setVisibility(View.GONE);
 
                             }
 
@@ -611,6 +697,75 @@ public class HomeListEditScreen extends SuperCompatActivity {
         }
     }
 
+    public void getStatusUpdateService(StatusSaveReq statusSaveReq) {
+
+        try {
+
+
+            m_progress1 = new ProgressDialog(HomeListEditScreen.this);
+            m_progress1.setMessage("Please wait....");
+            m_progress1.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            m_progress1.setIndeterminate(true);
+            m_progress1.setProgress(0);
+            m_progress1.setCancelable(false);
+            m_progress1.show();
+
+
+            Call<SaveResponsePayLoad> damageHistoryResPayLoadCall = restAPI.getStatusSaveResponsePayLoadCall(statusSaveReq);
+            damageHistoryResPayLoadCall.enqueue(new Callback<SaveResponsePayLoad>() {
+                @Override
+                public void onResponse(Call<SaveResponsePayLoad> call, Response<SaveResponsePayLoad> response) {
+                    if (response.isSuccessful()) {
+
+                        SaveResponsePayLoad responsePayLoad = response.body();
+
+                        Gson gson = new Gson();
+                        gson.toJson(responsePayLoad);
+                        Log.v("damage his", "damge his res" + gson.toJson(responsePayLoad));
+
+                        if (responsePayLoad.getStatusCode().equalsIgnoreCase("200") ) {
+                            CustomErrorToast(responsePayLoad.getMessage());
+
+                            startActivity(new Intent(HomeListEditScreen.this,HomeActivity.class));
+
+//                            if (!checkInternet()) {
+//                                CustomErrorToast(getResourceStr(context, R.string.plz_chk_your_net));
+//                            } else {
+//                                getMySalesService();
+//                            }
+
+                            newAmount_edt.setText("");
+
+                        } else {
+                            CustomErrorToast(responsePayLoad.getError());
+                        }
+                    }
+
+
+                    if (m_progress1 != null && m_progress1.isShowing()) {
+                        m_progress1.dismiss();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<SaveResponsePayLoad> call, Throwable t) {
+                    CustomErrorToast(getResources().getString(R.string.server_not_responding));
+
+                    if (m_progress1 != null && m_progress1.isShowing()) {
+                        m_progress1.dismiss();
+                    }
+
+                }
+            });
+
+        } catch (Exception e) {
+
+            if (m_progress1 != null && m_progress1.isShowing()) {
+                m_progress1.dismiss();
+            }
+
+        }
+    }
 
 
 }

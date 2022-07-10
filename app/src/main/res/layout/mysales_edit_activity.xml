@@ -140,12 +140,10 @@
                                         android:layout_gravity="center"
                                         android:hint="@string/plz_enter_productdes"
                                         android:maxLength="50"
-                                        android:maxLines="1"
                                         android:background="@drawable/rect_background"
                                         android:textColor="@color/black"
                                         android:inputType="textCapCharacters"
                                         android:paddingLeft="@dimen/mar_10"
-                                        android:singleLine="true"
                                         android:textColorHint="@color/hint_color" />
 
 
@@ -348,7 +346,7 @@
                                             android:layout_height="@dimen/btn_35"
                                             android:layout_gravity="center"
                                             app:cardCornerRadius="@dimen/mar_10"
-                                            android:visibility="visible">
+                                            android:visibility="gone">
 
                                             <Button
                                                 android:id="@+id/upload_images"

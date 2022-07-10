@@ -18,8 +18,11 @@ import com.gannon.home.model.HomeApproveListRes;
 import com.gannon.home.model.HomeDenyListRes;
 import com.gannon.home.model.HomeListEditReqPayLoad;
 import com.gannon.home.model.HomeListEditResponsePayLoad;
+import com.gannon.home.model.ProductNamesDropDownServiceReq;
+import com.gannon.home.model.ProductNamesDropDownServiceRes;
 import com.gannon.home.model.SearchProductReq;
 import com.gannon.home.model.SearchProductRes;
+import com.gannon.home.model.StatusSaveReq;
 import com.gannon.myfavourite.model.MyFavouriteReqPayLoad;
 import com.gannon.myfavourite.model.MyFavouriteResponsePayLoad;
 import com.gannon.myfavourite.model.MyFavouriteUpdateReqPayLoad;
@@ -40,6 +43,9 @@ import com.gannon.mysales.model.MySalesReqPayLoad;
 import com.gannon.mysales.model.MySalesResponsePayLoad;
 import com.gannon.uploadAuctionDonation.interactor.model.SaveResponsePayLoad;
 import com.gannon.uploadAuctionDonation.interactor.model.NewAuctionDonationSaveReq;
+import com.gannon.usermanagement.UserMangAuctionSearchReq;
+import com.gannon.usermanagement.UserMangSearchReq;
+import com.gannon.usermanagement.UserMangSearchRes;
 
 import java.util.List;
 
@@ -77,11 +83,20 @@ public interface RestAPI {
     @POST(ApplicationContext.RELATIVE_PATH + ApplicationContext.profile_Get)
     Call<ProfileGetRes> getProfileGetResCall(@Body ProfileGetReq profileUpdateReq);
 
-    @GET(ApplicationContext.RELATIVE_PATH + ApplicationContext.approvedServiceList)
+    @POST(ApplicationContext.RELATIVE_PATH + ApplicationContext.approvedServiceList)
     Call<HomeApproveListRes> getHomeCategorysListResCall();
 
-    @GET(ApplicationContext.RELATIVE_PATH + ApplicationContext.denyUsersListServiceList)
+    @POST(ApplicationContext.RELATIVE_PATH + ApplicationContext.denyUsersListServiceList)
     Call<HomeDenyListRes> getHomeDenyListResCall();
+
+
+
+    @POST(ApplicationContext.RELATIVE_PATH + ApplicationContext.approvedServiceList)
+    Call<HomeApproveListRes> getUserMangApproveListResCall(@Body UserMangSearchReq userMangSearchReq);
+
+    @POST(ApplicationContext.RELATIVE_PATH + ApplicationContext.denyUsersListServiceList)
+    Call<HomeDenyListRes> getUserMangDenyListResCall(@Body UserMangSearchReq userMangSearchReq);
+
 
 
 
@@ -132,6 +147,15 @@ public interface RestAPI {
     @POST(ApplicationContext.RELATIVE_PATH + ApplicationContext.allAuctionDonationsServiceAmountupdate)
     Call<SaveResponsePayLoad> getAmountSaveResCall(@Body AmountSaveReq amountSaveReq);
 
+    @POST(ApplicationContext.RELATIVE_PATH + ApplicationContext.usersListDropDownService)
+    Call<UserMangSearchRes> getUserMangSearchResCall(@Body UserMangAuctionSearchReq searchProductReq);
+
+    @POST(ApplicationContext.RELATIVE_PATH + ApplicationContext.usersListDropDownService)
+    Call<ProductNamesDropDownServiceRes> getProductNamesDropDownServiceResCall(@Body ProductNamesDropDownServiceReq searchProductReq);
+
+
+    @POST(ApplicationContext.RELATIVE_PATH + ApplicationContext.allAuctionDonationsService_adminUpdate)
+    Call<SaveResponsePayLoad> getStatusSaveResponsePayLoadCall(@Body StatusSaveReq statusSaveReq);
 
 
 }

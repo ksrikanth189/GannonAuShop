@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
@@ -29,6 +30,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -59,6 +61,8 @@ import com.gannon.home.model.HomeDenyListRes;
 import com.gannon.home.model.HomeListEditReqPayLoad;
 import com.gannon.home.model.HomeListEditResponsePayLoad;
 import com.gannon.home.model.HomeSlidingListRes;
+import com.gannon.home.model.ProductNamesDropDownServiceReq;
+import com.gannon.home.model.ProductNamesDropDownServiceRes;
 import com.gannon.home.model.SearchProductReq;
 import com.gannon.home.model.SearchProductRes;
 import com.gannon.myfavourite.MyFavouriteScreen;
@@ -91,8 +95,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-//public class HomeActivity extends SuperCompatActivity{
-public class HomeActivity extends SuperCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class HomeActivity extends SuperCompatActivity{
+//public class HomeActivity extends SuperCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
 
     Dialog fbDialogue;
@@ -100,27 +104,15 @@ public class HomeActivity extends SuperCompatActivity implements NavigationView.
     int page_position = 0;
     HomeViewSlidingAdapter homeViewSlidingAdapter;
     ArrayList<String> slider_image_array = new ArrayList<>();
-    SwipeRefreshLayout swipeRefreshLayout;
-    List<String> youtubePlaylist;
-    private View navHeader;
     private Context context;
     private RestAPI restAPI;
     private ProgressDialog progressDialog, progressDialog1, progressDialog2, m_progress, m_progress1, m_progress2;
     private TextView name_txt, marque_txt;
-    private ViewPager vp_slider;
-    private LinearLayout ll_dots;
-    private TextView[] dots;
-    private int pagePosition;
-    private HomeSlidingListRes homeAddsRes;
-    private HomeApproveListRes homeCategorysListRes;
-    private LinearLayout approve_deny_ll;
     private Boolean firstTime = null, adfirst = false;
     private ImageView menu_item_img, notifica_img, logout_img,
             home_img, fav_img, search_img, profile_img, filter_img;
 
-    private TextView approve_list, deny_list;
-
-    private LinearLayout auction_donation_ll, autocomp_ll;
+    private LinearLayout auction_donation_ll;
     private TextView auction_list, donation_list;
 
 
@@ -128,10 +120,25 @@ public class HomeActivity extends SuperCompatActivity implements NavigationView.
     private ProgressBar loadingPB;
     int page = 0, limit = 2;
 
-    AutoCompleteTextView autocomp_search;
-    SearchProductRes searchProductRes;
+    ProductNamesDropDownServiceRes searchProductRes;
 
     String typeStr = "auction";
+    private ActionBarDrawerToggle mDrawerToggle;
+    private FrameLayout home_frame_ll;
+    private Dialog customDialog;
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        mDrawerToggle.syncState();
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -194,6 +201,19 @@ public class HomeActivity extends SuperCompatActivity implements NavigationView.
     }
 
 
+
+    private void getToggleAndSlider() {
+
+        mDrawerToggle = new ActionBarDrawerToggle(
+                this, mDrawerLayout, (Toolbar) findViewById(R.id.toolbar),
+                R.string.app_name, R.string.app_name
+        );
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        mDrawerToggle.syncState();
+
+//        home_frame_ll
+
+    }
     private void initializeUiElements() {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -211,18 +231,22 @@ public class HomeActivity extends SuperCompatActivity implements NavigationView.
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
+        setupdrawerLayout();
+        getToggleAndSlider();
+
+
+//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+//                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+//        drawer.addDrawerListener(toggle);
+//        toggle.syncState();
+
+//        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+//        navigationView.setNavigationItemSelectedListener(this);
 //
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
-        navHeader = navigationView.getHeaderView(0);
-        name_txt = navHeader.findViewById(R.id.name_txt);
-
+//        navHeader = navigationView.getHeaderView(0);
+//        name_txt = navHeader.findViewById(R.id.name_txt);
+//
         context = getApplicationContext();
         restAPI = getRestAPIObj();
         progressDialog = initializeProgressDialog(this);
@@ -236,91 +260,17 @@ public class HomeActivity extends SuperCompatActivity implements NavigationView.
         search_img = findViewById(R.id.search_img);
         profile_img = findViewById(R.id.profile_img);
         filter_img = findViewById(R.id.filter_img);
-        approve_deny_ll = findViewById(R.id.approve_deny_ll);
-
-
-        vp_slider = findViewById(R.id.vp_slider);
-        ll_dots = findViewById(R.id.ll_dots);
-        approve_list = findViewById(R.id.approve_list);
-        deny_list = findViewById(R.id.deny_list);
 
         auction_donation_ll = findViewById(R.id.auction_donation_ll);
         auction_list = findViewById(R.id.auction_list);
         donation_list = findViewById(R.id.donation_list);
-        autocomp_search = findViewById(R.id.autocomp_search);
-        autocomp_ll = findViewById(R.id.autocomp_ll);
+        home_frame_ll = findViewById(R.id.home_frame_ll);
 
-        if (SharedPrefHelper.getLogin(context) != null && SharedPrefHelper.getLogin(context).getMessage() != null && SharedPrefHelper.getLogin(context).getMessage().getUserName() != null) {
-            name_txt.setText(SharedPrefHelper.getLogin(context).getMessage().getUserName());
-        }
-
-
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        recyclerView1 = (RecyclerView) findViewById(R.id.recyclerView1);
         home_all_recycle = (RecyclerView) findViewById(R.id.home_all_recycle);
-
-        GridLayoutManager manager = new GridLayoutManager(this,
-                1, GridLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(manager);
-
-
-        GridLayoutManager manager1 = new GridLayoutManager(this, 1, GridLayoutManager.VERTICAL, false);
-        recyclerView1.setLayoutManager(manager1);
 
         GridLayoutManager manager2 = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
         home_all_recycle.setLayoutManager(manager2);
 
-        addBottomDots(0);
-
-        final Handler handler = new Handler();
-        final Runnable update = new Runnable() {
-            public void run() {
-                if (page_position == slider_image_array.size()) {
-                    page_position = 0;
-                } else {
-                    page_position = page_position + 1;
-                }
-                vp_slider.setCurrentItem(page_position, true);
-            }
-        };
-
-        new Timer().schedule(new TimerTask() {
-            @Override
-            public void run() {
-                handler.post(update);
-            }
-        }, 100, 3000);
-
-
-        approve_list.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                recyclerView1.setVisibility(View.GONE);
-
-
-                if (checkInternet()) {
-                    getCategoryList();
-                } else {
-                    CustomErrorToast(getResources().getString(R.string.server_not_responding));
-                }
-            }
-        });
-
-        deny_list.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                recyclerView.setVisibility(View.GONE);
-
-                if (checkInternet()) {
-                    getHomeDenyListResCall();
-                } else {
-                    CustomErrorToast(getResources().getString(R.string.server_not_responding));
-                }
-            }
-        });
-//
 
         home_img.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -338,14 +288,9 @@ public class HomeActivity extends SuperCompatActivity implements NavigationView.
         search_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                autocomp_ll.setVisibility(View.VISIBLE);
-
-//                getSearchService(autocomp_search.getText().toString().trim());
 
                 customSearchDialog(typeStr);
 
-
-//                startActivity(new Intent(HomeActivity.this,HomeActivity.class));
             }
         });
         profile_img.setOnClickListener(new View.OnClickListener() {
@@ -362,26 +307,8 @@ public class HomeActivity extends SuperCompatActivity implements NavigationView.
             }
         });
 
-        if (SharedPrefHelper.getLogin(context) != null && SharedPrefHelper.getLogin(context).getMessage() != null && SharedPrefHelper.getLogin(context).getMessage().getAdminFlag() == true) {
-            hideLeftMenuItem();
-        } else {
-            hideLeftMenuHomeItem();
-            approve_deny_ll.setVisibility(View.GONE);
-        }
-
-//        if (SharedPrefHelper.getLogin(context) != null && SharedPrefHelper.getLogin(context).getMessage() != null && SharedPrefHelper.getLogin(context).getMessage().getAdminFlag() == false) {
-//
-//            if (checkInternet()) {
-//                getHomeAllListService("auction");
-//            } else {
-//                CustomErrorToast(getResources().getString(R.string.server_not_responding));
-//            }
-//
-//        }
-
-
-        if (checkInternet()) {
-            getHomeAllListService("auction");
+      if (checkInternet()) {
+            getHomeAllListService("auction",null);
         } else {
             CustomErrorToast(getResources().getString(R.string.server_not_responding));
         }
@@ -389,26 +316,28 @@ public class HomeActivity extends SuperCompatActivity implements NavigationView.
         auction_list.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                donation_recycler_view.setVisibility(View.GONE);
 
-                typeStr = "auction";
                 auction_list.setTextColor(getResources().getColor(R.color.white));
                 auction_list.setBackground(getResources().getDrawable(R.drawable.rect_background_merron));
 
                 donation_list.setTextColor(getResources().getColor(R.color.white));
                 donation_list.setBackground(getResources().getDrawable(R.drawable.rect_background_black));
 
-                if (checkInternet()) {
-                    getHomeAllListService("auction");
+
+                if (!checkInternet()) {
+                    CustomErrorToast(getResourceStr(context, R.string.plz_chk_your_net));
                 } else {
-                    CustomErrorToast(getResources().getString(R.string.server_not_responding));
+                    getHomeAllListService("auction",null);
                 }
+
             }
         });
+
         donation_list.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                typeStr = "donation";
+//                recyclerView.setVisibility(View.GONE);
 
                 donation_list.setTextColor(getResources().getColor(R.color.white));
                 donation_list.setBackground(getResources().getDrawable(R.drawable.rect_background_merron));
@@ -417,39 +346,17 @@ public class HomeActivity extends SuperCompatActivity implements NavigationView.
                 auction_list.setBackground(getResources().getDrawable(R.drawable.rect_background_black));
 
 
-                if (checkInternet()) {
-                    getHomeAllListService("donation");
+                if (!checkInternet()) {
+                    CustomErrorToast(getResourceStr(context, R.string.plz_chk_your_net));
                 } else {
-                    CustomErrorToast(getResources().getString(R.string.server_not_responding));
+                    getHomeAllListService("donation",null);
                 }
+
             }
         });
 
     }
 
-
-    private void hideLeftMenuItem() {
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        Menu nav_Menu = navigationView.getMenu();
-        nav_Menu.findItem(R.id.nav_newregister).setVisible(true);
-        nav_Menu.findItem(R.id.nav_all_auctiondonations).setVisible(true);
-        nav_Menu.findItem(R.id.nav_newauction).setVisible(false);
-        nav_Menu.findItem(R.id.nav_mysales).setVisible(false);
-        nav_Menu.findItem(R.id.nav_mywins).setVisible(false);
-
-    }
-
-    private void hideLeftMenuHomeItem() {
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        Menu nav_Menu = navigationView.getMenu();
-
-        nav_Menu.findItem(R.id.nav_newregister).setVisible(false);
-        nav_Menu.findItem(R.id.nav_all_auctiondonations).setTitle("HOME");
-        nav_Menu.findItem(R.id.nav_newauction).setVisible(true);
-        nav_Menu.findItem(R.id.nav_mysales).setVisible(true);
-        nav_Menu.findItem(R.id.nav_mywins).setVisible(true);
-
-    }
 
 
     /* access modifiers changed from: protected */
@@ -473,65 +380,10 @@ public class HomeActivity extends SuperCompatActivity implements NavigationView.
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
 
-//    private void slidingMethod() {
-//
-//        if (slider_image_array != null) {
-//
-//            homeViewSlidingAdapter = new HomeViewSlidingAdapter(HomeActivity.this, slider_image_array, homeCategorysListRes);
-//            vp_slider.setAdapter(homeViewSlidingAdapter);
-//
-//
-//            vp_slider.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-//                @Override
-//                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-//
-//                }
-//
-//                @Override
-//                public void onPageSelected(int position) {
-//                    addBottomDots(position);
-//
-//                    pagePosition = position;
-//
-//                }
-//
-//                @Override
-//                public void onPageScrollStateChanged(int state) {
-//
-//                }
-//            });
-//
-//
-//        }
-//
-//
-//    }
-
-    private void addBottomDots(int currentPage) {
-        dots = new TextView[slider_image_array.size()];
-
-        ll_dots.removeAllViews();
-        for (int i = 0; i < dots.length; i++) {
-            dots[i] = new TextView(this);
-            dots[i].setText(Html.fromHtml("&#8226;"));
-            dots[i].setTextSize(35);
-            dots[i].setTextColor(Color.parseColor("#fd726b"));
-            ll_dots.addView(dots[i]);
-        }
-
-        if (dots.length > 0)
-            dots[currentPage].setTextColor(Color.parseColor("#FFFFFF"));
-    }
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-//            super.onBackPressed();
             logoutDialog();
-        }
     }
 
     @Override
@@ -557,408 +409,6 @@ public class HomeActivity extends SuperCompatActivity implements NavigationView.
     }
 
 
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-
-        int id = item.getItemId();
-        if (id == R.id.nav_newregister) {
-            approve_deny_ll.setVisibility(View.GONE);
-
-            startActivity(new Intent(HomeActivity.this, UserManagementScreen.class));
-
-
-//            if (checkInternet()) {
-//                getCategoryList();
-//            } else {
-//                CustomErrorToast(getResources().getString(R.string.server_not_responding));
-//            }
-
-//            if (checkInternet()) {
-//                getHomeDenyListResCall();
-//            } else {
-//                CustomErrorToast(getResources().getString(R.string.server_not_responding));
-//            }
-        }
-        if (id == R.id.nav_newauction) {
-            startActivity(new Intent(HomeActivity.this, NewAuctionDonation.class));
-        }
-        if (id == R.id.nav_mysales) {
-            startActivity(new Intent(HomeActivity.this, MySalesScreen.class));
-        }
-        if (id == R.id.nav_mywins) {
-            startActivity(new Intent(HomeActivity.this, MyWinsScreen.class));
-        }
-        if (id == R.id.nav_terms) {
-            Intent intent = new Intent(HomeActivity.this, WebViewImageUpload.class);
-            intent.putExtra("titleStr","Terms & Conditions");
-            intent.putExtra("weburl","www.google.com");
-            startActivity(intent);
-        }
-        if (id == R.id.nav_privacy) {
-            Intent intent = new Intent(HomeActivity.this, WebViewImageUpload.class);
-            intent.putExtra("titleStr","Privacy Policy");
-            intent.putExtra("weburl","www.google.com");
-            startActivity(intent);
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
-
-    //
-    public void getCategoryList() {
-        try {
-            progressDialog = new ProgressDialog(this);
-            progressDialog.setMessage("Please Wait......");
-            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            progressDialog.setIndeterminate(true);
-            progressDialog.setProgress(0);
-            progressDialog.show();
-
-
-            final Call<HomeApproveListRes> adminSlideResCall = restAPI.getHomeCategorysListResCall();
-            adminSlideResCall.enqueue(new Callback<HomeApproveListRes>() {
-                @Override
-                public void onResponse(Call<HomeApproveListRes> call, Response<HomeApproveListRes> response) {
-                    if (response.isSuccessful()) {
-                        homeCategorysListRes = response.body();
-                        if (homeCategorysListRes.getStatusCode() == 200 && homeCategorysListRes.getStatus().equalsIgnoreCase("success")) {
-
-                            if (homeCategorysListRes.getMessage().size() > 0)
-                                loadCategDaoryData(homeCategorysListRes);
-
-
-//                            if (homeCategorysListRes.getBanners().size() > 0) {
-//
-//                                for (int i = 0; i < homeCategorysListRes.getBanners().size(); i++) {
-//                                    slider_image_array.add(homeCategorysListRes.getBanners().get(i).getImage());
-//                                }
-//
-//                                slidingMethod();
-//
-//                            }
-
-                        } else {
-                            CustomErrorToast(homeCategorysListRes.getStatus());
-                        }
-                    }
-                    if (progressDialog.isShowing()) {
-                        progressDialog.dismiss();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<HomeApproveListRes> call, Throwable t) {
-
-                    CustomErrorToast(getResources().getString(R.string.server_not_responding));
-
-                    if (progressDialog.isShowing()) {
-                        progressDialog.dismiss();
-                    }
-
-                }
-            });
-
-        } catch (Exception e) {
-            e.fillInStackTrace();
-        }
-    }
-
-    public void getHomeDenyListResCall() {
-        try {
-            progressDialog1 = new ProgressDialog(this);
-            progressDialog1.setMessage("Please Wait......");
-            progressDialog1.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            progressDialog1.setIndeterminate(true);
-            progressDialog1.setProgress(0);
-            progressDialog1.show();
-
-
-            final Call<HomeDenyListRes> adminSlideResCall = restAPI.getHomeDenyListResCall();
-            adminSlideResCall.enqueue(new Callback<HomeDenyListRes>() {
-                @Override
-                public void onResponse(Call<HomeDenyListRes> call, Response<HomeDenyListRes> response) {
-                    if (response.isSuccessful()) {
-                        HomeDenyListRes homeCategorysListRes = response.body();
-                        if (homeCategorysListRes.getStatusCode() == 200 && homeCategorysListRes.getStatus().equalsIgnoreCase("success")) {
-
-                            if (homeCategorysListRes.getMessage().size() > 0)
-                                loadProductData(homeCategorysListRes);
-
-//                            if (homeCategorysListRes.getBanners().size() > 0) {
-//
-//                                for (int i = 0; i < homeCategorysListRes.getBanners().size(); i++) {
-//                                    slider_image_array.add(homeCategorysListRes.getBanners().get(i).getImage());
-//                                }
-//
-//                                slidingMethod();
-//
-//                            }
-
-                        } else {
-                            CustomErrorToast(homeCategorysListRes.getStatus());
-                        }
-                    }
-                    if (progressDialog1.isShowing()) {
-                        progressDialog1.dismiss();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<HomeDenyListRes> call, Throwable t) {
-
-                    CustomErrorToast(getResources().getString(R.string.server_not_responding));
-
-                    if (progressDialog1.isShowing()) {
-                        progressDialog1.dismiss();
-                    }
-
-                }
-            });
-
-        } catch (Exception e) {
-            e.fillInStackTrace();
-
-            if (progressDialog1.isShowing()) {
-                progressDialog1.dismiss();
-            }
-
-        }
-    }
-
-    private void loadCategDaoryData(HomeApproveListRes homeSlideRes) {
-        if (homeSlideRes.getMessage() != null) {
-            if (homeSlideRes.getMessage().size() > 0) {
-                recyclerView.setVisibility(View.VISIBLE);
-                recyclerView1.setVisibility(View.GONE);
-                CategoryAdapter ca = new CategoryAdapter(homeSlideRes.getMessage(), getApplicationContext());
-                recyclerView.setAdapter(ca);
-            } else {
-                recyclerView.setVisibility(View.GONE);
-                recyclerView1.setVisibility(View.GONE);
-            }
-        }
-    }
-
-    private void loadProductData(HomeDenyListRes homeSlideRes) {
-        if (homeSlideRes.getMessage() != null) {
-            if (homeSlideRes.getMessage().size() > 0) {
-                recyclerView1.setVisibility(View.VISIBLE);
-                recyclerView.setVisibility(View.GONE);
-                ProductAdapter ca = new ProductAdapter(homeSlideRes.getMessage(), getApplicationContext());
-                recyclerView1.setAdapter(ca);
-            } else {
-                recyclerView1.setVisibility(View.GONE);
-                recyclerView.setVisibility(View.GONE);
-            }
-        }
-    }
-
-    public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ProductViewHolder> {
-
-        Context mContext;
-        List<HomeApproveListRes.Message> cartListRes;
-
-
-        public CategoryAdapter(List<HomeApproveListRes.Message> cartListRes, Context context) {
-            this.cartListRes = cartListRes;
-            this.mContext = context;
-
-        }
-
-        @Override
-        public int getItemCount() {
-            return cartListRes.size();
-        }
-
-        @Override
-        public int getItemViewType(int position) {
-            return position;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public ProductViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            View itemView =
-                    LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.activity_categories_inflator, viewGroup, false);
-
-            return new ProductViewHolder(itemView);
-        }
-
-        @Override
-        public void onBindViewHolder(final ProductViewHolder productViewHolder, @SuppressLint("RecyclerView") final int position) {
-
-            productViewHolder.firstname_txt.setText(cartListRes.get(position).getFirstName() + " " + cartListRes.get(position).getLastName());
-//            productViewHolder.lastName_txt.setText(cartListRes.get(position).getLastName() != null
-//                    ? cartListRes.get(position).getLastName() : "");
-            productViewHolder.email_txt.setText(cartListRes.get(position).getEmail() != null
-                    ? cartListRes.get(position).getEmail() : "");
-            productViewHolder.phoneNumber_txt.setText(cartListRes.get(position).getPhoneNumber() != null
-                    ? cartListRes.get(position).getPhoneNumber() : "");
-
-
-            productViewHolder.approve_btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    if (checkInternet()) {
-
-                        ApprovedSaveReq approvedSaveReq = new ApprovedSaveReq();
-                        approvedSaveReq.setApproved("Y");
-                        approvedSaveReq.setRegistrationId(cartListRes.get(position).getRegistrationId());
-                        approvedSaveReq.setUserId(SharedPrefHelper.getLogin(context).getMessage().getUserId());
-                        getApprovedSaveReqCall(approvedSaveReq);
-                    } else {
-                        CustomErrorToast(getResources().getString(R.string.server_not_responding));
-                    }
-
-                }
-            });
-
-
-            productViewHolder.deny_btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (checkInternet()) {
-                        ApprovedSaveReq approvedSaveReq = new ApprovedSaveReq();
-                        approvedSaveReq.setApproved("N");
-                        approvedSaveReq.setRegistrationId(cartListRes.get(position).getRegistrationId());
-                        approvedSaveReq.setUserId(SharedPrefHelper.getLogin(context).getMessage().getUserId());
-                        getApprovedSaveReqCall(approvedSaveReq);
-                    } else {
-                        CustomErrorToast(getResources().getString(R.string.server_not_responding));
-                    }
-
-                }
-            });
-
-
-//            Glide.with(HomeActivity.this)
-//                    .load(cartListRes.get(position).getImage())
-//                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-//                    .thumbnail(0.5f)
-//                    .crossFade()
-//                    .into(productViewHolder.imageView);
-
-
-        }
-
-        public class ProductViewHolder extends RecyclerView.ViewHolder {
-
-            protected TextView firstname_txt, lastName_txt, email_txt, phoneNumber_txt;
-            protected Button approve_btn, deny_btn;
-
-            public ProductViewHolder(View v) {
-                super(v);
-                firstname_txt = (TextView) v.findViewById(R.id.firstname_txt);
-                lastName_txt = (TextView) v.findViewById(R.id.lastName_txt);
-                email_txt = (TextView) v.findViewById(R.id.email_txt);
-                phoneNumber_txt = (TextView) v.findViewById(R.id.phoneNumber_txt);
-                approve_btn = (Button) v.findViewById(R.id.approve_btn);
-                deny_btn = (Button) v.findViewById(R.id.deny_btn);
-            }
-        }
-
-    }
-
-    public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
-
-        Context mContext;
-        List<HomeDenyListRes.Message> cartListRes;
-
-
-        public ProductAdapter(List<HomeDenyListRes.Message> cartListRes, Context context) {
-            this.cartListRes = cartListRes;
-            this.mContext = context;
-
-        }
-
-        @Override
-        public int getItemCount() {
-            return cartListRes.size();
-        }
-
-        @Override
-        public int getItemViewType(int position) {
-            return position;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public ProductViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            View itemView =
-                    LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.activity_products_inflator, viewGroup, false);
-
-            return new ProductViewHolder(itemView);
-        }
-
-        @Override
-        public void onBindViewHolder(final ProductViewHolder productViewHolder, @SuppressLint("RecyclerView") final int position) {
-
-            productViewHolder.firstname_txt.setText(cartListRes.get(position).getFirstName() + " " + cartListRes.get(position).getLastName());
-//            productViewHolder.lastName_txt.setText(cartListRes.get(position).getLastName() != null
-//                    ? cartListRes.get(position).getLastName() : "");
-            productViewHolder.email_txt.setText(cartListRes.get(position).getEmail() != null
-                    ? cartListRes.get(position).getEmail() : "");
-            productViewHolder.phoneNumber_txt.setText(cartListRes.get(position).getPhoneNumber() != null
-                    ? cartListRes.get(position).getPhoneNumber() : "");
-
-            if (cartListRes.get(position).getStatus().equalsIgnoreCase("Activated")) {
-                productViewHolder.deny_btn.setText(" Deactivated ");
-            } else if (cartListRes.get(position).getStatus().equalsIgnoreCase("Deactivated")) {
-                productViewHolder.deny_btn.setText(" Activated ");
-            }
-
-            productViewHolder.deny_btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    if (checkInternet()) {
-
-                        DenySaveReq approvedSaveReq = new DenySaveReq();
-                        approvedSaveReq.setApproved("Y");
-                        approvedSaveReq.setRegistrationId(cartListRes.get(position).getRegistrationId());
-                        approvedSaveReq.setUserId(SharedPrefHelper.getLogin(context).getMessage().getUserId());
-                        getDenySaveReqCall(approvedSaveReq);
-                    } else {
-                        CustomErrorToast(getResources().getString(R.string.server_not_responding));
-                    }
-
-                }
-            });
-
-
-        }
-
-        public class ProductViewHolder extends RecyclerView.ViewHolder {
-
-            protected TextView firstname_txt, lastName_txt, email_txt, phoneNumber_txt;
-            protected Button approve_btn, deny_btn;
-
-            public ProductViewHolder(View v) {
-                super(v);
-                firstname_txt = (TextView) v.findViewById(R.id.firstname_txt);
-                lastName_txt = (TextView) v.findViewById(R.id.lastName_txt);
-                email_txt = (TextView) v.findViewById(R.id.email_txt);
-                phoneNumber_txt = (TextView) v.findViewById(R.id.phoneNumber_txt);
-                approve_btn = (Button) v.findViewById(R.id.approve_btn);
-                deny_btn = (Button) v.findViewById(R.id.deny_btn);
-            }
-        }
-
-    }
-
 
     private boolean isFirstTime() {
         if (firstTime == null) {
@@ -973,129 +423,7 @@ public class HomeActivity extends SuperCompatActivity implements NavigationView.
         return firstTime;
     }
 
-
-    public void getApprovedSaveReqCall(ApprovedSaveReq approvedSaveReq) {
-        try {
-            progressDialog2 = new ProgressDialog(this);
-            progressDialog2.setMessage("Please Wait......");
-            progressDialog2.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            progressDialog2.setIndeterminate(true);
-            progressDialog2.setProgress(0);
-            progressDialog2.show();
-
-
-            final Call<ApprovedDenySaveRes> adminSlideResCall = restAPI.getApproveSaveResCall(approvedSaveReq);
-            adminSlideResCall.enqueue(new Callback<ApprovedDenySaveRes>() {
-                @Override
-                public void onResponse(Call<ApprovedDenySaveRes> call, Response<ApprovedDenySaveRes> response) {
-                    if (response.isSuccessful()) {
-                        ApprovedDenySaveRes homeCategorysListRes = response.body();
-                        if (homeCategorysListRes.getStatusCode() == 200 && homeCategorysListRes.getStatus().equalsIgnoreCase("success")) {
-                            CustomErrorToast(homeCategorysListRes.getMessage());
-
-
-//                             recreate();
-
-                            approve_deny_ll.setVisibility(View.VISIBLE);
-
-
-                            if (checkInternet()) {
-                                getCategoryList();
-                            } else {
-                                CustomErrorToast(getResources().getString(R.string.server_not_responding));
-                            }
-
-                        } else {
-                            CustomErrorToast(homeCategorysListRes.getStatus());
-                        }
-                    }
-                    if (progressDialog2.isShowing()) {
-                        progressDialog2.dismiss();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<ApprovedDenySaveRes> call, Throwable t) {
-
-                    CustomErrorToast(getResources().getString(R.string.server_not_responding));
-
-                    if (progressDialog2.isShowing()) {
-                        progressDialog2.dismiss();
-                    }
-
-                }
-            });
-
-        } catch (Exception e) {
-            e.fillInStackTrace();
-
-            if (progressDialog2.isShowing()) {
-                progressDialog2.dismiss();
-            }
-
-        }
-    }
-
-    public void getDenySaveReqCall(DenySaveReq approvedSaveReq) {
-        try {
-            m_progress1 = new ProgressDialog(this);
-            m_progress1.setMessage("Please Wait......");
-            m_progress1.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            m_progress1.setIndeterminate(true);
-            m_progress1.setProgress(0);
-            m_progress1.show();
-
-
-            final Call<ApprovedDenySaveRes> adminSlideResCall = restAPI.getDenySaveResCall(approvedSaveReq);
-            adminSlideResCall.enqueue(new Callback<ApprovedDenySaveRes>() {
-                @Override
-                public void onResponse(Call<ApprovedDenySaveRes> call, Response<ApprovedDenySaveRes> response) {
-                    if (response.isSuccessful()) {
-                        ApprovedDenySaveRes homeCategorysListRes = response.body();
-                        if (homeCategorysListRes.getStatusCode() == 200 && homeCategorysListRes.getStatus().equalsIgnoreCase("success")) {
-                            CustomErrorToast(homeCategorysListRes.getMessage());
-
-                            approve_deny_ll.setVisibility(View.VISIBLE);
-
-                            if (checkInternet()) {
-                                getHomeDenyListResCall();
-                            } else {
-                                CustomErrorToast(getResources().getString(R.string.server_not_responding));
-                            }
-
-                        } else {
-                            CustomErrorToast(homeCategorysListRes.getStatus());
-                        }
-                    }
-                    if (m_progress1.isShowing()) {
-                        m_progress1.dismiss();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<ApprovedDenySaveRes> call, Throwable t) {
-
-                    CustomErrorToast(getResources().getString(R.string.server_not_responding));
-
-                    if (m_progress1.isShowing()) {
-                        m_progress1.dismiss();
-                    }
-
-                }
-            });
-
-        } catch (Exception e) {
-            e.fillInStackTrace();
-
-            if (m_progress1.isShowing()) {
-                m_progress1.dismiss();
-            }
-
-        }
-    }
-
-
-    public void getHomeAllListService(String str) {
+    public void getHomeAllListService(String str,String searchString) {
 
         try {
 
@@ -1113,6 +441,7 @@ public class HomeActivity extends SuperCompatActivity implements NavigationView.
             dmgreq.setUserId(SharedPrefHelper.getLogin(context).getMessage().getUserId());
             dmgreq.setLimit(20);
             dmgreq.setOffset(0);
+            dmgreq.setSearchString(searchString);
 
 
             Call<HomeAllListRes> damageHistoryResPayLoadCall = restAPI.getHomeAllListResCall(dmgreq);
@@ -1129,6 +458,12 @@ public class HomeActivity extends SuperCompatActivity implements NavigationView.
 
                         if (mySalesEditResponsePayLoad.getStatusCode() == 200) {
                             loadHistoryData(mySalesEditResponsePayLoad, str);
+
+                            if (customDialog != null) {
+                                customDialog.dismiss();
+                            }
+
+
                         } else {
                             CustomOKAlertDialog(mySalesEditResponsePayLoad.getStatus());
                         }
@@ -1235,6 +570,7 @@ public class HomeActivity extends SuperCompatActivity implements NavigationView.
                     intent.putExtra("cargoId", damageHistoryResPayLoad.getMessage().get(position).getAuctionId());
                     intent.putExtra("barcode", damageHistoryResPayLoad.getMessage().get(position).getDonationId());
                     intent.putExtra("type", type);
+                    intent.putExtra("productname", damageHistoryResPayLoad.getMessage().get(position).getProductName());
                     startActivity(intent);
 
                 }
@@ -1324,7 +660,7 @@ public class HomeActivity extends SuperCompatActivity implements NavigationView.
                             if (!checkInternet()) {
                                 CustomErrorToast(getResourceStr(context, R.string.plz_chk_your_net));
                             } else {
-                                getHomeAllListService("auction");
+                                getHomeAllListService("auction",null);
                             }
 
                             auction_list.setTextColor(getResources().getColor(R.color.white));
@@ -1364,10 +700,9 @@ public class HomeActivity extends SuperCompatActivity implements NavigationView.
         }
     }
 
-
     private void customSearchDialog(String typeStr) {
 
-        final Dialog customDialog = new Dialog(HomeActivity.this);
+        customDialog = new Dialog(HomeActivity.this);
         customDialog.setCancelable(true);
 
         customDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -1377,9 +712,10 @@ public class HomeActivity extends SuperCompatActivity implements NavigationView.
         customDialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
 
+        ImageView search_imag = customDialog.findViewById(R.id.search_imag);
         AutoCompleteTextView autoCompleteTextView = (AutoCompleteTextView) customDialog.findViewById(R.id.autocomp_search);
 //
-//        //===========Auto complete text view for vin=======
+//        //===========Auto complete text view for test=======
 //
         autoCompleteTextView.addTextChangedListener(new TextWatcher() {
             @Override
@@ -1408,23 +744,41 @@ public class HomeActivity extends SuperCompatActivity implements NavigationView.
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 autoCompleteTextView.dismissDropDown();
 
-                Intent intent = new Intent(HomeActivity.this, HomeListEditScreen.class);
-                intent.putExtra("cargoId", searchProductRes.getMessage().get(position).getAuctionId());
-                intent.putExtra("barcode", searchProductRes.getMessage().get(position).getDonationId());
-                intent.putExtra("type", typeStr);
-                startActivity(intent);
+//                if (!checkInternet()) {
+//                    CustomErrorToast(getResourceStr(context, R.string.plz_chk_your_net));
+//                } else {
+//                    getHomeAllListService(typeStr,autoCompleteTextView.getText().toString());
+//                }
+
+
+//                Intent intent = new Intent(HomeActivity.this, HomeListEditScreen.class);
+//                intent.putExtra("cargoId", searchProductRes.getMessage().get(position).getAuctionId());
+//                intent.putExtra("barcode", searchProductRes.getMessage().get(position).getDonationId());
+//                intent.putExtra("type", typeStr);
+//                startActivity(intent);
                 ///srikanth
 
-                customDialog.dismiss();
+//                customDialog.dismiss();
 
                 hideKeyboard();
+            }
+        });
+
+
+        search_imag.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!checkInternet()) {
+                    CustomErrorToast(getResourceStr(context, R.string.plz_chk_your_net));
+                } else {
+                    getHomeAllListService(typeStr,autoCompleteTextView.getText().toString());
+                }
             }
         });
 
         customDialog.show();
 
     }
-
 
     public void getSearchService(String typeStr, String searchVal, AutoCompleteTextView autoCompleteTextView) {
 
@@ -1439,19 +793,26 @@ public class HomeActivity extends SuperCompatActivity implements NavigationView.
 //            m_progress.setCancelable(false);
 //            m_progress.show();
 
-            SearchProductReq dmgreq = new SearchProductReq();
 
-            dmgreq.setUserId(SharedPrefHelper.getLogin(context).getMessage().getUserId());
-            dmgreq.setSearchString(searchVal);
-            dmgreq.setAuctionOrDonation(typeStr);
-            dmgreq.setOffset(0);
-            dmgreq.setLimit(20);
+            ProductNamesDropDownServiceReq  productNamesDropDownServiceReq = new ProductNamesDropDownServiceReq();
+            productNamesDropDownServiceReq.setUserId(SharedPrefHelper.getLogin(context).getMessage().getUserId());
+            productNamesDropDownServiceReq.setSearchValue(searchVal);
+            productNamesDropDownServiceReq.setType(typeStr);
 
 
-            Call<SearchProductRes> damageHistoryResPayLoadCall = restAPI.getSearchProductResCall(dmgreq);
-            damageHistoryResPayLoadCall.enqueue(new Callback<SearchProductRes>() {
+
+//            SearchProductReq dmgreq = new SearchProductReq();
+//            dmgreq.setUserId(SharedPrefHelper.getLogin(context).getMessage().getUserId());
+//            dmgreq.setSearchString(searchVal);
+//            dmgreq.setAuctionOrDonation(typeStr);
+//            dmgreq.setOffset(0);
+//            dmgreq.setLimit(20);
+
+
+            Call<ProductNamesDropDownServiceRes> damageHistoryResPayLoadCall = restAPI.getProductNamesDropDownServiceResCall(productNamesDropDownServiceReq);
+            damageHistoryResPayLoadCall.enqueue(new Callback<ProductNamesDropDownServiceRes>() {
                 @Override
-                public void onResponse(Call<SearchProductRes> call, Response<SearchProductRes> response) {
+                public void onResponse(Call<ProductNamesDropDownServiceRes> call, Response<ProductNamesDropDownServiceRes> response) {
                     if (response.isSuccessful()) {
 
                         searchProductRes = response.body();
@@ -1466,8 +827,8 @@ public class HomeActivity extends SuperCompatActivity implements NavigationView.
                                 ArrayList<String> vinList = new ArrayList<String>();
 
                                 for (int i = 0; i < searchProductRes.getMessage().size(); i++) {
-                                    if (searchProductRes.getMessage().get(i).getProductName() != null)
-                                        vinList.add(searchProductRes.getMessage().get(i).getProductName());
+                                    if (searchProductRes.getMessage().get(i) != null)
+                                        vinList.add(searchProductRes.getMessage().get(i));
                                 }
 
                                 if (vinList != null) {
@@ -1493,7 +854,7 @@ public class HomeActivity extends SuperCompatActivity implements NavigationView.
                 }
 
                 @Override
-                public void onFailure(Call<SearchProductRes> call, Throwable t) {
+                public void onFailure(Call<ProductNamesDropDownServiceRes> call, Throwable t) {
                     CustomErrorToast(getResources().getString(R.string.server_not_responding));
 //                    if (m_progress != null && m_progress.isShowing()) {
 //                        m_progress.dismiss();

@@ -15,6 +15,17 @@ public class HomeAllListRes {
     private Integer statusCode;
     @JsonProperty("status")
     private String status;
+    @JsonProperty("error")
+    private String error;
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
+    }
+
     @JsonProperty("message")
     private List<Message> message = null;
 

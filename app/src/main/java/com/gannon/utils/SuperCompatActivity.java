@@ -43,9 +43,14 @@ import androidx.loader.content.Loader;
 import com.gannon.Login.activity.LoginActivity;
 import com.gannon.R;
 import com.gannon.home.HomeActivity;
+import com.gannon.mysales.MySalesScreen;
+import com.gannon.mywins.MyWinsScreen;
 import com.gannon.sharedpref.ObscuredSharedPreferences;
 import com.gannon.sharedpref.SharedPrefHelper;
 import com.gannon.uploadAuctionDonation.FileUtils;
+import com.gannon.uploadAuctionDonation.activity.NewAuctionDonation;
+import com.gannon.usermanagement.UserManagementScreen;
+import com.gannon.webview.WebViewImageUpload;
 
 import java.io.File;
 import java.net.NetworkInterface;
@@ -72,10 +77,12 @@ public abstract class SuperCompatActivity extends AppCompatActivity {
     private ConstraintLayout mainLayout;
     public LinearLayout linearmLeftDrawer;
     public DrawerLayout mDrawerLayout;
-    private ImageView nav_back, toolbar_icon;
-    private TextView txt_title;
+    private ImageView nav_back, toolbar_icon,homemenu_img;
+    private TextView home_txt;
     private Loader loader;
+    private String versionName;
 
+    private LinearLayout userManagement_menu, home_menu, AUCTIONDONATION_menu, MySales_menu, MyWins_menu;
 
 
     private final Pattern pattern = Pattern
@@ -139,6 +146,128 @@ public abstract class SuperCompatActivity extends AppCompatActivity {
         textView.setText("" + title);
 
     }
+
+
+    @SuppressLint("NewApi")
+    public void setupdrawerLayout() {
+
+        try {
+            mDrawerLayout = (DrawerLayout) findViewById(R.id.mainDrawerLayout);
+            linearmLeftDrawer = (LinearLayout) findViewById(R.id.mLeftDrawer);
+//            main_layout = (LinearLayout) findViewById(R.id.main_layout);
+            // mDrawerLayout.setScrimColor(Color.TRANSPARENT);
+            mDrawerLayout.closeDrawer(linearmLeftDrawer);
+            mDrawerLayout.getParent().requestDisallowInterceptTouchEvent(false);
+
+
+            TextView user_name = findViewById(R.id.user_name);
+            TextView version_txt = findViewById(R.id.version_txt);
+            user_name.setText(SharedPrefHelper.getLogin(context).getMessage().getUserName());
+
+
+            try {
+                versionName = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+            }
+
+            userManagement_menu = (LinearLayout) findViewById(R.id.userManagement_menu);
+            home_menu = (LinearLayout) findViewById(R.id.home_menu);
+            AUCTIONDONATION_menu = (LinearLayout) findViewById(R.id.AUCTIONDONATION_menu);
+            MySales_menu = (LinearLayout) findViewById(R.id.MySales_menu);
+            MyWins_menu = (LinearLayout) findViewById(R.id.MyWins_menu);
+            home_txt =  findViewById(R.id.home_txt);
+            homemenu_img =  findViewById(R.id.homemenu_img);
+
+
+            if (SharedPrefHelper.getLogin(context) != null && SharedPrefHelper.getLogin(context).getMessage() != null) {
+
+                if (SharedPrefHelper.getLogin(context) != null && SharedPrefHelper.getLogin(context).getMessage() != null && SharedPrefHelper.getLogin(context).getMessage().getAdminFlag() == true) {
+                    userManagement_menu.setVisibility(View.VISIBLE);
+                    home_menu.setVisibility(View.VISIBLE);
+                    AUCTIONDONATION_menu.setVisibility(View.GONE);
+                    MySales_menu.setVisibility(View.GONE);
+                    MyWins_menu.setVisibility(View.GONE);
+                    home_txt.setText("ALL AUCTION/DONATION");
+                    homemenu_img.setBackground(getResources().getDrawable(R.drawable.auction));
+
+                    AUCTIONDONATION_menu.setClickable(false);
+                    MySales_menu.setClickable(false);
+                    MyWins_menu.setClickable(false);
+
+
+                } else {
+                    userManagement_menu.setVisibility(View.GONE);
+                    home_menu.setVisibility(View.VISIBLE);
+                    AUCTIONDONATION_menu.setVisibility(View.VISIBLE);
+                    MySales_menu.setVisibility(View.VISIBLE);
+                    MyWins_menu.setVisibility(View.VISIBLE);
+
+                    userManagement_menu.setClickable(false);
+
+
+
+                    home_txt.setText("HOME");
+                    homemenu_img.setBackground(getResources().getDrawable(R.drawable.home));
+
+
+                }
+            }
+
+
+        } catch (Exception e) {
+            Log.d("tag", "slider exce-->" + e.getMessage());
+        }
+    }
+
+
+    public void userManagement(View v) {
+        mDrawerLayout.closeDrawer(linearmLeftDrawer);
+        startActivity(new Intent(getApplicationContext(), UserManagementScreen.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
+//        main_layout.setClickable(false);
+
+    }
+
+    public void menuHome(View v) {
+        mDrawerLayout.closeDrawer(linearmLeftDrawer);
+        startActivity(new Intent(getApplicationContext(), HomeActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
+    }
+
+    public void AUCTIONDONATION(View v) {
+        mDrawerLayout.closeDrawer(linearmLeftDrawer);
+        startActivity(new Intent(getApplicationContext(), NewAuctionDonation.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
+    }
+
+    public void MySales(View v) {
+        mDrawerLayout.closeDrawer(linearmLeftDrawer);
+        startActivity(new Intent(getApplicationContext(), MySalesScreen.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
+    }
+
+    public void MyWins(View v) {
+        mDrawerLayout.closeDrawer(linearmLeftDrawer);
+        startActivity(new Intent(getApplicationContext(), MyWinsScreen.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
+    }
+
+    public void Terms_condition(View v) {
+//        mDrawerLayout.closeDrawer(linearmLeftDrawer);
+
+        Intent intent = new Intent(SuperCompatActivity.this, WebViewImageUpload.class);
+        intent.putExtra("titleStr", "Terms & Conditions");
+        intent.putExtra("weburl", ApplicationContext.BASE_URL+"/docs/TermsConditions.html");
+        startActivity(intent);
+        finish();
+
+    }
+
+    public void PrivacyPolicy(View v) {
+//        mDrawerLayout.closeDrawer(linearmLeftDrawer);
+
+        Intent intent = new Intent(SuperCompatActivity.this, WebViewImageUpload.class);
+        intent.putExtra("titleStr", "Privacy Policy");
+        intent.putExtra("weburl", ApplicationContext.BASE_URL+"/docs/privacypolicy.html");
+        startActivity(intent);
+        finish();    }
+
 
     public boolean checkInternet() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(getBaseContext().CONNECTIVITY_SERVICE);
@@ -331,6 +460,7 @@ public abstract class SuperCompatActivity extends AppCompatActivity {
         newToast.setView(tastyToast);
         newToast.show();
     }
+
     public void CustomErrorToast(String msg) {
         Toast newToast = Toast.makeText(getApplicationContext(), R.string.app_name, Toast.LENGTH_SHORT);
         newToast.setGravity(Gravity.CENTER, 0, 0);
@@ -341,8 +471,6 @@ public abstract class SuperCompatActivity extends AppCompatActivity {
         newToast.setView(tastyToast);
         newToast.show();
     }
-
-
 
 
     public void CustomOKAlertDialog(String msg) {
@@ -409,7 +537,6 @@ public abstract class SuperCompatActivity extends AppCompatActivity {
     }
 
 
-
     @NonNull
     public MultipartBody.Part prepareFilePart(String partName, Uri fileUri) {
 
@@ -430,7 +557,6 @@ public abstract class SuperCompatActivity extends AppCompatActivity {
         return MultipartBody.Part.createFormData(partName, file.getName(), requestFile);
 
     }
-
 
 
     public void logoutDialog() {
@@ -470,8 +596,6 @@ public abstract class SuperCompatActivity extends AppCompatActivity {
 
         dialogComp.show();
     }
-
-
 
 
 }

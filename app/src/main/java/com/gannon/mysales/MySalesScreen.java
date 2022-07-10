@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.gannon.R;
+import com.gannon.myfavourite.MyFavouriteScreen;
 import com.gannon.sharedpref.SharedPrefHelper;
 import com.gannon.mysales.model.MySalesReqPayLoad;
 import com.gannon.mysales.model.MySalesResponsePayLoad;
@@ -29,6 +31,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -65,17 +68,17 @@ public class MySalesScreen extends SuperCompatActivity {
     int page = 0, limit = 20;
 
 
-//    @Override
-//    public void onConfigurationChanged(Configuration newConfig) {
-//        super.onConfigurationChanged(newConfig);
-//        mDrawerToggle.onConfigurationChanged(newConfig);
-//    }
-//
-//    @Override
-//    protected void onPostCreate(Bundle savedInstanceState) {
-//        super.onPostCreate(savedInstanceState);
-//        mDrawerToggle.syncState();
-//    }
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        mDrawerToggle.syncState();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -256,13 +259,25 @@ public class MySalesScreen extends SuperCompatActivity {
         }
     }
 
-    private void loadHistoryData(MySalesResponsePayLoad responsePayLoad, String type) {
+    private void loadHistoryData(MySalesResponsePayLoad responsePayLoad, String typestr) {
         if (responsePayLoad.getMessage() != null) {
             if (responsePayLoad.getMessage().size() > 0) {
-                recyclerView.setVisibility(View.VISIBLE);
-                donation_recycler_view.setVisibility(View.VISIBLE);
-                ProductAdapter ca = new ProductAdapter(responsePayLoad, getApplicationContext(), type);
-                recyclerView.setAdapter(ca);
+
+                if (typestr.equalsIgnoreCase("auction")){
+                    recyclerView.setVisibility(View.VISIBLE);
+                    donation_recycler_view.setVisibility(View.GONE);
+
+                    ProductAdapter ca = new ProductAdapter(responsePayLoad, getApplicationContext(),typestr);
+                    recyclerView.setAdapter(ca);
+                }else {
+                    recyclerView.setVisibility(View.GONE);
+                    donation_recycler_view.setVisibility(View.VISIBLE);
+
+                    ProductAdapter ca = new ProductAdapter(responsePayLoad, getApplicationContext(),typestr);
+                    donation_recycler_view.setAdapter(ca);
+
+                }
+
             } else {
                 recyclerView.setVisibility(View.GONE);
                 donation_recycler_view.setVisibility(View.GONE);
@@ -359,16 +374,16 @@ public class MySalesScreen extends SuperCompatActivity {
 
     }
 
-//    private void getToggleAndSlider() {
-//
-//        mDrawerToggle = new ActionBarDrawerToggle(
-//                this, mDrawerLayout, (Toolbar) findViewById(R.id.toolbar),
-//                R.string.app_name, R.string.app_name
-//        );
-//        mDrawerLayout.setDrawerListener(mDrawerToggle);
-//        mDrawerToggle.syncState();
-//
-//    }
+    private void getToggleAndSlider() {
+
+        mDrawerToggle = new ActionBarDrawerToggle(
+                this, mDrawerLayout, (Toolbar) findViewById(R.id.toolbar),
+                R.string.app_name, R.string.app_name
+        );
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        mDrawerToggle.syncState();
+
+    }
 
     private void initializeUiElements() {
 
@@ -379,7 +394,10 @@ public class MySalesScreen extends SuperCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         context = getApplicationContext();
-//        getToggleAndSlider();
+
+        setupdrawerLayout();
+        getToggleAndSlider();
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);

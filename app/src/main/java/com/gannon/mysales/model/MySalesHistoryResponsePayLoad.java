@@ -18,6 +18,17 @@ public class MySalesHistoryResponsePayLoad {
     private List<Message> message = null;
     @JsonProperty("status")
     private String status;
+    @JsonProperty("error")
+    private String error;
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
+    }
+
     @JsonProperty("statusCode")
     private Integer statusCode;
 

@@ -46,6 +46,7 @@
     <string name="clear">Clear</string>
     <string name="pls_select_date">Please select date</string>
     <string name="pls_select_time">Please select time</string>
+    <string name="nodatafound">No data found</string>
 
 
 </resources>
