@@ -146,10 +146,6 @@ public class LoginSettings extends SuperCompatActivity {
                 editor.commit();
 
                 ApplicationContext.BASE_URL = ApplicationContext.RESET_BASE_URL;
-                //ApplicationContext.BASE_URL = "https://itoms.2wth.com";
-                //ApplicationContext.BASE_URL = "https://uat.infyztoms.com";
-                //ApplicationContext.BASE_URL = "http://192.168.1.40";
-                //ApplicationContext.BASE_URL = "http://192.168.1.138:8080";
 
 
             }

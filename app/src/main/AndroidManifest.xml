@@ -9,7 +9,8 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-feature android:name="android.hardware.camera"/>
+
+    <uses-feature android:name="android.hardware.camera" />
 
 
     <!--    <application-->
@@ -71,7 +72,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".uploadAuctionDonation.activity.NewAuctionDonation"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:theme="@style/AppTheme.NoActionBar">
 
             <intent-filter>
                 <action android:name="android.media.action.IMAGE_CAPTURE" />

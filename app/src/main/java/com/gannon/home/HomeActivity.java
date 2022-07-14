@@ -113,7 +113,7 @@ public class HomeActivity extends SuperCompatActivity{
             home_img, fav_img, search_img, profile_img, filter_img;
 
     private LinearLayout auction_donation_ll;
-    private TextView auction_list, donation_list;
+    private TextView auction_list, donation_list,notifica_value;
 
 
     private NestedScrollView nestedSV;
@@ -265,6 +265,7 @@ public class HomeActivity extends SuperCompatActivity{
         auction_list = findViewById(R.id.auction_list);
         donation_list = findViewById(R.id.donation_list);
         home_frame_ll = findViewById(R.id.home_frame_ll);
+        notifica_value = findViewById(R.id.notifica_value);
 
         home_all_recycle = (RecyclerView) findViewById(R.id.home_all_recycle);
 

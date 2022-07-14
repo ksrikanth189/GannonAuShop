@@ -107,25 +107,37 @@
                 android:orientation="vertical"
                 android:visibility="visible">
 
-                <ImageView
-                    android:id="@+id/notifica_img"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_gravity="center"
-                    android:layout_margin="@dimen/mar_4"
-                    android:background="@drawable/notifica"
-                    android:scaleType="fitXY" />
+                <FrameLayout
+                    android:layout_width="@dimen/btn_45"
+                    android:layout_height="@dimen/btn_45"
+                    android:visibility="visible"
+                    android:id="@+id/notifica_frame">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:text="Logout"
-                    android:textColor="@color/textWhite"
-                    android:textSize="@dimen/txt_18"
-                    android:textStyle="normal"
-                    android:visibility="gone" />
+
+                    <ImageView
+                        android:id="@+id/notifica_img"
+                        android:layout_width="@dimen/btn_35"
+                        android:layout_height="@dimen/btn_35"
+                        android:visibility="visible"
+                        android:layout_marginTop="@dimen/mar_5"
+                        android:src="@drawable/notifica" />
+
+                    <TextView
+                        android:id="@+id/notifica_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:gravity="top|right"
+                        android:textColor="@color/white"
+                        android:textSize="15dp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="@dimen/mar_10"
+                        android:layout_gravity="top|center"
+                        android:visibility="visible" />
+                </FrameLayout>
+
+
+
 
             </LinearLayout>
 

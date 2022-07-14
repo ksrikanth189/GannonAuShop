@@ -525,6 +525,14 @@ public class NewAuctionDonation extends SuperCompatActivity implements DatePicke
         }
 
         if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
+//            Bitmap photo = (Bitmap) data.getExtras().get("data");
+//              bitmap = (Bitmap) data.getExtras().get("data");
+//             CALL THIS METHOD TO GET THE URI FROM THE BITMAP
+//            Uri tempUri = getImageUri(getApplicationContext(), photo);
+//             CALL THIS METHOD TO GET THE ACTUAL PATH
+//            String finalFile = getRealPathFromURI(tempUri);
+
+//            arrayListImages.add(imagePath);
 
             if (captureImageUri != null)
                 arrayListImages.add(captureImageUri.toString());
@@ -538,11 +546,15 @@ public class NewAuctionDonation extends SuperCompatActivity implements DatePicke
 
             cameraMultiImagesDialog();
 
+//            if (arrayListImages.size() > 2) {
+//                CustomOKAlertDialog("First upload capture images then take other images");
+//            } else {
+//                cameraMultiImagesDialog();
+//            }
+
         }
 
-
         if (requestCode == GALLERY_REQUEST_CODE) {
-
             try {
                 ArrayList<ArrayList<String>> getimages = (ArrayList<ArrayList<String>>) data.getExtras().get("getImages");
                 arrayListImages.addAll(getimages.get(0));
@@ -552,12 +564,10 @@ public class NewAuctionDonation extends SuperCompatActivity implements DatePicke
                 damage_images.setAdapter(imageAdapter1);
                 imageAdapter1.notifyDataSetChanged();
 
-
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                     for (int i = 0; i < arrayListImages.size(); i++) {
                         File file = new File(getimages.get(0).get(i));
                         imageFilePathImages.add(file);
-
                         imageVersion = "latest";
                     }
                 }
@@ -583,7 +593,7 @@ public class NewAuctionDonation extends SuperCompatActivity implements DatePicke
 
     public Uri getImageUri(Context inContext, Bitmap inImage) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        inImage.compress(Bitmap.CompressFormat.JPEG, 80, bytes);
+        inImage.compress(Bitmap.CompressFormat.JPEG, 50, bytes);
         String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
         return Uri.parse(path);
     }
@@ -752,7 +762,7 @@ public class NewAuctionDonation extends SuperCompatActivity implements DatePicke
 //        String fname = "Image-" + n + ".jpg";
 //        File fileNougat = new File(myDir, fname);
 //
-////        File fileNougat = new File(Environment.getExternalStorageDirectory(), "iToms_" + String.valueOf(System.currentTimeMillis()) + ".jpeg");
+////        File fileNougat = new File(Environment.getExternalStorageDirectory(), "gannon" + String.valueOf(System.currentTimeMillis()) + ".jpeg");
 ////        imageUriNouGat = Uri.parse(file.getAbsolutePath());
 //
 //                imagePath = "file:" + fileNougat.getAbsolutePath();
@@ -761,7 +771,7 @@ public class NewAuctionDonation extends SuperCompatActivity implements DatePicke
 
 
         String imageFileName = "OS_" + System.currentTimeMillis() + "_";
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS + File.separator + "/iTOMS");
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS + File.separator + "/Gannon");
         File file = null;
         try {
             file = File.createTempFile(

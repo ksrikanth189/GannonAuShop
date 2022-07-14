@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "894486561951",
-    "project_id": "gannon-e0e1a",
-    "storage_bucket": "gannon-e0e1a.appspot.com"
+    "project_number": "809812046081",
+    "project_id": "gannon-auction-shop",
+    "storage_bucket": "gannon-auction-shop.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:894486561951:android:9a456db7cc896fc97eceaa",
+        "mobilesdk_app_id": "1:809812046081:android:df2989b48568cd52912b00",
         "android_client_info": {
           "package_name": "com.gannon"
         }
       },
       "oauth_client": [
         {
-          "client_id": "894486561951-l35choucmnkl7r5irqjgt57l31osd4cp.apps.googleusercontent.com",
+          "client_id": "809812046081-88esvpjmofrpnbmtek6cfh43udmsid5l.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBKl5fqrC5zHCFlMYkrQdwksxyrjghrVtY"
+          "current_key": "AIzaSyADsASK79vB9H8u0esuunBn0nB8mJREuVo"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "894486561951-l35choucmnkl7r5irqjgt57l31osd4cp.apps.googleusercontent.com",
+              "client_id": "809812046081-88esvpjmofrpnbmtek6cfh43udmsid5l.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

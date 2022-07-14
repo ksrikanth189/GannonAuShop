@@ -131,21 +131,21 @@ public class MyWinsScreen extends SuperCompatActivity {
 
 
         // adding on scroll change listener method for our nested scroll view.
-        idNestedSV.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
-            @Override
-            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                // on scroll change we are checking when users scroll as bottom.
-                if (scrollY == v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight()) {
-                    // in this method we are incrementing page number,
-                    // making progress bar visible and calling get data method.
-                    page++;
-                    idPBLoading.setVisibility(View.VISIBLE);
-
-                    getMyWinsService("auction", page, limit);
-
-                }
-            }
-        });
+//        idNestedSV.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+//            @Override
+//            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+//                // on scroll change we are checking when users scroll as bottom.
+//                if (scrollY == v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight()) {
+//                    // in this method we are incrementing page number,
+//                    // making progress bar visible and calling get data method.
+//                    page++;
+//                    idPBLoading.setVisibility(View.VISIBLE);
+//
+//                    getMyWinsService("auction", page, limit);
+//
+//                }
+//            }
+//        });
     }
 
     public void getMyWinsService(String typestr, int page, int limit) {

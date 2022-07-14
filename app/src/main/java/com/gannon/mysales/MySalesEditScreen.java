@@ -754,7 +754,7 @@ public class MySalesEditScreen extends SuperCompatActivity implements DatePicker
 
 
         String imageFileName = "OS_" + System.currentTimeMillis() + "_";
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS + File.separator+ "/iTOMS");
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS + File.separator+ "/Gannon");
         File file = null;
         try {
             file = File.createTempFile(
