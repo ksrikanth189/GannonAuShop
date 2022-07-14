@@ -4,11 +4,9 @@ public class  ApplicationContext {
 
     public static int TIME_INT = 1000;
 
-//    public static String BASE_URL = "http://192.168.1.5:8080/";
-//    public static String RESET_BASE_URL = "http://192.168.1.5:8080/";
-//
-    public static String BASE_URL = "http://192.168.1.207:8080/";
-    public static String RESET_BASE_URL = "http://192.168.1.207:8080/";
+
+    public static String BASE_URL = "http://192.168.4.38:8080/";
+    public static String RESET_BASE_URL = "http://192.168.4.38:8080/";
 
 
     public static final String RELATIVE_PATH = "Gannon/rest/";

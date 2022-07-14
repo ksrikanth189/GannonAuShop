@@ -1,7 +1,4 @@
-package
-
-
-        com.gannon.profileUpdate.interactor;
+package com.gannon.profileUpdate.interactor;
 
 import android.content.Context;
 import android.util.Log;

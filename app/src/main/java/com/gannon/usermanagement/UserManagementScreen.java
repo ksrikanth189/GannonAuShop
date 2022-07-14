@@ -774,7 +774,7 @@ public class UserManagementScreen extends SuperCompatActivity {
                 productViewHolder.deny_btn.setText("Deactivate");
                 productViewHolder.deny_btn.setBackgroundColor(getResources().getColor(R.color.btn_bg));
             } else if (cartListRes.get(position).getStatus().equalsIgnoreCase("Deactivated")) {
-                productViewHolder.deny_btn.setText("Activated");
+                productViewHolder.deny_btn.setText("Activate");
                 productViewHolder.deny_btn.setBackgroundColor(getResources().getColor(R.color.green));
 
             }

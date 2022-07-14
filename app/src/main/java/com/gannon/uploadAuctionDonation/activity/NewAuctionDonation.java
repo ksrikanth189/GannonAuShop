@@ -555,6 +555,7 @@ public class NewAuctionDonation extends SuperCompatActivity implements DatePicke
         }
 
         if (requestCode == GALLERY_REQUEST_CODE) {
+
             try {
                 ArrayList<ArrayList<String>> getimages = (ArrayList<ArrayList<String>>) data.getExtras().get("getImages");
                 arrayListImages.addAll(getimages.get(0));
@@ -564,10 +565,12 @@ public class NewAuctionDonation extends SuperCompatActivity implements DatePicke
                 damage_images.setAdapter(imageAdapter1);
                 imageAdapter1.notifyDataSetChanged();
 
+
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                     for (int i = 0; i < arrayListImages.size(); i++) {
                         File file = new File(getimages.get(0).get(i));
                         imageFilePathImages.add(file);
+
                         imageVersion = "latest";
                     }
                 }
@@ -607,7 +610,7 @@ public class NewAuctionDonation extends SuperCompatActivity implements DatePicke
             builder = new AlertDialog.Builder(this);
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 1);
             }
@@ -626,7 +629,7 @@ public class NewAuctionDonation extends SuperCompatActivity implements DatePicke
 
 
                         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                             cameraIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
                             try {
                                 captureImageUri = FileProvider.getUriForFile(getApplicationContext(),
