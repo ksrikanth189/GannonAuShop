@@ -37,6 +37,7 @@ import com.gannon.splash.activity.SplashActivity2;
 import com.gannon.usermanagement.UserManagementScreen;
 import com.gannon.utils.RestAPI;
 import com.gannon.utils.SuperCompatActivity;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,10 +53,11 @@ public class LoginActivity extends SuperCompatActivity implements LoginView {
     private LoginPresenter userLoginPresenter;
     private LoginActivityReq loginActivityReq;
     private EditText userId, password;
-    private String loginType;
+    private String token;
     private boolean STORAGE_VAL = false;
     private boolean READ_STORAGE_VAL = false;
     private boolean CAMERA_VAL = false;
+
 
 
     @Override
@@ -66,7 +68,11 @@ public class LoginActivity extends SuperCompatActivity implements LoginView {
 //        setCustomTheme(getApplicationContext());
         setContentView(R.layout.activity_login);
 
+        token = FirebaseInstanceId.getInstance().getToken();
+
         initializeUiElements();
+
+
 
 
     }
@@ -172,7 +178,7 @@ public class LoginActivity extends SuperCompatActivity implements LoginView {
 //                LOCATION_VAL = true;
 
                 if (checkInternet()) {
-                    userLoginPresenter.signInBtnClicked(userId.getText().toString(), password.getText().toString());
+                    userLoginPresenter.signInBtnClicked(userId.getText().toString(), password.getText().toString(),token);
                 } else {
                     showValidationToast(context.getResources().getString(R.string.plz_chk_your_net));
                 }
@@ -288,7 +294,7 @@ public class LoginActivity extends SuperCompatActivity implements LoginView {
 
 
             if (checkInternet()) {
-                userLoginPresenter.signInBtnClicked(userId.getText().toString().trim(), password.getText().toString().trim());
+                userLoginPresenter.signInBtnClicked(userId.getText().toString().trim(), password.getText().toString().trim(),token);
             } else {
                 showValidationToast(context.getResources().getString(R.string.plz_chk_your_net));
             }
@@ -311,7 +317,7 @@ public class LoginActivity extends SuperCompatActivity implements LoginView {
                             CAMERA_VAL = true;
 
                             if (checkInternet()) {
-                                userLoginPresenter.signInBtnClicked(userId.getText().toString().trim(), password.getText().toString().trim());
+                                userLoginPresenter.signInBtnClicked(userId.getText().toString().trim(), password.getText().toString().trim(),token);
                             } else {
                                 showValidationToast(context.getResources().getString(R.string.plz_chk_your_net));
                             }
@@ -323,7 +329,7 @@ public class LoginActivity extends SuperCompatActivity implements LoginView {
                             STORAGE_VAL = true;
 
                             if (checkInternet()) {
-                                userLoginPresenter.signInBtnClicked(userId.getText().toString().trim(), password.getText().toString().trim());
+                                userLoginPresenter.signInBtnClicked(userId.getText().toString().trim(), password.getText().toString().trim(),token);
                             } else {
                                 showValidationToast(context.getResources().getString(R.string.plz_chk_your_net));
                             }
@@ -336,7 +342,7 @@ public class LoginActivity extends SuperCompatActivity implements LoginView {
 
 
                             if (checkInternet()) {
-                                userLoginPresenter.signInBtnClicked(userId.getText().toString().trim(), password.getText().toString().trim());
+                                userLoginPresenter.signInBtnClicked(userId.getText().toString().trim(), password.getText().toString().trim(),token);
                             } else {
                                 showValidationToast(context.getResources().getString(R.string.plz_chk_your_net));
                             }

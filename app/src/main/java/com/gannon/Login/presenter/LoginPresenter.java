@@ -25,7 +25,7 @@ public class LoginPresenter {
         this.context = context;
     }
 
-    public void signInBtnClicked(String userId, String password) {
+    public void signInBtnClicked(String userId, String password,String token) {
         if (userId.length() == 0) {
             context.showValidationToast(context.getResourceStr(context, R.string.pls_enter_register_mobile));
 
@@ -35,9 +35,9 @@ public class LoginPresenter {
             LoginActivityReq loginActivityReq = new LoginActivityReq();
             loginActivityReq.setUserName(userId);
             loginActivityReq.setPassword(password);
-            loginActivityReq.setToken(FirebaseInstanceId.getInstance().getToken());
+            loginActivityReq.setToken(token);
 
-            Log.v("token","token "+FirebaseInstanceId.getInstance().getToken());
+            Log.v("token","token "+token);
 //            .setToken(FirebaseInstanceId.getInstance().getToken());
             loginInteractorInt.callLoginWebService(this, loginActivityReq);
 
