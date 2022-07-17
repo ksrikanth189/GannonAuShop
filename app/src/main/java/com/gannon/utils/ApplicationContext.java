@@ -35,6 +35,9 @@ public class  ApplicationContext {
     public static final String allAuctionDonationsServiceAmountupdate = "allAuctionDonationsService/update";
     public static final String usersListDropDownService = "usersListDropDownService";
     public static final String allAuctionDonationsService_adminUpdate = "allAuctionDonationsService/adminUpdate";
+    public static final String notificationsServiceList = "notificationsService/list";
+    public static final String notificationsServiceUpdate = "notificationsService/update";
+    public static final String notificationsServiceCount = "notificationsService/count";
 
 }
 

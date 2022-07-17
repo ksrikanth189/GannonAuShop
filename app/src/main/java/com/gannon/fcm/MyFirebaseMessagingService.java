@@ -25,13 +25,17 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
+import android.text.TextUtils;
 import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.gannon.R;
+import com.gannon.home.HomeActivity;
+import com.gannon.notifications.NotificationActivity;
 import com.gannon.splash.activity.SplashActivity;
+import com.gannon.splash.activity.SplashActivity2;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -55,7 +59,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public void onMessageReceived(RemoteMessage remoteMessage) {
         Log.e(TAG, "From: " + remoteMessage.getFrom());
 
-        showNotification(remoteMessage.getData().get("message"));
+//        showNotification(remoteMessage.getData().get("message"));
 
         if (remoteMessage == null)
             return;
@@ -63,6 +67,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // Check if message contains a notification payload.
         if (remoteMessage.getNotification() != null) {
             Log.e(TAG, "Notification Body: " + remoteMessage.getNotification().getBody());
+
+//                    showNotification(remoteMessage.getData().get("message"));
+
             handleNotification(remoteMessage.getNotification().getBody());
         }
 
@@ -82,14 +89,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private void showNotification(String message) {
 
-        Intent i = new Intent(this,SplashActivity.class);
+        Intent i = new Intent(MyFirebaseMessagingService.this, HomeActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(this,0,i,PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
                 .setAutoCancel(true)
-                .setContentTitle("FCM Example")
+                .setContentTitle(getResources().getString(R.string.app_name))
                 .setContentText(message)
                 .setSmallIcon(R.mipmap.icon6)
                 .setContentIntent(pendingIntent);
@@ -107,8 +114,20 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             // play notification sound
             NotificationUtils notificationUtils = new NotificationUtils(getApplicationContext());
             notificationUtils.playNotificationSound();
+
+            showNotification(message);
         } else {
             // If the app is in background, firebase itself handles the notification
+
+            Intent pushNotification = new Intent(Config.PUSH_NOTIFICATION);
+            pushNotification.putExtra("message", message);
+            LocalBroadcastManager.getInstance(this).sendBroadcast(pushNotification);
+
+            // play notification sound
+            NotificationUtils notificationUtils = new NotificationUtils(getApplicationContext());
+            notificationUtils.playNotificationSound();
+
+            showNotification(message);
         }
     }
 
@@ -150,7 +169,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
 
                 if (teammain.equalsIgnoreCase("1")) {
-                    Intent intent = new Intent(this, SplashActivity.class);
+                    Intent intent = new Intent(this, SplashActivity2.class);
                     intent.putExtra("skipWalkthrough", "skipWalkthrough");
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
@@ -210,7 +229,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
 
                 if (teammain.equalsIgnoreCase("1")) {
-                    Intent intent = new Intent(this, SplashActivity.class);
+                    Intent intent = new Intent(this, SplashActivity2.class);
                     intent.putExtra("skipWalkthrough", "skipWalkthrough");
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
@@ -262,16 +281,18 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
 
 //                // app is in background, show the notification in notification tray
-//                Intent resultIntent = new Intent(getApplicationContext(), NotificationsActivity.class);
+//                Intent resultIntent = new Intent(getApplicationContext(), NotificationActivity.class);
 //                resultIntent.putExtra("message", message);
 //
-//                // check for image attachment
+//                 check for image attachment
 //                if (TextUtils.isEmpty(imageUrl)) {
 //                    showNotificationMessage(getApplicationContext(), title, message, timestamp, resultIntent);
 //                } else {
-//                    // image is present, show notification with image
+//                     image is present, show notification with image
 //                    showNotificationMessageWithBigImage(getApplicationContext(), title, message, timestamp, resultIntent, imageUrl);
 //                }
+
+
             }
         } catch (JSONException e) {
             Log.e(TAG, "Json Exception: " + e.getMessage());

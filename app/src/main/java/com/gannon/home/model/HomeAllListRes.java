@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
@@ -63,30 +65,14 @@ public class HomeAllListRes {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class Message {
-        @JsonProperty("productName")
         private String productName;
-        @JsonProperty("imageUrl")
         private String imageUrl;
-        @JsonProperty("totalCount")
-        private int totalCount;
-        @JsonProperty("auctionId")
-        private int auctionId;
-        @JsonProperty("donationId")
-        private int donationId;
-        @JsonProperty("auctionAmount")
-        private int auctionAmount;
-        @JsonProperty("closingDate")
+        private Integer totalCount;
+        private Integer auctionId;
+        private Integer donationId;
+        private Integer auctionAmount;
         private String closingDate;
-        @JsonProperty("favouriteCheck")
-        private boolean favouriteCheck;
-
-        public boolean isFavouriteCheck() {
-            return favouriteCheck;
-        }
-
-        public void setFavouriteCheck(boolean favouriteCheck) {
-            this.favouriteCheck = favouriteCheck;
-        }
+        private Boolean favouriteCheck;
 
         public String getProductName() {
             return productName;
@@ -104,35 +90,35 @@ public class HomeAllListRes {
             this.imageUrl = imageUrl;
         }
 
-        public int getTotalCount() {
+        public Integer getTotalCount() {
             return totalCount;
         }
 
-        public void setTotalCount(int totalCount) {
+        public void setTotalCount(Integer totalCount) {
             this.totalCount = totalCount;
         }
 
-        public int getAuctionId() {
+        public Integer getAuctionId() {
             return auctionId;
         }
 
-        public void setAuctionId(int auctionId) {
+        public void setAuctionId(Integer auctionId) {
             this.auctionId = auctionId;
         }
 
-        public int getDonationId() {
+        public Integer getDonationId() {
             return donationId;
         }
 
-        public void setDonationId(int donationId) {
+        public void setDonationId(Integer donationId) {
             this.donationId = donationId;
         }
 
-        public int getAuctionAmount() {
+        public Integer getAuctionAmount() {
             return auctionAmount;
         }
 
-        public void setAuctionAmount(int auctionAmount) {
+        public void setAuctionAmount(Integer auctionAmount) {
             this.auctionAmount = auctionAmount;
         }
 
@@ -143,5 +129,13 @@ public class HomeAllListRes {
         public void setClosingDate(String closingDate) {
             this.closingDate = closingDate;
         }
+
+        public Boolean getFavouriteCheck() {
+            return favouriteCheck;
+        }
+
+        public void setFavouriteCheck(Boolean favouriteCheck) {
+            this.favouriteCheck = favouriteCheck;
+        }
     }
-}
+    }

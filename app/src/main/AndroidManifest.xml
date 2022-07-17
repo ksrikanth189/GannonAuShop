@@ -111,6 +111,9 @@
         <activity
             android:name=".webview.WebViewImageUpload"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".notifications.NotificationActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
 
 
         <!---->

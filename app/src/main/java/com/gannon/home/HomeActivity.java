@@ -61,6 +61,8 @@ import com.gannon.home.model.HomeDenyListRes;
 import com.gannon.home.model.HomeListEditReqPayLoad;
 import com.gannon.home.model.HomeListEditResponsePayLoad;
 import com.gannon.home.model.HomeSlidingListRes;
+import com.gannon.home.model.NotificationsCountReq;
+import com.gannon.home.model.NotificationsCountRes;
 import com.gannon.home.model.ProductNamesDropDownServiceReq;
 import com.gannon.home.model.ProductNamesDropDownServiceRes;
 import com.gannon.home.model.SearchProductReq;
@@ -69,6 +71,9 @@ import com.gannon.myfavourite.MyFavouriteScreen;
 import com.gannon.myfavourite.model.MyFavouriteUpdateReqPayLoad;
 import com.gannon.mysales.MySalesEditScreen;
 import com.gannon.mywins.MyWinsScreen;
+import com.gannon.notifications.NotificationActivity;
+import com.gannon.notifications.model.NotificationsUpdateReq;
+import com.gannon.notifications.model.NotificationsUpdateRes;
 import com.gannon.profileUpdate.activity.ProfileUpdateActivity;
 import com.gannon.sharedpref.SharedPrefHelper;
 import com.gannon.mysales.MySalesScreen;
@@ -106,13 +111,13 @@ public class HomeActivity extends SuperCompatActivity{
     ArrayList<String> slider_image_array = new ArrayList<>();
     private Context context;
     private RestAPI restAPI;
-    private ProgressDialog progressDialog, progressDialog1, progressDialog2, m_progress, m_progress1, m_progress2;
+    private ProgressDialog progressDialog, m_progress, m_progress1, m_progress2,m_progress3;
     private TextView name_txt, marque_txt;
     private Boolean firstTime = null, adfirst = false;
     private ImageView menu_item_img, notifica_img, logout_img,
             home_img, fav_img, search_img, profile_img, filter_img;
 
-    private LinearLayout auction_donation_ll;
+    private LinearLayout auction_donation_ll,notifica_ll;
     private TextView auction_list, donation_list,notifica_value;
 
 
@@ -269,6 +274,9 @@ public class HomeActivity extends SuperCompatActivity{
 
         home_all_recycle = (RecyclerView) findViewById(R.id.home_all_recycle);
 
+        notifica_ll = findViewById(R.id.notifica_ll);
+
+
         GridLayoutManager manager2 = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
         home_all_recycle.setLayoutManager(manager2);
 
@@ -356,6 +364,20 @@ public class HomeActivity extends SuperCompatActivity{
             }
         });
 
+
+        NotificationsCountReq countReq = new NotificationsCountReq();
+        countReq.setUserId(SharedPrefHelper.getLogin(context).getMessage().getUserId());
+        getNotificationsCountService(countReq);
+
+
+        notifica_ll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                startActivity(new Intent(HomeActivity.this,NotificationActivity.class));
+
+            }
+        });
     }
 
 
@@ -371,7 +393,6 @@ public class HomeActivity extends SuperCompatActivity{
     public void onResume() {
         super.onResume();
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-
 
     }
 
@@ -457,7 +478,7 @@ public class HomeActivity extends SuperCompatActivity{
                         gson.toJson(mySalesEditResponsePayLoad);
                         Log.v("damage his", "damge his res" + gson.toJson(mySalesEditResponsePayLoad));
 
-                        if (mySalesEditResponsePayLoad.getStatusCode() == 200) {
+                        if (mySalesEditResponsePayLoad != null && mySalesEditResponsePayLoad.getStatusCode() == 200 && mySalesEditResponsePayLoad.getMessage().size() > 0)  {
                             loadHistoryData(mySalesEditResponsePayLoad, str);
 
                             if (customDialog != null) {
@@ -466,7 +487,7 @@ public class HomeActivity extends SuperCompatActivity{
 
 
                         } else {
-                            CustomOKAlertDialog(mySalesEditResponsePayLoad.getStatus());
+                            CustomOKAlertDialog(mySalesEditResponsePayLoad.getError());
                         }
                     }
 
@@ -578,7 +599,7 @@ public class HomeActivity extends SuperCompatActivity{
             });
 
 
-            if (damageHistoryResPayLoad.getMessage().get(position).isFavouriteCheck()) {
+            if (damageHistoryResPayLoad.getMessage().get(position).getFavouriteCheck() == true) {
                 productViewHolder.fav_img.setBackground(getResources().getDrawable(R.mipmap.favorite_y));
             } else {
                 productViewHolder.fav_img.setBackground(getResources().getDrawable(R.mipmap.favourite));
@@ -593,7 +614,7 @@ public class HomeActivity extends SuperCompatActivity{
                     myFavouriteUpdateReqPayLoad.setDonationId(damageHistoryResPayLoad.getMessage().get(position).getDonationId());
                     myFavouriteUpdateReqPayLoad.setUserId(SharedPrefHelper.getLogin(context).getMessage().getUserId());
 
-                    if (damageHistoryResPayLoad.getMessage().get(position).isFavouriteCheck()) {
+                    if (damageHistoryResPayLoad.getMessage().get(position).getFavouriteCheck() == true) {
                         myFavouriteUpdateReqPayLoad.setOnOffFlag(false);
                     } else {
                         myFavouriteUpdateReqPayLoad.setOnOffFlag(true);
@@ -876,5 +897,70 @@ public class HomeActivity extends SuperCompatActivity{
         }
     }
 
+
+
+    public void getNotificationsCountService(NotificationsCountReq statusSaveReq) {
+
+        try {
+
+
+            m_progress3 = new ProgressDialog(HomeActivity.this);
+            m_progress3.setMessage("Please wait....");
+            m_progress3.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            m_progress3.setIndeterminate(true);
+            m_progress3.setProgress(0);
+            m_progress3.setCancelable(false);
+            m_progress3.show();
+
+
+            Call<NotificationsCountRes> damageHistoryResPayLoadCall = restAPI.getNotificationsCountResCall(statusSaveReq);
+            damageHistoryResPayLoadCall.enqueue(new Callback<NotificationsCountRes>() {
+                @Override
+                public void onResponse(Call<NotificationsCountRes> call, Response<NotificationsCountRes> response) {
+                    if (response.isSuccessful()) {
+
+                        NotificationsCountRes responsePayLoad = response.body();
+
+                        Gson gson = new Gson();
+                        gson.toJson(responsePayLoad);
+                        Log.v("damage his", "damge his res" + gson.toJson(responsePayLoad));
+
+                        if (responsePayLoad.getStatusCode() == 200 && responsePayLoad.getMessage().getCount() != 0) {
+                            notifica_value.setText(responsePayLoad.getMessage().getCount().toString());
+//                            CustomErrorToast(responsePayLoad.getStatus());
+                        } else {
+//                            CustomErrorToast(responsePayLoad.getError());
+                        }
+
+
+                    }
+
+
+                    if (m_progress3 != null && m_progress3.isShowing()) {
+                        m_progress3.dismiss();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<NotificationsCountRes> call, Throwable t) {
+                    CustomErrorToast(getResources().getString(R.string.server_not_responding));
+
+                    if (m_progress3 != null && m_progress3.isShowing()) {
+                        m_progress3.dismiss();
+                    }
+
+                }
+            });
+
+        } catch (Exception e) {
+
+            CustomErrorToast(getResources().getString(R.string.server_not_responding));
+
+            if (m_progress3 != null && m_progress3.isShowing()) {
+                m_progress3.dismiss();
+            }
+
+        }
+    }
 
 }

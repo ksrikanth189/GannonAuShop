@@ -18,6 +18,8 @@ import com.gannon.home.model.HomeApproveListRes;
 import com.gannon.home.model.HomeDenyListRes;
 import com.gannon.home.model.HomeListEditReqPayLoad;
 import com.gannon.home.model.HomeListEditResponsePayLoad;
+import com.gannon.home.model.NotificationsCountReq;
+import com.gannon.home.model.NotificationsCountRes;
 import com.gannon.home.model.ProductNamesDropDownServiceReq;
 import com.gannon.home.model.ProductNamesDropDownServiceRes;
 import com.gannon.home.model.SearchProductReq;
@@ -33,6 +35,10 @@ import com.gannon.mysales.model.MySalesHistoryResponsePayLoad;
 import com.gannon.mysales.model.MySalesUpdateReq;
 import com.gannon.mywins.model.MyWinsReqPayLoad;
 import com.gannon.mywins.model.MyWinsResponsePayLoad;
+import com.gannon.notifications.model.NotificationsReq;
+import com.gannon.notifications.model.NotificationsRes;
+import com.gannon.notifications.model.NotificationsUpdateReq;
+import com.gannon.notifications.model.NotificationsUpdateRes;
 import com.gannon.profileUpdate.interactor.model.ProfileGetReq;
 import com.gannon.profileUpdate.interactor.model.ProfileGetRes;
 import com.gannon.profileUpdate.interactor.model.ProfileUpdateReq;
@@ -153,9 +159,17 @@ public interface RestAPI {
     @POST(ApplicationContext.RELATIVE_PATH + ApplicationContext.usersListDropDownService)
     Call<ProductNamesDropDownServiceRes> getProductNamesDropDownServiceResCall(@Body ProductNamesDropDownServiceReq searchProductReq);
 
-
     @POST(ApplicationContext.RELATIVE_PATH + ApplicationContext.allAuctionDonationsService_adminUpdate)
     Call<SaveResponsePayLoad> getStatusSaveResponsePayLoadCall(@Body StatusSaveReq statusSaveReq);
+
+    @POST(ApplicationContext.RELATIVE_PATH + ApplicationContext.notificationsServiceList)
+    Call<NotificationsRes> getNotificationsResCall(@Body NotificationsReq denySaveReq);
+
+    @POST(ApplicationContext.RELATIVE_PATH + ApplicationContext.notificationsServiceUpdate)
+    Call<NotificationsUpdateRes> getNotificationsUpdateResCall(@Body NotificationsUpdateReq denySaveReq);
+
+    @POST(ApplicationContext.RELATIVE_PATH + ApplicationContext.notificationsServiceCount)
+    Call<NotificationsCountRes> getNotificationsCountResCall(@Body NotificationsCountReq countReq);
 
 
 }
