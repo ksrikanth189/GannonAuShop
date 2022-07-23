@@ -113,14 +113,14 @@
                                             <EditText
                                                 android:id="@+id/productname_edt"
                                                 android:layout_width="match_parent"
-                                                android:layout_height="@dimen/mar_50"
+                                                android:layout_height="match_parent"
                                                 android:layout_marginTop="@dimen/mar_4"
                                                 android:gravity="center_vertical"
                                                 android:background="@drawable/rect_background"
                                                 android:hint="@string/plz_enter_productname"
                                                 android:textColor="@color/black"
-                                                android:paddingLeft="@dimen/mar_10"
-                                                android:singleLine="true"
+                                                android:padding="@dimen/mar_10"
+                                                android:text=""
                                                 android:textColorHint="@color/hint_color" />
 
                                             <TextView
@@ -134,15 +134,15 @@
                                             <EditText
                                                 android:id="@+id/productdes_edt"
                                                 android:layout_width="match_parent"
-                                                android:layout_height="100dp"
+                                                android:layout_height="match_parent"
                                                 android:layout_marginTop="@dimen/mar_4"
-                                                android:gravity="start"
-                                                android:paddingTop="@dimen/mar_10"
+                                                android:gravity="start|center"
+                                                android:padding="@dimen/mar_10"
+                                                android:text=""
                                                 android:layout_gravity="center"
                                                 android:hint="@string/plz_enter_productdes"
                                                 android:background="@drawable/rect_background"
                                                 android:textColor="@color/black"
-                                                android:paddingLeft="@dimen/mar_10"
                                                 android:textColorHint="@color/hint_color" />
 
                                             <LinearLayout

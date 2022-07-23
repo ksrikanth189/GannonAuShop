@@ -51,13 +51,6 @@ public class HomeDenyListRes {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonIgnoreProperties(ignoreUnknown = true)
-    @JsonPropertyOrder({
-            "registrationId",
-            "firstName",
-            "lastName",
-            "email",
-            "phoneNumber"
-    })
     public static class Message {
 
         @JsonProperty("registrationId")
@@ -74,6 +67,18 @@ public class HomeDenyListRes {
         private String studentId;
         @JsonProperty("status")
         private String status;
+
+        @JsonProperty("denyReason")
+        private String denyReason;
+
+        public String getDenyReason() {
+            return denyReason;
+        }
+
+        public void setDenyReason(String denyReason) {
+            this.denyReason = denyReason;
+        }
+
 
         public Integer getRegistrationId() {
             return registrationId;

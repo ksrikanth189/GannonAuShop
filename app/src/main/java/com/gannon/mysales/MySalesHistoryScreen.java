@@ -292,6 +292,7 @@ public class MySalesHistoryScreen extends SuperCompatActivity {
         public void onBindViewHolder(final ProductViewHolder productViewHolder, @SuppressLint("RecyclerView") int position) {
 
             productViewHolder.name_txt.setText(damageHistoryResPayLoad.getMessage().get(position).getAuctionUser() != null ? damageHistoryResPayLoad.getMessage().get(position).getAuctionUser() : "");
+            productViewHolder.email_txt.setText(damageHistoryResPayLoad.getMessage().get(position).getEmail() != null ? damageHistoryResPayLoad.getMessage().get(position).getEmail() : "");
             productViewHolder.date_txt.setText(damageHistoryResPayLoad.getMessage().get(position).getAuctionDate() != null ? damageHistoryResPayLoad.getMessage().get(position).getAuctionDate() : "");
             productViewHolder.amount_txt.setText(damageHistoryResPayLoad.getMessage().get(position).getAuctionAmount().toString());
 
@@ -313,13 +314,14 @@ public class MySalesHistoryScreen extends SuperCompatActivity {
 
         public class ProductViewHolder extends RecyclerView.ViewHolder {
 
-            protected TextView name_txt, date_txt, amount_txt;
+            protected TextView name_txt, email_txt,date_txt, amount_txt;
             protected ImageView item_img;
             protected LinearLayout liner_ll;
 
             public ProductViewHolder(View v) {
                 super(v);
                 name_txt = v.findViewById(R.id.name_txt);
+                email_txt = v.findViewById(R.id.email_txt);
                 date_txt = v.findViewById(R.id.date_txt);
                 amount_txt = v.findViewById(R.id.amount_txt);
                 liner_ll = v.findViewById(R.id.liner_ll);

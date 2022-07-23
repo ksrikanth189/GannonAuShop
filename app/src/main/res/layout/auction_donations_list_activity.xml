@@ -87,7 +87,8 @@
                     <androidx.core.widget.NestedScrollView
                         android:id="@+id/idNestedSV"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="@dimen/btn_40">
 
 
                         <LinearLayout
@@ -99,13 +100,15 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:divider="@null"
-                                android:visibility="visible"/>
+                                android:visibility="visible"
+                                android:layout_marginBottom="@dimen/mar_15" />
 
                             <androidx.recyclerview.widget.RecyclerView
                                 android:id="@+id/donation_recycler_view"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:divider="@null"
+                                android:layout_marginBottom="@dimen/mar_15"
                                 android:visibility="gone"/>
 
 

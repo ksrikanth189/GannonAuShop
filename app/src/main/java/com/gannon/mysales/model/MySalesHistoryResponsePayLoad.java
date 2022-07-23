@@ -65,15 +65,16 @@ public class MySalesHistoryResponsePayLoad {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public  static class Message {
+    public static class Message {
 
         @JsonProperty("auctionUser")
         private String auctionUser;
+        @JsonProperty("email")
+        private String email;
         @JsonProperty("auctionDate")
         private String auctionDate;
         @JsonProperty("auctionAmount")
         private Integer auctionAmount;
-
 
         public String getAuctionUser() {
             return auctionUser;
@@ -97,6 +98,14 @@ public class MySalesHistoryResponsePayLoad {
 
         public void setAuctionAmount(Integer auctionAmount) {
             this.auctionAmount = auctionAmount;
+        }
+
+        public String getEmail() {
+            return email;
+        }
+
+        public void setEmail(String email) {
+            this.email = email;
         }
     }
     }

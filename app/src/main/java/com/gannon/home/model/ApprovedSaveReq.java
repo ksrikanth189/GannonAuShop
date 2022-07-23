@@ -15,7 +15,16 @@ public class ApprovedSaveReq {
     private Integer userId;
     @JsonProperty("approved")
     private String approved;
+    @JsonProperty("denyReason")
+    private String denyReason;
 
+    public String getDenyReason() {
+        return denyReason;
+    }
+
+    public void setDenyReason(String denyReason) {
+        this.denyReason = denyReason;
+    }
 
     public Integer getRegistrationId() {
         return registrationId;

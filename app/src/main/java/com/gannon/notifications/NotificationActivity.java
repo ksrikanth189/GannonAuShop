@@ -84,6 +84,18 @@ public class NotificationActivity extends SuperCompatActivity {
 //        mDrawerToggle.syncState();
 //    }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (!checkInternet()) {
+            CustomErrorToast(getResourceStr(context, R.string.plz_chk_your_net));
+        } else {
+            getNotificationsList();
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
@@ -106,11 +118,11 @@ public class NotificationActivity extends SuperCompatActivity {
 //        recyclerView.setLayoutManager(manager2);
 
 
-        if (!checkInternet()) {
-            CustomErrorToast(getResourceStr(context, R.string.plz_chk_your_net));
-        } else {
-            getNotificationsList();
-        }
+//        if (!checkInternet()) {
+//            CustomErrorToast(getResourceStr(context, R.string.plz_chk_your_net));
+//        } else {
+//            getNotificationsList();
+//        }
 
 
         // adding on scroll change listener method for our nested scroll view.
@@ -252,18 +264,36 @@ public class NotificationActivity extends SuperCompatActivity {
 
             productViewHolder.totalCount_txt.setVisibility(View.GONE);
 
+            if (damageHistoryResPayLoad.getMessage().get(position).getStatus().equalsIgnoreCase("UNREAD")){
+                productViewHolder.liner_ll.setBackgroundColor(getResources().getColor(R.color.white));
+            }else {
+                productViewHolder.liner_ll.setBackgroundColor(getResources().getColor(R.color.hint_color));
+
+            }
+
             productViewHolder.liner_ll.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
-                    NotificationsUpdateReq updateReq = new NotificationsUpdateReq();
-                    updateReq.setUserId(SharedPrefHelper.getLogin(context).getMessage().getUserId());
-                    updateReq.setAuctionId(damageHistoryResPayLoad.getMessage().get(position).getAuctionId());
-                    updateReq.setDonationId(damageHistoryResPayLoad.getMessage().get(position).getDonationId());
-                    updateReq.setRead(1);
-                    getNotificationsUpdateService(updateReq);
 
+                    if (damageHistoryResPayLoad.getMessage().get(position).getStatus().equalsIgnoreCase("UNREAD")){
+                        NotificationsUpdateReq updateReq = new NotificationsUpdateReq();
+                        updateReq.setUserId(SharedPrefHelper.getLogin(context).getMessage().getUserId());
+                        updateReq.setAuctionId(damageHistoryResPayLoad.getMessage().get(position).getAuctionId());
+                        updateReq.setDonationId(damageHistoryResPayLoad.getMessage().get(position).getDonationId());
+                        updateReq.setRead(1);
+                        getNotificationsUpdateService(updateReq);
 
+                    }else {
+
+                        NotificationsUpdateReq updateReq = new NotificationsUpdateReq();
+                        updateReq.setUserId(SharedPrefHelper.getLogin(context).getMessage().getUserId());
+                        updateReq.setAuctionId(damageHistoryResPayLoad.getMessage().get(position).getAuctionId());
+                        updateReq.setDonationId(damageHistoryResPayLoad.getMessage().get(position).getDonationId());
+                        updateReq.setRead(0);
+                        getNotificationsUpdateService(updateReq);
+
+                    }
                     Intent intent = new Intent(NotificationActivity.this, HomeListEditScreen.class);
                     intent.putExtra("cargoId", damageHistoryResPayLoad.getMessage().get(position).getAuctionId());
                     intent.putExtra("barcode", damageHistoryResPayLoad.getMessage().get(position).getDonationId());

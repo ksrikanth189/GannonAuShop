@@ -101,33 +101,42 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/btn_40"
                         android:layout_gravity="center"
-                        android:gravity="center"
+                        android:gravity="start|center"
                         android:layout_weight="1"
                         android:text="User name"
                         android:textStyle="bold"
-                        android:textSize="@dimen/txt_16"
+                        android:textSize="@dimen/txt_14"
+                        android:textColor="@color/black"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/btn_40"
+                        android:layout_gravity="center"
+                        android:gravity="start|center"
+                        android:layout_weight="1"
+                        android:text="Email"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/txt_14"
                         android:textColor="@color/black"/>
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/btn_40"
                         android:layout_gravity="center"
-                        android:gravity="center"
+                        android:gravity="start|center"
                         android:layout_weight="1"
-                        android:text="Auction date"
+                        android:text="Date"
                         android:textStyle="bold"
-                        android:textSize="@dimen/txt_16"
-                        android:textColor="@color/black"
-                        android:background="@drawable/rect_background"/>
+                        android:textSize="@dimen/txt_14"
+                        android:textColor="@color/black"/>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/btn_40"
                         android:layout_gravity="center"
-                        android:gravity="center"
+                        android:gravity="start|center"
                         android:layout_weight="1"
                         android:text="Amount"
                         android:textStyle="bold"
-                        android:textSize="@dimen/txt_16"
+                        android:textSize="@dimen/txt_14"
                         android:textColor="@color/black"/>
 
                 </LinearLayout>

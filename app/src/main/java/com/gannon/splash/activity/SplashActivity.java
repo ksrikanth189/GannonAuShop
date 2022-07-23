@@ -16,12 +16,16 @@ import android.view.View;
 import android.widget.Button;
 
 import com.gannon.BuildConfig;
+import com.gannon.Login.activity.LoginActivity;
 import com.gannon.R;
+import com.gannon.home.HomeActivity;
+import com.gannon.sharedpref.SharedPrefHelper;
 import com.gannon.splash.interactor.SplashInteractor;
 import com.gannon.splash.interactor.SplashInteractorInt;
 import com.gannon.splash.interactor.model.CheckForUpdateRes;
 import com.gannon.splash.presenter.SplashPresenter;
 import com.gannon.splash.view.SplashView;
+import com.gannon.usermanagement.UserManagementScreen;
 import com.gannon.utils.ApplicationContext;
 import com.gannon.utils.RestAPI;
 import com.gannon.utils.SuperCompatActivity;
@@ -45,12 +49,11 @@ public class SplashActivity extends SuperCompatActivity implements SplashView {
         setContentView(R.layout.activity_splash);
 
 
-
         context = getApplicationContext();
         restAPI = getRestAPIObj();
         progressDialog = initializeProgressDialog(this);
 
-       final SplashInteractorInt splashInteractorInt = new SplashInteractor(context, restAPI);
+        final SplashInteractorInt splashInteractorInt = new SplashInteractor(context, restAPI);
         splashPresenter = new SplashPresenter(this, splashInteractorInt);
 
         Handler handler = new Handler();
@@ -59,16 +62,16 @@ public class SplashActivity extends SuperCompatActivity implements SplashView {
             public void run() {
                 try {
 
-                   if (checkInternet()) {
+                    if (checkInternet()) {
 //                      splashPresenter.checkForAppUpdate();
-                       navigateToHomeScreen();
+                        navigateToHomeScreen();
 
 
-                   } else {
+                    } else {
                         showValidationToast(getResourceStr(context, R.string.plz_chk_your_net));
                         navigateToHomeScreen();
                     }
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.getMessage();
                 }
 
@@ -117,20 +120,18 @@ public class SplashActivity extends SuperCompatActivity implements SplashView {
     @Override
     public void navigateToHomeScreen() {
 
-//
-     startActivity(new Intent(SplashActivity.this, SplashActivity2.class));
-     finish();
+        if (SharedPrefHelper.getLogin(context) == null) {
+            startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+            finish();
 
-//        if (SharedPrefHelper.getLogin(context) == null) {
-//            startActivity(new Intent(SplashActivity.this, LoginActivity.class));
-//            finish();
-//
-//        } else {
-//            startActivity(new Intent(SplashActivity.this, HomeActivity.class));
-//            finish();
-//
-//        }
+        } else {
+            if (SharedPrefHelper.getLogin(context) != null && SharedPrefHelper.getLogin(context).getMessage() != null && SharedPrefHelper.getLogin(context).getMessage().getAdminFlag() == true) {
+                startActivity(new Intent(SplashActivity.this, UserManagementScreen.class));
+            } else {
+                startActivity(new Intent(SplashActivity.this, HomeActivity.class));
+            }
 
+        }
 
     }
 
@@ -163,6 +164,7 @@ public class SplashActivity extends SuperCompatActivity implements SplashView {
     /*version Dialog*/
 
     Dialog fbDialogue;
+
     public void updatePopup(final String play_url) {
         fbDialogue = new Dialog(SplashActivity.this, android.R.style.Theme_Black_NoTitleBar);
         fbDialogue.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(100, 0, 0, 0)));

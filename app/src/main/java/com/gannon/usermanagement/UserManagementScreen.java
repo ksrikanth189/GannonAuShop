@@ -21,6 +21,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -665,6 +666,7 @@ public class UserManagementScreen extends SuperCompatActivity {
                         approvedSaveReq.setApproved("Y");
                         approvedSaveReq.setRegistrationId(cartListRes.get(position).getRegistrationId());
                         approvedSaveReq.setUserId(SharedPrefHelper.getLogin(context).getMessage().getUserId());
+                        approvedSaveReq.setDenyReason(productViewHolder.denyReason_txt.getText().toString().trim());
                         getApprovedSaveReqCall(approvedSaveReq);
                     } else {
                         CustomErrorToast(getResources().getString(R.string.server_not_responding));
@@ -682,6 +684,7 @@ public class UserManagementScreen extends SuperCompatActivity {
                         approvedSaveReq.setApproved("N");
                         approvedSaveReq.setRegistrationId(cartListRes.get(position).getRegistrationId());
                         approvedSaveReq.setUserId(SharedPrefHelper.getLogin(context).getMessage().getUserId());
+                        approvedSaveReq.setDenyReason(productViewHolder.denyReason_txt.getText().toString().trim());
                         getApprovedSaveReqCall(approvedSaveReq);
                     } else {
                         CustomErrorToast(getResources().getString(R.string.server_not_responding));
@@ -705,6 +708,7 @@ public class UserManagementScreen extends SuperCompatActivity {
 
             protected TextView firstname_txt, lastName_txt, email_txt, phoneNumber_txt, studentId_txt;
             protected Button approve_btn, deny_btn;
+            protected EditText denyReason_txt;
 
             public ProductViewHolder(View v) {
                 super(v);
@@ -715,6 +719,7 @@ public class UserManagementScreen extends SuperCompatActivity {
                 phoneNumber_txt = (TextView) v.findViewById(R.id.phoneNumber_txt);
                 approve_btn = (Button) v.findViewById(R.id.approve_btn);
                 deny_btn = (Button) v.findViewById(R.id.deny_btn);
+                denyReason_txt =  v.findViewById(R.id.denyReason_txt);
             }
         }
 
@@ -767,8 +772,11 @@ public class UserManagementScreen extends SuperCompatActivity {
 
             productViewHolder.studentId_txt.setText(": " + cartListRes.get(position).getStudentId() != null
                     ? ": " + cartListRes.get(position).getStudentId() : "");
+
 //            productViewHolder.phoneNumber_txt.setText(": " + cartListRes.get(position).getPhoneNumber() != null
 //                    ? ": " + cartListRes.get(position).getPhoneNumber() : "");
+            productViewHolder.denyReason_txt.setText(cartListRes.get(position).getDenyReason() != null
+                    ? ": " + cartListRes.get(position).getDenyReason() : ": ");
 
             if (cartListRes.get(position).getStatus().equalsIgnoreCase("Activated")) {
                 productViewHolder.deny_btn.setText("Deactivate");
@@ -806,7 +814,7 @@ public class UserManagementScreen extends SuperCompatActivity {
 
         public class ProductViewHolder extends RecyclerView.ViewHolder {
 
-            protected TextView firstname_txt, lastName_txt, email_txt, phoneNumber_txt, studentId_txt;
+            protected TextView firstname_txt, lastName_txt, email_txt, phoneNumber_txt, studentId_txt,denyReason_txt;
             protected Button approve_btn, deny_btn;
 
             public ProductViewHolder(View v) {
@@ -818,6 +826,7 @@ public class UserManagementScreen extends SuperCompatActivity {
                 phoneNumber_txt = (TextView) v.findViewById(R.id.phoneNumber_txt);
                 approve_btn = (Button) v.findViewById(R.id.approve_btn);
                 deny_btn = (Button) v.findViewById(R.id.deny_btn);
+                denyReason_txt = v.findViewById(R.id.denyReason_txt);
             }
         }
 

@@ -19,10 +19,12 @@ import com.gannon.Login.activity.LoginActivity;
 import com.gannon.Login.activity.LoginSettings;
 import com.gannon.R;
 import com.gannon.Register.activity.RegisterActivity;
+import com.gannon.home.HomeActivity;
 import com.gannon.sharedpref.SharedPrefHelper;
 import com.gannon.splash.interactor.model.CheckForUpdateRes;
 import com.gannon.splash.presenter.SplashPresenter;
 import com.gannon.splash.view.SplashView;
+import com.gannon.usermanagement.UserManagementScreen;
 import com.gannon.utils.RestAPI;
 import com.gannon.utils.SuperCompatActivity;
 
@@ -123,8 +125,11 @@ public class SplashActivity2 extends SuperCompatActivity implements SplashView {
             finish();
 
         } else {
-//            startActivity(new Intent(SplashActivity.this, HomeActivity.class));
-            finish();
+            if (SharedPrefHelper.getLogin(context) != null && SharedPrefHelper.getLogin(context).getMessage() != null && SharedPrefHelper.getLogin(context).getMessage().getAdminFlag() == true) {
+                startActivity(new Intent(SplashActivity2.this, UserManagementScreen.class));
+            }else {
+                startActivity(new Intent(SplashActivity2.this, HomeActivity.class));
+            }
 
         }
 

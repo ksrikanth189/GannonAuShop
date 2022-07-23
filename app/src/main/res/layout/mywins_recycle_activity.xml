@@ -39,14 +39,16 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:divider="@null"
-                        android:visibility="visible"></androidx.recyclerview.widget.RecyclerView>
+                        android:layout_marginBottom="@dimen/mar_15"
+                        android:visibility="visible"/>
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/donation_recycler_view"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:divider="@null"
-                        android:visibility="visible"></androidx.recyclerview.widget.RecyclerView>
+                        android:layout_marginBottom="@dimen/mar_15"
+                        android:visibility="gone"/>
 
 
                     <ProgressBar

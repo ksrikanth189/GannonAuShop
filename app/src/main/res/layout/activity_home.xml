@@ -94,7 +94,8 @@
                             <ScrollView
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:visibility="visible">
+                                android:visibility="visible"
+                                android:layout_marginBottom="@dimen/btn_40">
 
 
                                 <LinearLayout
@@ -106,7 +107,7 @@
                                         android:id="@+id/home_all_recycle"
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent"
-                                        android:layout_margin="@dimen/mar_5"
+                                        android:layout_marginBottom="@dimen/mar_15"
                                         android:layout_gravity="center"
                                         android:visibility="visible" />
 
