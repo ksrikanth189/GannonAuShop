@@ -121,7 +121,7 @@ public class SplashActivity2 extends SuperCompatActivity implements SplashView {
 //     finish();
 
         if (SharedPrefHelper.getLogin(context) == null) {
-            startActivity(new Intent(SplashActivity2.this, LoginActivity.class));
+            startActivity(new Intent(SplashActivity2.this, SplashActivity.class));
             finish();
 
         } else {

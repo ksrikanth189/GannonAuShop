@@ -442,7 +442,7 @@ public class MySalesEditScreen extends SuperCompatActivity implements DatePicker
 
                             CustomErrorToast(damage_saveResponsePayLoad.getMessage());
 
-                            Intent intent = new Intent(MySalesEditScreen.this, HomeActivity.class);
+                            Intent intent = new Intent(MySalesEditScreen.this, MySalesScreen.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);

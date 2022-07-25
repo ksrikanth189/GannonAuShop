@@ -51,6 +51,7 @@
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:gravity="start"
+                    android:paddingLeft="@dimen/mar_10"
                     android:text=""
                     android:textColor="@color/black"
                     android:textSize="@dimen/txt_16" />

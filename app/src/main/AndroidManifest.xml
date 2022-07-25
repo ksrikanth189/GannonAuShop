@@ -114,6 +114,9 @@
         <activity
             android:name=".notifications.NotificationActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".notifications.UserNotificationActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
 
 
         <!---->

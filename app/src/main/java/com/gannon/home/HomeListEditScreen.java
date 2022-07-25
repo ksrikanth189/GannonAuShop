@@ -352,7 +352,7 @@ public class HomeListEditScreen extends SuperCompatActivity {
             public void onClick(View arg0) {
 
 
-                if (auctionAmount_txt.getText().toString().equalsIgnoreCase("999")){
+//                if (auctionAmount_txt.getText().toString().equalsIgnoreCase("999")){
 
                     AmountSaveReq amountSaveReq = new AmountSaveReq();
                     amountSaveReq.setAuctionAmount(Integer.valueOf(newAmount_edt.getText().toString()));
@@ -361,9 +361,9 @@ public class HomeListEditScreen extends SuperCompatActivity {
 
                     getAmountUpdateService(amountSaveReq);
 
-                }else {
-                    CustomOKAlertDialog("Are you sure? Do you wanna continue with amount more than $1000? ");
-                }
+//                }else {
+//                    CustomOKAlertDialog("Are you sure? Do you wanna continue with amount more than $1000? ");
+//                }
 
 
             }

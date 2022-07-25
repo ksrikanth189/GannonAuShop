@@ -373,11 +373,11 @@ public class HomeActivity extends SuperCompatActivity{
         notifica_ll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 startActivity(new Intent(HomeActivity.this,NotificationActivity.class));
-
             }
         });
+
+
     }
 
 
@@ -480,14 +480,12 @@ public class HomeActivity extends SuperCompatActivity{
 
                         if (mySalesEditResponsePayLoad != null && mySalesEditResponsePayLoad.getStatusCode() == 200 && mySalesEditResponsePayLoad.getMessage().size() > 0)  {
                             loadHistoryData(mySalesEditResponsePayLoad, str);
-
                             if (customDialog != null) {
                                 customDialog.dismiss();
                             }
 
-
                         } else {
-                            CustomOKAlertDialog(mySalesEditResponsePayLoad.getError());
+//                            CustomOKAlertDialog(mySalesEditResponsePayLoad.getError());
                         }
                     }
 

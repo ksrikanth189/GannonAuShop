@@ -121,7 +121,7 @@ public class SplashActivity extends SuperCompatActivity implements SplashView {
     public void navigateToHomeScreen() {
 
         if (SharedPrefHelper.getLogin(context) == null) {
-            startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+            startActivity(new Intent(SplashActivity.this, SplashActivity2.class));
             finish();
 
         } else {

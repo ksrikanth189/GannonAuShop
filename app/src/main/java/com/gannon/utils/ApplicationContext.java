@@ -39,5 +39,8 @@ public class  ApplicationContext {
     public static final String notificationsServiceUpdate = "notificationsService/update";
     public static final String notificationsServiceCount = "notificationsService/count";
 
+    public static final String usernotificationsServiceList = "usernotificationsService/list";
+
+
 }
 

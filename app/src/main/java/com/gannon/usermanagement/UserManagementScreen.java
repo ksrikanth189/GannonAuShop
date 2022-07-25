@@ -47,6 +47,8 @@ import com.gannon.home.model.ApprovedSaveReq;
 import com.gannon.home.model.DenySaveReq;
 import com.gannon.home.model.HomeApproveListRes;
 import com.gannon.home.model.HomeDenyListRes;
+import com.gannon.home.model.NotificationsCountReq;
+import com.gannon.home.model.NotificationsCountRes;
 import com.gannon.home.model.SearchProductReq;
 import com.gannon.home.model.SearchProductRes;
 import com.gannon.mysales.MySalesEditScreen;
@@ -54,6 +56,8 @@ import com.gannon.mysales.MySalesScreen;
 import com.gannon.mysales.model.MySalesReqPayLoad;
 import com.gannon.mysales.model.MySalesResponsePayLoad;
 import com.gannon.mywins.MyWinsScreen;
+import com.gannon.notifications.NotificationActivity;
+import com.gannon.notifications.UserNotificationActivity;
 import com.gannon.sharedpref.SharedPrefHelper;
 import com.gannon.uploadAuctionDonation.activity.NewAuctionDonation;
 import com.gannon.utils.ApplicationContext;
@@ -81,7 +85,7 @@ import retrofit2.Retrofit;
 public class UserManagementScreen extends SuperCompatActivity {
 
 
-    private ProgressDialog m_progress, progressDialog, progressDialog1, progressDialog2, m_progress1;
+    private ProgressDialog m_progress, progressDialog, progressDialog1, progressDialog2, m_progress1,m_progress3;
     private Retrofit retrofit;
     private RestAPI restAPI;
 
@@ -104,8 +108,9 @@ public class UserManagementScreen extends SuperCompatActivity {
     private AutoCompleteTextView autocomp_search, autocomp_donat_search;
     private UserMangSearchRes searchProductRes;
     private String typeStr = "auction";
-    private LinearLayout auction_search_ll, donation_search_ll;
+    private LinearLayout auction_search_ll, donation_search_ll,notifica_ll;
 
+    private TextView notifica_value;
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -299,6 +304,9 @@ public class UserManagementScreen extends SuperCompatActivity {
 
         auction_search_ll = findViewById(R.id.auction_search_ll);
         donation_search_ll = findViewById(R.id.donation_search_ll);
+        notifica_ll = findViewById(R.id.notifica_ll);
+        notifica_ll.setVisibility(View.VISIBLE);
+        notifica_value = findViewById(R.id.notifica_value);
 
         logout_img.setVisibility(View.VISIBLE);
 
@@ -425,6 +433,18 @@ public class UserManagementScreen extends SuperCompatActivity {
             }
         });
 
+
+        NotificationsCountReq countReq = new NotificationsCountReq();
+        countReq.setUserId(SharedPrefHelper.getLogin(context).getMessage().getUserId());
+        getNotificationsCountService(countReq);
+
+
+        notifica_ll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(UserManagementScreen.this, UserNotificationActivity.class));
+            }
+        });
     }
 
     public void getCategoryList(UserMangSearchReq mangSearchReq) {
@@ -1053,5 +1073,70 @@ public class UserManagementScreen extends SuperCompatActivity {
         }
     }
 
+
+
+    public void getNotificationsCountService(NotificationsCountReq statusSaveReq) {
+
+        try {
+
+
+            m_progress3 = new ProgressDialog(UserManagementScreen.this);
+            m_progress3.setMessage("Please wait....");
+            m_progress3.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            m_progress3.setIndeterminate(true);
+            m_progress3.setProgress(0);
+            m_progress3.setCancelable(false);
+            m_progress3.show();
+
+
+            Call<NotificationsCountRes> damageHistoryResPayLoadCall = restAPI.getNotificationsCountResCall(statusSaveReq);
+            damageHistoryResPayLoadCall.enqueue(new Callback<NotificationsCountRes>() {
+                @Override
+                public void onResponse(Call<NotificationsCountRes> call, Response<NotificationsCountRes> response) {
+                    if (response.isSuccessful()) {
+
+                        NotificationsCountRes responsePayLoad = response.body();
+
+                        Gson gson = new Gson();
+                        gson.toJson(responsePayLoad);
+                        Log.v("damage his", "damge his res" + gson.toJson(responsePayLoad));
+
+                        if (responsePayLoad.getStatusCode() == 200 && responsePayLoad.getMessage().getCount() != 0) {
+                            notifica_value.setText(responsePayLoad.getMessage().getCount().toString());
+//                            CustomErrorToast(responsePayLoad.getStatus());
+                        } else {
+//                            CustomErrorToast(responsePayLoad.getError());
+                        }
+
+
+                    }
+
+
+                    if (m_progress3 != null && m_progress3.isShowing()) {
+                        m_progress3.dismiss();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<NotificationsCountRes> call, Throwable t) {
+                    CustomErrorToast(getResources().getString(R.string.server_not_responding));
+
+                    if (m_progress3 != null && m_progress3.isShowing()) {
+                        m_progress3.dismiss();
+                    }
+
+                }
+            });
+
+        } catch (Exception e) {
+
+            CustomErrorToast(getResources().getString(R.string.server_not_responding));
+
+            if (m_progress3 != null && m_progress3.isShowing()) {
+                m_progress3.dismiss();
+            }
+
+        }
+    }
 
 }

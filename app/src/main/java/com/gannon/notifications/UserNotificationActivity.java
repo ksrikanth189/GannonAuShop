@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,7 +20,6 @@ import android.widget.TextView;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.widget.NestedScrollView;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -29,13 +27,12 @@ import com.bumptech.glide.Glide;
 import com.gannon.R;
 import com.gannon.home.HomeActivity;
 import com.gannon.home.HomeListEditScreen;
-import com.gannon.home.model.StatusSaveReq;
 import com.gannon.notifications.model.NotificationsReq;
 import com.gannon.notifications.model.NotificationsRes;
 import com.gannon.notifications.model.NotificationsUpdateReq;
 import com.gannon.notifications.model.NotificationsUpdateRes;
+import com.gannon.notifications.model.UserNotificationsRes;
 import com.gannon.sharedpref.SharedPrefHelper;
-import com.gannon.uploadAuctionDonation.interactor.model.SaveResponsePayLoad;
 import com.gannon.utils.ApplicationContext;
 import com.gannon.utils.RestAPI;
 import com.gannon.utils.SuperCompatActivity;
@@ -52,7 +49,7 @@ import retrofit2.Retrofit;
  * Created by Srikanth.K on
  */
 
-public class NotificationActivity extends SuperCompatActivity {
+public class UserNotificationActivity extends SuperCompatActivity {
 
 
     private ProgressDialog m_progress,m_progress1;
@@ -112,7 +109,7 @@ public class NotificationActivity extends SuperCompatActivity {
         idNestedSV = (NestedScrollView) findViewById(R.id.idNestedSV);
         idPBLoading = findViewById(R.id.idPBLoading);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(NotificationActivity.this, LinearLayoutManager.VERTICAL, false));
+        recyclerView.setLayoutManager(new LinearLayoutManager(UserNotificationActivity.this, LinearLayoutManager.VERTICAL, false));
 
 //        GridLayoutManager manager2 = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
 //        recyclerView.setLayoutManager(manager2);
@@ -124,30 +121,13 @@ public class NotificationActivity extends SuperCompatActivity {
 //            getNotificationsList();
 //        }
 
-
-        // adding on scroll change listener method for our nested scroll view.
-//        idNestedSV.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
-//            @Override
-//            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-//                // on scroll change we are checking when users scroll as bottom.
-//                if (scrollY == v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight()) {
-//                    // in this method we are incrementing page number,
-//                    // making progress bar visible and calling get data method.
-//                    page++;
-//                    idPBLoading.setVisibility(View.VISIBLE);
-//
-//                    getNotificationsList("auction", page, limit);
-//
-//                }
-//            }
-//        });
     }
 
     public void getNotificationsList() {
 
         try {
 
-            m_progress = new ProgressDialog(NotificationActivity.this);
+            m_progress = new ProgressDialog(UserNotificationActivity.this);
             m_progress.setMessage("Please wait....");
             m_progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             m_progress.setIndeterminate(true);
@@ -159,13 +139,13 @@ public class NotificationActivity extends SuperCompatActivity {
             dmgreq.setUserId(SharedPrefHelper.getLogin(context).getMessage().getUserId());
 
 
-            Call<NotificationsRes> damageHistoryResPayLoadCall = restAPI.getNotificationsResCall(dmgreq);
-            damageHistoryResPayLoadCall.enqueue(new Callback<NotificationsRes>() {
+            Call<UserNotificationsRes> damageHistoryResPayLoadCall = restAPI.getUserNotificationsResCall(dmgreq);
+            damageHistoryResPayLoadCall.enqueue(new Callback<UserNotificationsRes>() {
                 @Override
-                public void onResponse(Call<NotificationsRes> call, Response<NotificationsRes> response) {
+                public void onResponse(Call<UserNotificationsRes> call, Response<UserNotificationsRes> response) {
                     if (response.isSuccessful()) {
 
-                        NotificationsRes responsePayLoad = response.body();
+                        UserNotificationsRes responsePayLoad = response.body();
 
                         Gson gson = new Gson();
                         gson.toJson(responsePayLoad);
@@ -186,7 +166,7 @@ public class NotificationActivity extends SuperCompatActivity {
                 }
 
                 @Override
-                public void onFailure(Call<NotificationsRes> call, Throwable t) {
+                public void onFailure(Call<UserNotificationsRes> call, Throwable t) {
                     CustomErrorToast(getResources().getString(R.string.server_not_responding));
 
                     if (m_progress != null && m_progress.isShowing()) {
@@ -205,7 +185,7 @@ public class NotificationActivity extends SuperCompatActivity {
         }
     }
 
-    private void loadHistoryData(NotificationsRes responsePayLoad) {
+    private void loadHistoryData(UserNotificationsRes responsePayLoad) {
         if (responsePayLoad.getMessage() != null) {
             if (responsePayLoad.getMessage().size() > 0) {
                 recyclerView.setVisibility(View.VISIBLE);
@@ -220,9 +200,9 @@ public class NotificationActivity extends SuperCompatActivity {
     public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
 
         Context mContext;
-        NotificationsRes damageHistoryResPayLoad;
+        UserNotificationsRes damageHistoryResPayLoad;
 
-        public ProductAdapter(NotificationsRes damageHistoryResPayLoad, Context context) {
+        public ProductAdapter(UserNotificationsRes damageHistoryResPayLoad, Context context) {
             this.damageHistoryResPayLoad = damageHistoryResPayLoad;
             mContext = context;
         }
@@ -249,19 +229,20 @@ public class NotificationActivity extends SuperCompatActivity {
 
             productViewHolder.item_txt.setText(damageHistoryResPayLoad.getMessage().get(position).getMessage() != null ? damageHistoryResPayLoad.getMessage().get(position).getMessage() : "");
 
-            String url = "";
+//            String url = "";
+//
+//            if (damageHistoryResPayLoad.getMessage().get(position).getImageUrl() != null) {
+//                url = ApplicationContext.BASE_URL + "/" + damageHistoryResPayLoad.getMessage().get(position).getImageUrl().replace(".png", ".jpg");
+//            }
+//
+//            Glide.with(UserNotificationActivity.this)
+//                    .load(url)
+//                    .error(R.mipmap.icon6)
+//                    .placeholder(R.mipmap.icon6)
+//                    .into(productViewHolder.item_img);
 
-            if (damageHistoryResPayLoad.getMessage().get(position).getImageUrl() != null) {
-                url = ApplicationContext.BASE_URL + "/" + damageHistoryResPayLoad.getMessage().get(position).getImageUrl().replace(".png", ".jpg");
-            }
 
-            Glide.with(NotificationActivity.this)
-                    .load(url)
-                    .error(R.mipmap.icon6)
-                    .placeholder(R.mipmap.icon6)
-                    .into(productViewHolder.item_img);
-
-
+            productViewHolder.item_img.setVisibility(View.GONE);
             productViewHolder.totalCount_txt.setVisibility(View.GONE);
 
             if (damageHistoryResPayLoad.getMessage().get(position).getStatus().equalsIgnoreCase("UNREAD")){
@@ -274,33 +255,28 @@ public class NotificationActivity extends SuperCompatActivity {
             productViewHolder.liner_ll.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+//                    if (damageHistoryResPayLoad.getMessage().get(position).getStatus().equalsIgnoreCase("UNREAD")){
+//                        NotificationsUpdateReq updateReq = new NotificationsUpdateReq();
+//                        updateReq.setUserId(SharedPrefHelper.getLogin(context).getMessage().getUserId());
+//                        updateReq.setAuctionId(damageHistoryResPayLoad.getMessage().get(position).getAuctionId());
+//                        updateReq.setDonationId(damageHistoryResPayLoad.getMessage().get(position).getDonationId());
+//                        updateReq.setRead(1);
+//                        getNotificationsUpdateService(updateReq);
+//
+//                    }else {
+//
+//                        NotificationsUpdateReq updateReq = new NotificationsUpdateReq();
+//                        updateReq.setUserId(SharedPrefHelper.getLogin(context).getMessage().getUserId());
+//                        updateReq.setAuctionId(damageHistoryResPayLoad.getMessage().get(position).getAuctionId());
+//                        updateReq.setDonationId(damageHistoryResPayLoad.getMessage().get(position).getDonationId());
+//                        updateReq.setRead(0);
+//                        getNotificationsUpdateService(updateReq);
+//
+//                    }
 
-
-                    if (damageHistoryResPayLoad.getMessage().get(position).getStatus().equalsIgnoreCase("UNREAD")){
-                        NotificationsUpdateReq updateReq = new NotificationsUpdateReq();
-                        updateReq.setUserId(SharedPrefHelper.getLogin(context).getMessage().getUserId());
-                        updateReq.setAuctionId(damageHistoryResPayLoad.getMessage().get(position).getAuctionId());
-                        updateReq.setDonationId(damageHistoryResPayLoad.getMessage().get(position).getDonationId());
-                        updateReq.setRead(1);
-                        getNotificationsUpdateService(updateReq);
-
-                    }else {
-
-                        NotificationsUpdateReq updateReq = new NotificationsUpdateReq();
-                        updateReq.setUserId(SharedPrefHelper.getLogin(context).getMessage().getUserId());
-                        updateReq.setAuctionId(damageHistoryResPayLoad.getMessage().get(position).getAuctionId());
-                        updateReq.setDonationId(damageHistoryResPayLoad.getMessage().get(position).getDonationId());
-                        updateReq.setRead(0);
-                        getNotificationsUpdateService(updateReq);
-
-                    }
-                    Intent intent = new Intent(NotificationActivity.this, HomeListEditScreen.class);
-                    intent.putExtra("cargoId", damageHistoryResPayLoad.getMessage().get(position).getAuctionId());
-                    intent.putExtra("barcode", damageHistoryResPayLoad.getMessage().get(position).getDonationId());
-                    intent.putExtra("type", damageHistoryResPayLoad.getMessage().get(position).getAuctionOrDonation());
-                    intent.putExtra("screen", "mywins");
-                    intent.putExtra("productname", "Product");
+                    Intent intent = new Intent(UserNotificationActivity.this, HomeActivity.class);
                     startActivity(intent);
+                    finish();
 
 
 
@@ -372,7 +348,7 @@ public class NotificationActivity extends SuperCompatActivity {
         try {
 
 
-            m_progress1 = new ProgressDialog(NotificationActivity.this);
+            m_progress1 = new ProgressDialog(UserNotificationActivity.this);
             m_progress1.setMessage("Please wait....");
             m_progress1.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             m_progress1.setIndeterminate(true);
@@ -394,8 +370,6 @@ public class NotificationActivity extends SuperCompatActivity {
                         Log.v("damage his", "damge his res" + gson.toJson(responsePayLoad));
 
                         if (responsePayLoad.getStatusCode() == 200) {
-//                            CustomErrorToast(responsePayLoad.getStatus());
-
                             if (!checkInternet()) {
                                 CustomErrorToast(getResourceStr(context, R.string.plz_chk_your_net));
                             } else {
