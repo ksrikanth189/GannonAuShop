@@ -40,6 +40,7 @@ import com.gannon.notifications.model.NotificationsRes;
 import com.gannon.notifications.model.NotificationsUpdateReq;
 import com.gannon.notifications.model.NotificationsUpdateRes;
 import com.gannon.notifications.model.UserNotificationsRes;
+import com.gannon.notifications.model.UserNotificationsUpdateReq;
 import com.gannon.profileUpdate.interactor.model.ProfileGetReq;
 import com.gannon.profileUpdate.interactor.model.ProfileGetRes;
 import com.gannon.profileUpdate.interactor.model.ProfileUpdateReq;
@@ -171,6 +172,13 @@ public interface RestAPI {
 
     @POST(ApplicationContext.RELATIVE_PATH + ApplicationContext.notificationsServiceCount)
     Call<NotificationsCountRes> getNotificationsCountResCall(@Body NotificationsCountReq countReq);
+
+    @POST(ApplicationContext.RELATIVE_PATH + ApplicationContext.usernotificationsServiceCount)
+    Call<NotificationsCountRes> getUserNotificationsCountResCall(@Body NotificationsCountReq countReq);
+
+
+    @POST(ApplicationContext.RELATIVE_PATH + ApplicationContext.usernotificationsServiceUpdate)
+    Call<NotificationsUpdateRes> getUserNotificationsUpdateResCall(@Body UserNotificationsUpdateReq updateReq);
 
     @POST(ApplicationContext.RELATIVE_PATH + ApplicationContext.usernotificationsServiceList)
     Call<UserNotificationsRes> getUserNotificationsResCall(@Body NotificationsReq denySaveReq);

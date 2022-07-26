@@ -32,7 +32,9 @@ import com.gannon.notifications.model.NotificationsRes;
 import com.gannon.notifications.model.NotificationsUpdateReq;
 import com.gannon.notifications.model.NotificationsUpdateRes;
 import com.gannon.notifications.model.UserNotificationsRes;
+import com.gannon.notifications.model.UserNotificationsUpdateReq;
 import com.gannon.sharedpref.SharedPrefHelper;
+import com.gannon.usermanagement.UserManagementScreen;
 import com.gannon.utils.ApplicationContext;
 import com.gannon.utils.RestAPI;
 import com.gannon.utils.SuperCompatActivity;
@@ -92,6 +94,13 @@ public class UserNotificationActivity extends SuperCompatActivity {
             getNotificationsList();
         }
     }
+
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+        startActivity(new Intent(UserNotificationActivity.this, UserManagementScreen.class));
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -255,24 +264,23 @@ public class UserNotificationActivity extends SuperCompatActivity {
             productViewHolder.liner_ll.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    if (damageHistoryResPayLoad.getMessage().get(position).getStatus().equalsIgnoreCase("UNREAD")){
-//                        NotificationsUpdateReq updateReq = new NotificationsUpdateReq();
+
+                    if (damageHistoryResPayLoad.getMessage().get(position).getStatus().equalsIgnoreCase("UNREAD")){
+                        UserNotificationsUpdateReq updateReq = new UserNotificationsUpdateReq();
 //                        updateReq.setUserId(SharedPrefHelper.getLogin(context).getMessage().getUserId());
-//                        updateReq.setAuctionId(damageHistoryResPayLoad.getMessage().get(position).getAuctionId());
-//                        updateReq.setDonationId(damageHistoryResPayLoad.getMessage().get(position).getDonationId());
-//                        updateReq.setRead(1);
-//                        getNotificationsUpdateService(updateReq);
-//
-//                    }else {
-//
-//                        NotificationsUpdateReq updateReq = new NotificationsUpdateReq();
+                        updateReq.setRegisterId(damageHistoryResPayLoad.getMessage().get(position).getRegisterId());
+                        updateReq.setRead(1);
+                        getNotificationsUpdateService(updateReq);
+
+                    }else {
+
+                        UserNotificationsUpdateReq updateReq = new UserNotificationsUpdateReq();
 //                        updateReq.setUserId(SharedPrefHelper.getLogin(context).getMessage().getUserId());
-//                        updateReq.setAuctionId(damageHistoryResPayLoad.getMessage().get(position).getAuctionId());
-//                        updateReq.setDonationId(damageHistoryResPayLoad.getMessage().get(position).getDonationId());
-//                        updateReq.setRead(0);
-//                        getNotificationsUpdateService(updateReq);
-//
-//                    }
+                        updateReq.setRegisterId(damageHistoryResPayLoad.getMessage().get(position).getRegisterId());
+                        updateReq.setRead(0);
+                        getNotificationsUpdateService(updateReq);
+
+                    }
 
                     Intent intent = new Intent(UserNotificationActivity.this, HomeActivity.class);
                     startActivity(intent);
@@ -343,7 +351,7 @@ public class UserNotificationActivity extends SuperCompatActivity {
     }
 
 
-    public void getNotificationsUpdateService(NotificationsUpdateReq statusSaveReq) {
+    public void getNotificationsUpdateService(UserNotificationsUpdateReq statusSaveReq) {
 
         try {
 
@@ -357,7 +365,7 @@ public class UserNotificationActivity extends SuperCompatActivity {
             m_progress1.show();
 
 
-            Call<NotificationsUpdateRes> damageHistoryResPayLoadCall = restAPI.getNotificationsUpdateResCall(statusSaveReq);
+            Call<NotificationsUpdateRes> damageHistoryResPayLoadCall = restAPI.getUserNotificationsUpdateResCall(statusSaveReq);
             damageHistoryResPayLoadCall.enqueue(new Callback<NotificationsUpdateRes>() {
                 @Override
                 public void onResponse(Call<NotificationsUpdateRes> call, Response<NotificationsUpdateRes> response) {

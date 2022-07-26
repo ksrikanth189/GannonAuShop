@@ -117,7 +117,7 @@ public class HomeActivity extends SuperCompatActivity{
     private ImageView menu_item_img, notifica_img, logout_img,
             home_img, fav_img, search_img, profile_img, filter_img;
 
-    private LinearLayout auction_donation_ll,notifica_ll;
+    private LinearLayout auction_donation_ll,notifica_ll,logout_ll;
     private TextView auction_list, donation_list,notifica_value;
 
 
@@ -275,6 +275,7 @@ public class HomeActivity extends SuperCompatActivity{
         home_all_recycle = (RecyclerView) findViewById(R.id.home_all_recycle);
 
         notifica_ll = findViewById(R.id.notifica_ll);
+        logout_ll = findViewById(R.id.logout_ll);
 
 
         GridLayoutManager manager2 = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
@@ -308,7 +309,11 @@ public class HomeActivity extends SuperCompatActivity{
                 startActivity(new Intent(HomeActivity.this, ProfileUpdateActivity.class));
             }
         });
-        logout_img.setOnClickListener(new View.OnClickListener() {
+
+
+
+
+            logout_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -393,6 +398,11 @@ public class HomeActivity extends SuperCompatActivity{
     public void onResume() {
         super.onResume();
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+//        NotificationsCountReq countReq = new NotificationsCountReq();
+//        countReq.setUserId(SharedPrefHelper.getLogin(context).getMessage().getUserId());
+//        getNotificationsCountService(countReq);
+
 
     }
 

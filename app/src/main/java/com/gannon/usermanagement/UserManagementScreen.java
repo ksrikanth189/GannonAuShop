@@ -108,7 +108,7 @@ public class UserManagementScreen extends SuperCompatActivity {
     private AutoCompleteTextView autocomp_search, autocomp_donat_search;
     private UserMangSearchRes searchProductRes;
     private String typeStr = "auction";
-    private LinearLayout auction_search_ll, donation_search_ll,notifica_ll;
+    private LinearLayout auction_search_ll, donation_search_ll,notifica_ll,logout_ll;
 
     private TextView notifica_value;
 
@@ -305,7 +305,9 @@ public class UserManagementScreen extends SuperCompatActivity {
         auction_search_ll = findViewById(R.id.auction_search_ll);
         donation_search_ll = findViewById(R.id.donation_search_ll);
         notifica_ll = findViewById(R.id.notifica_ll);
+        logout_ll = findViewById(R.id.logout_ll);
         notifica_ll.setVisibility(View.VISIBLE);
+        logout_ll.setVisibility(View.VISIBLE);
         notifica_value = findViewById(R.id.notifica_value);
 
         logout_img.setVisibility(View.VISIBLE);
@@ -446,6 +448,16 @@ public class UserManagementScreen extends SuperCompatActivity {
             }
         });
     }
+
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//
+////        NotificationsCountReq countReq = new NotificationsCountReq();
+////        countReq.setUserId(SharedPrefHelper.getLogin(context).getMessage().getUserId());
+////        getNotificationsCountService(countReq);
+//
+//    }
 
     public void getCategoryList(UserMangSearchReq mangSearchReq) {
         try {
@@ -1089,7 +1101,7 @@ public class UserManagementScreen extends SuperCompatActivity {
             m_progress3.show();
 
 
-            Call<NotificationsCountRes> damageHistoryResPayLoadCall = restAPI.getNotificationsCountResCall(statusSaveReq);
+            Call<NotificationsCountRes> damageHistoryResPayLoadCall = restAPI.getUserNotificationsCountResCall(statusSaveReq);
             damageHistoryResPayLoadCall.enqueue(new Callback<NotificationsCountRes>() {
                 @Override
                 public void onResponse(Call<NotificationsCountRes> call, Response<NotificationsCountRes> response) {

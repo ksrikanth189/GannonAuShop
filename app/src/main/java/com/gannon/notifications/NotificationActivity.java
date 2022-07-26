@@ -97,6 +97,12 @@ public class NotificationActivity extends SuperCompatActivity {
     }
 
     @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+        startActivity(new Intent(NotificationActivity.this,HomeActivity.class));
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
@@ -298,7 +304,7 @@ public class NotificationActivity extends SuperCompatActivity {
                     intent.putExtra("cargoId", damageHistoryResPayLoad.getMessage().get(position).getAuctionId());
                     intent.putExtra("barcode", damageHistoryResPayLoad.getMessage().get(position).getDonationId());
                     intent.putExtra("type", damageHistoryResPayLoad.getMessage().get(position).getAuctionOrDonation());
-                    intent.putExtra("screen", "mywins");
+                    intent.putExtra("screen", "Notification");
                     intent.putExtra("productname", "Product");
                     startActivity(intent);
 

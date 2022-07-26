@@ -40,6 +40,8 @@ public class  ApplicationContext {
     public static final String notificationsServiceCount = "notificationsService/count";
 
     public static final String usernotificationsServiceList = "usernotificationsService/list";
+    public static final String usernotificationsServiceUpdate = "usernotificationsService/Update";
+    public static final String usernotificationsServiceCount = "usernotificationsService/count";
 
 
 }
