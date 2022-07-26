@@ -251,7 +251,7 @@ public class UserNotificationActivity extends SuperCompatActivity {
 //                    .into(productViewHolder.item_img);
 
 
-            productViewHolder.item_img.setVisibility(View.GONE);
+            productViewHolder.item_img.setVisibility(View.VISIBLE);
             productViewHolder.totalCount_txt.setVisibility(View.GONE);
 
             if (damageHistoryResPayLoad.getMessage().get(position).getStatus().equalsIgnoreCase("UNREAD")){
