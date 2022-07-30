@@ -100,25 +100,25 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class HomeActivity extends SuperCompatActivity{
+public class HomeActivity extends SuperCompatActivity {
 //public class HomeActivity extends SuperCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
 
     Dialog fbDialogue;
-    RecyclerView recyclerView, recyclerView1, home_all_recycle;
+    RecyclerView donation_recycler_view, recycler_view;
     int page_position = 0;
     HomeViewSlidingAdapter homeViewSlidingAdapter;
     ArrayList<String> slider_image_array = new ArrayList<>();
     private Context context;
     private RestAPI restAPI;
-    private ProgressDialog progressDialog, m_progress, m_progress1, m_progress2,m_progress3;
+    private ProgressDialog progressDialog, m_progress, m_progress1, m_progress2, m_progress3;
     private TextView name_txt, marque_txt;
     private Boolean firstTime = null, adfirst = false;
     private ImageView menu_item_img, notifica_img, logout_img,
             home_img, fav_img, search_img, profile_img, filter_img;
 
-    private LinearLayout auction_donation_ll,notifica_ll,logout_ll;
-    private TextView auction_list, donation_list,notifica_value;
+    private LinearLayout auction_donation_ll, notifica_ll, logout_ll;
+    private TextView auction_list, donation_list, notifica_value;
 
 
     private NestedScrollView nestedSV;
@@ -206,7 +206,6 @@ public class HomeActivity extends SuperCompatActivity{
     }
 
 
-
     private void getToggleAndSlider() {
 
         mDrawerToggle = new ActionBarDrawerToggle(
@@ -219,6 +218,7 @@ public class HomeActivity extends SuperCompatActivity{
 //        home_frame_ll
 
     }
+
     private void initializeUiElements() {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -272,14 +272,18 @@ public class HomeActivity extends SuperCompatActivity{
         home_frame_ll = findViewById(R.id.home_frame_ll);
         notifica_value = findViewById(R.id.notifica_value);
 
-        home_all_recycle = (RecyclerView) findViewById(R.id.home_all_recycle);
+        recycler_view = (RecyclerView) findViewById(R.id.recycler_view);
+        donation_recycler_view = (RecyclerView) findViewById(R.id.donation_recycler_view);
 
         notifica_ll = findViewById(R.id.notifica_ll);
         logout_ll = findViewById(R.id.logout_ll);
 
 
         GridLayoutManager manager2 = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
-        home_all_recycle.setLayoutManager(manager2);
+        recycler_view.setLayoutManager(manager2);
+
+        GridLayoutManager manager1 = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
+        donation_recycler_view.setLayoutManager(manager1);
 
 
         home_img.setOnClickListener(new View.OnClickListener() {
@@ -311,9 +315,7 @@ public class HomeActivity extends SuperCompatActivity{
         });
 
 
-
-
-            logout_img.setOnClickListener(new View.OnClickListener() {
+        logout_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -321,8 +323,8 @@ public class HomeActivity extends SuperCompatActivity{
             }
         });
 
-      if (checkInternet()) {
-            getHomeAllListService("auction",null);
+        if (checkInternet()) {
+            getHomeAllListService("auction", null);
         } else {
             CustomErrorToast(getResources().getString(R.string.server_not_responding));
         }
@@ -330,7 +332,7 @@ public class HomeActivity extends SuperCompatActivity{
         auction_list.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                donation_recycler_view.setVisibility(View.GONE);
+                donation_recycler_view.setVisibility(View.GONE);
 
                 auction_list.setTextColor(getResources().getColor(R.color.white));
                 auction_list.setBackground(getResources().getDrawable(R.drawable.rect_background_merron));
@@ -342,7 +344,7 @@ public class HomeActivity extends SuperCompatActivity{
                 if (!checkInternet()) {
                     CustomErrorToast(getResourceStr(context, R.string.plz_chk_your_net));
                 } else {
-                    getHomeAllListService("auction",null);
+                    getHomeAllListService("auction", null);
                 }
 
             }
@@ -351,7 +353,7 @@ public class HomeActivity extends SuperCompatActivity{
         donation_list.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                recyclerView.setVisibility(View.GONE);
+                recycler_view.setVisibility(View.GONE);
 
                 donation_list.setTextColor(getResources().getColor(R.color.white));
                 donation_list.setBackground(getResources().getDrawable(R.drawable.rect_background_merron));
@@ -363,7 +365,7 @@ public class HomeActivity extends SuperCompatActivity{
                 if (!checkInternet()) {
                     CustomErrorToast(getResourceStr(context, R.string.plz_chk_your_net));
                 } else {
-                    getHomeAllListService("donation",null);
+                    getHomeAllListService("donation", null);
                 }
 
             }
@@ -378,13 +380,12 @@ public class HomeActivity extends SuperCompatActivity{
         notifica_ll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(HomeActivity.this,NotificationActivity.class));
+                startActivity(new Intent(HomeActivity.this, NotificationActivity.class));
             }
         });
 
 
     }
-
 
 
     /* access modifiers changed from: protected */
@@ -415,7 +416,7 @@ public class HomeActivity extends SuperCompatActivity{
 
     @Override
     public void onBackPressed() {
-            logoutDialog();
+        logoutDialog();
     }
 
     @Override
@@ -441,7 +442,6 @@ public class HomeActivity extends SuperCompatActivity{
     }
 
 
-
     private boolean isFirstTime() {
         if (firstTime == null) {
             SharedPreferences mPreferences = this.getSharedPreferences("first_time", Context.MODE_PRIVATE);
@@ -455,7 +455,7 @@ public class HomeActivity extends SuperCompatActivity{
         return firstTime;
     }
 
-    public void getHomeAllListService(String str,String searchString) {
+    public void getHomeAllListService(String str, String searchString) {
 
         try {
 
@@ -488,7 +488,7 @@ public class HomeActivity extends SuperCompatActivity{
                         gson.toJson(mySalesEditResponsePayLoad);
                         Log.v("damage his", "damge his res" + gson.toJson(mySalesEditResponsePayLoad));
 
-                        if (mySalesEditResponsePayLoad != null && mySalesEditResponsePayLoad.getStatusCode() == 200 && mySalesEditResponsePayLoad.getMessage().size() > 0)  {
+                        if (mySalesEditResponsePayLoad != null && mySalesEditResponsePayLoad.getStatusCode() == 200 && mySalesEditResponsePayLoad.getMessage().size() > 0) {
                             loadHistoryData(mySalesEditResponsePayLoad, str);
                             if (customDialog != null) {
                                 customDialog.dismiss();
@@ -531,11 +531,21 @@ public class HomeActivity extends SuperCompatActivity{
     private void loadHistoryData(HomeAllListRes mySalesEditResponsePayLoad, String str) {
         if (mySalesEditResponsePayLoad.getMessage() != null) {
             if (mySalesEditResponsePayLoad.getMessage().size() > 0) {
-                home_all_recycle.setVisibility(View.VISIBLE);
-                HomeProductAdapter ca = new HomeProductAdapter(mySalesEditResponsePayLoad, getApplicationContext(), str);
-                home_all_recycle.setAdapter(ca);
+
+                if (typeStr.equalsIgnoreCase("auction")) {
+                    recycler_view.setVisibility(View.VISIBLE);
+                    donation_recycler_view.setVisibility(View.GONE);
+                    HomeProductAdapter ca = new HomeProductAdapter(mySalesEditResponsePayLoad, getApplicationContext(), str);
+                    recycler_view.setAdapter(ca);
+                } else {
+                    recycler_view.setVisibility(View.GONE);
+                    donation_recycler_view.setVisibility(View.VISIBLE);
+                    HomeProductAdapter ca = new HomeProductAdapter(mySalesEditResponsePayLoad, getApplicationContext(), str);
+                    donation_recycler_view.setAdapter(ca);
+                }
+
             } else {
-                home_all_recycle.setVisibility(View.GONE);
+                recycler_view.setVisibility(View.GONE);
             }
         }
     }
@@ -690,7 +700,7 @@ public class HomeActivity extends SuperCompatActivity{
                             if (!checkInternet()) {
                                 CustomErrorToast(getResourceStr(context, R.string.plz_chk_your_net));
                             } else {
-                                getHomeAllListService("auction",null);
+                                getHomeAllListService("auction", null);
                             }
 
                             auction_list.setTextColor(getResources().getColor(R.color.white));
@@ -801,7 +811,7 @@ public class HomeActivity extends SuperCompatActivity{
                 if (!checkInternet()) {
                     CustomErrorToast(getResourceStr(context, R.string.plz_chk_your_net));
                 } else {
-                    getHomeAllListService(typeStr,autoCompleteTextView.getText().toString());
+                    getHomeAllListService(typeStr, autoCompleteTextView.getText().toString());
                 }
             }
         });
@@ -824,11 +834,10 @@ public class HomeActivity extends SuperCompatActivity{
 //            m_progress.show();
 
 
-            ProductNamesDropDownServiceReq  productNamesDropDownServiceReq = new ProductNamesDropDownServiceReq();
+            ProductNamesDropDownServiceReq productNamesDropDownServiceReq = new ProductNamesDropDownServiceReq();
             productNamesDropDownServiceReq.setUserId(SharedPrefHelper.getLogin(context).getMessage().getUserId());
             productNamesDropDownServiceReq.setSearchValue(searchVal);
             productNamesDropDownServiceReq.setType(typeStr);
-
 
 
 //            SearchProductReq dmgreq = new SearchProductReq();
@@ -904,7 +913,6 @@ public class HomeActivity extends SuperCompatActivity{
 
         }
     }
-
 
 
     public void getNotificationsCountService(NotificationsCountReq statusSaveReq) {

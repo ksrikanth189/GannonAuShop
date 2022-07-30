@@ -39,8 +39,10 @@ public class RegisterInteractor implements RegisterInteractorInt {
                     userRegisterPresenter.context.hideProgress();
                     if (response.isSuccessful()) {
                         userRegisterActivityRes = (RegisterActivityRes) response.body();
-                        if (userRegisterActivityRes.getStatusCode()== 200) {
+                        if (userRegisterActivityRes.getStatusCode() == 200) {
                             userRegisterPresenter.responseSuccess(userRegisterActivityRes);
+                        }else {
+                            userRegisterPresenter.responseFailed(userRegisterActivityRes.getError());
                         }
                     }
                 }

@@ -252,7 +252,7 @@ public class NewAuctionDonation extends SuperCompatActivity implements DatePicke
         clear_btn = ((Button) findViewById(R.id.buttonclear));
 
         type_btn = (Button) findViewById(R.id.type_btn);
-        type_btn.setText("Auction");
+//        type_btn.setText("Auction");
         damage_date = (Button) findViewById(R.id.damage_date);
         damage_time = (Button) findViewById(R.id.damage_time);
         choose_images = (Button) findViewById(R.id.choose_images);
@@ -333,56 +333,59 @@ public class NewAuctionDonation extends SuperCompatActivity implements DatePicke
 //                    CustomErrorToast("Please select or capture images");
 //                }
 
+                if (type_btn.getText().toString().equalsIgnoreCase("Select Sale Type")){
+                    CustomErrorToast("Select Sale Type");
+                }else {
 
-                if (type_btn.getText().toString().equalsIgnoreCase("Auction")) {
-                    if (productname_edt.getText().toString().length() == 0) {
-                        CustomErrorToast(getResources().getString(R.string.plz_enter_productname));
-                    } else if (productdes_edt.getText().toString().length() == 0) {
-                        CustomErrorToast(getResources().getString(R.string.plz_enter_productdes));
-                    } else if (auctionamount_edt.getText().toString().length() == 0) {
-                        CustomErrorToast("Enter amount");
-                    } else if (damage_date.getText().toString().equalsIgnoreCase("Select Date")) {
-                        CustomErrorToast(getResources().getString(R.string.pls_select_date));
-                    } else if (damage_time.getText().toString().equalsIgnoreCase("Select Time")) {
-                        CustomErrorToast(getResources().getString(R.string.pls_select_time));
-                    } else {
+                    if (type_btn.getText().toString().equalsIgnoreCase("Auction")) {
+                        if (productname_edt.getText().toString().length() == 0) {
+                            CustomErrorToast(getResources().getString(R.string.plz_enter_productname));
+                        } else if (productdes_edt.getText().toString().length() == 0) {
+                            CustomErrorToast(getResources().getString(R.string.plz_enter_productdes));
+                        } else if (auctionamount_edt.getText().toString().length() == 0) {
+                            CustomErrorToast("Enter amount");
+                        } else if (damage_date.getText().toString().equalsIgnoreCase("Select Date")) {
+                            CustomErrorToast(getResources().getString(R.string.pls_select_date));
+                        } else if (damage_time.getText().toString().equalsIgnoreCase("Select Time")) {
+                            CustomErrorToast(getResources().getString(R.string.pls_select_time));
+                        } else {
 //                        if (checkInternet()) {
 //                            NewAuctionDonationDetailstSave();
 //                        } else {
 //                            CustomErrorToast(getResourceStr(context, R.string.plz_chk_your_net));
 //                        }
 
+                            if (arrayListImages.size() > 0) {
+                                multiPartImagesUpload();
+                            } else {
+                                CustomErrorToast("Please select or capture images");
+                            }
 
-                        if (arrayListImages.size() > 0) {
-                            multiPartImagesUpload();
-                        } else {
-                            CustomErrorToast("Please select or capture images");
                         }
-
-                    }
-                } else {
-                    if (productname_edt.getText().toString().length() == 0) {
-                        CustomErrorToast(getResources().getString(R.string.plz_enter_productname));
-                    } else if (productdes_edt.getText().toString().length() == 0) {
-                        CustomErrorToast(getResources().getString(R.string.plz_enter_productdes));
-                    } else if (damage_date.getText().toString().equalsIgnoreCase("Select Date")) {
-                        CustomErrorToast(getResources().getString(R.string.pls_select_date));
-                    } else if (damage_time.getText().toString().equalsIgnoreCase("Select Time")) {
-                        CustomErrorToast(getResources().getString(R.string.pls_select_time));
-                    } else {
+                    } else if (type_btn.getText().toString().equalsIgnoreCase("Donation")) {
+                        if (productname_edt.getText().toString().length() == 0) {
+                            CustomErrorToast(getResources().getString(R.string.plz_enter_productname));
+                        } else if (productdes_edt.getText().toString().length() == 0) {
+                            CustomErrorToast(getResources().getString(R.string.plz_enter_productdes));
+                        } else if (damage_date.getText().toString().equalsIgnoreCase("Select Date")) {
+                            CustomErrorToast(getResources().getString(R.string.pls_select_date));
+                        } else if (damage_time.getText().toString().equalsIgnoreCase("Select Time")) {
+                            CustomErrorToast(getResources().getString(R.string.pls_select_time));
+                        } else {
 //                        if (checkInternet()) {
 //                            NewAuctionDonationDetailstSave();
 //                        } else {
 //                            CustomErrorToast(getResourceStr(context, R.string.plz_chk_your_net));
 //                        }
 
-
-                        if (arrayListImages.size() > 0) {
-                            multiPartImagesUpload();
-                        } else {
-                            CustomErrorToast("Please select or capture images");
+                            if (arrayListImages.size() > 0) {
+                                multiPartImagesUpload();
+                            } else {
+                                CustomErrorToast("Please select or capture images");
+                            }
                         }
                     }
+
                 }
 
             }
@@ -845,6 +848,7 @@ public class NewAuctionDonation extends SuperCompatActivity implements DatePicke
 
                             arrayListImages.clear();
 
+
                             if (type_btn.getText().toString().equalsIgnoreCase("Auction")) {
                                 if (productname_edt.getText().toString().length() == 0) {
                                     CustomErrorToast(getResources().getString(R.string.plz_enter_productname));
@@ -1045,6 +1049,7 @@ public class NewAuctionDonation extends SuperCompatActivity implements DatePicke
     public void showTypePop() {
 
         ArrayList<String> strVesselList = new ArrayList<String>();
+        strVesselList.add("Select Type");
         strVesselList.add("AUCTION");
         strVesselList.add("DONATION");
 //        for (int k = 0; k < strVesselList.size(); k++) {
@@ -1071,12 +1076,12 @@ public class NewAuctionDonation extends SuperCompatActivity implements DatePicke
                 type_btn.setText("" + strVesselList.get(position));
                 type_btn.setTextColor(getResources().getColor(R.color.red));
 
-                if (type_btn.getText().toString().equalsIgnoreCase("Auction")) {
+                if (type_btn.getText().toString().equalsIgnoreCase("AUCTION")) {
                     auction_ll.setVisibility(View.VISIBLE);
                     closedate_txt.setText("Auction close date");
                     auctionamount_ll.setVisibility(View.VISIBLE);
 
-                } else {
+                } else if (type_btn.getText().toString().equalsIgnoreCase("DONATION")){
                     auction_ll.setVisibility(View.VISIBLE);
                     closedate_txt.setText("Donation close date");
                     auctionamount_ll.setVisibility(View.GONE);

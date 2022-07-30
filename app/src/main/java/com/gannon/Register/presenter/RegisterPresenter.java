@@ -22,7 +22,7 @@ public class RegisterPresenter {
         if (registerActivityRes.getStatusCode() == 200) {
             context.serviceSuccess(registerActivityRes);
         } else {
-            context.serviceFailed(registerActivityRes.getMessage());
+            context.serviceFailed(registerActivityRes.getError());
         }
     }
 

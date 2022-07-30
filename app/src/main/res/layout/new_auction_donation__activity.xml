@@ -78,7 +78,7 @@
                                         style="@style/Spinner_btn_WMH40"
                                         android:layout_marginTop="@dimen/mar_4"
                                         android:onClick="showTypeList"
-                                        android:text="Auction"
+                                        android:text="Select Sale Type"
                                         android:textColor="@color/black"/>
 
                                 </LinearLayout>

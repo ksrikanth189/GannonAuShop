@@ -54,8 +54,10 @@ public class RegisterActivity extends SuperCompatActivity implements RegisterVie
     public void serviceSuccess(RegisterActivityRes registerActivityRes) {
         if (registerActivityRes.getStatusCode()== 200) {
 //            userDoctorRegisterPresenter.saveRegisterLogin(registerActivityRes);
-            Toast.makeText(getApplicationContext(), registerActivityRes.getMessage(), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getApplicationContext(), registerActivityRes.getMessage(), Toast.LENGTH_SHORT).show();
 //            customOTPDialog();
+            CustomErrorToast(registerActivityRes.getMessage());
+
 
             startActivity(new Intent(RegisterActivity.this,SplashActivity2.class));
             return;
@@ -86,11 +88,13 @@ public class RegisterActivity extends SuperCompatActivity implements RegisterVie
     }
 
     public void closeApp(String str) {
-        Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
+        CustomErrorToast(str);
+
     }
 
     public void showValidationToast(String str) {
-        Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
+        CustomSuccessToast(str);
+//        Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
     }
 
     public void navigateToHomeScreen() {

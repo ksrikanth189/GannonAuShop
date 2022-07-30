@@ -10,6 +10,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class RegisterActivityRes {
     @JsonProperty("message")
     private String message;
+    @JsonProperty("error")
+    private String error;
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
+    }
+
     @JsonProperty("status")
     private String status;
     @JsonProperty("statusCode")
