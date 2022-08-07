@@ -11,11 +11,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonPropertyOrder({
-        "status",
-        "statusCode",
-        "message"
-})
 public class ProfileUpdateRes {
 
     @JsonProperty("status")
@@ -24,6 +19,16 @@ public class ProfileUpdateRes {
     private Integer statusCode;
     @JsonProperty("message")
     private String message;
+    @JsonProperty("error")
+    private String error;
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
+    }
 
     @JsonProperty("status")
     public String getStatus() {

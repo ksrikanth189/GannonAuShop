@@ -1,6 +1,7 @@
 package com.gannon.mysales;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -38,9 +39,14 @@ import com.fasterxml.jackson.core.util.ByteArrayBuilder;
 import com.gannon.BuildConfig;
 import com.gannon.R;
 import com.gannon.home.HomeActivity;
+import com.gannon.mysales.model.ImageDeleteReq;
+import com.gannon.mysales.model.ImageDeleteRes;
 import com.gannon.mysales.model.MySalesEditReqPayLoad;
 import com.gannon.mysales.model.MySalesEditResponsePayLoad;
 import com.gannon.mysales.model.MySalesUpdateReq;
+import com.gannon.notifications.NotificationActivity;
+import com.gannon.notifications.model.NotificationsUpdateReq;
+import com.gannon.notifications.model.NotificationsUpdateRes;
 import com.gannon.uploadAuctionDonation.FileUploadRespPojo;
 import com.gannon.uploadAuctionDonation.activity.MultiPhotoSelectActivity;
 import com.gannon.uploadAuctionDonation.activity.NewAuctionDonation;
@@ -111,7 +117,7 @@ public class MySalesEditScreen extends SuperCompatActivity implements DatePicker
     private TimePickerDialog time;
     private boolean view_str_dts = false;
     private Button upload_images;
-    private ProgressDialog progressDialog, progressDialog1;
+    private ProgressDialog progressDialog, progressDialog1,m_progress1;
 
     private ArrayList<String> multiPartImagesList = new ArrayList<>();
     private Uri captureImageUri;
@@ -321,9 +327,6 @@ public class MySalesEditScreen extends SuperCompatActivity implements DatePicker
 //        });
 
 
-        damage_images.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(MySalesEditScreen.this, LinearLayoutManager.HORIZONTAL, false);
-        damage_images.setLayoutManager(mLayoutManager);
 
         choose_images.setOnClickListener(new OnClickListener() {
             @Override
@@ -332,6 +335,11 @@ public class MySalesEditScreen extends SuperCompatActivity implements DatePicker
                 customDialog();
             }
         });
+
+        damage_images.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(MySalesEditScreen.this, LinearLayoutManager.HORIZONTAL, false);
+        damage_images.setLayoutManager(mLayoutManager);
+
 
         arrayListImages.clear();
         multiPartImagesList.clear();
@@ -1169,13 +1177,13 @@ public class MySalesEditScreen extends SuperCompatActivity implements DatePicker
         }
 
         @Override
-        public void onBindViewHolder(final ProductAdapter.ProductViewHolder productViewHolder, int position) {
+        public void onBindViewHolder(final ProductAdapter.ProductViewHolder productViewHolder, @SuppressLint("RecyclerView") int position) {
 
 
             String url = "";
 
-            if (damageHistoryResPayLoad.getMessage().getImagesList().get(position) != null) {
-                url = ApplicationContext.BASE_URL + "/" + damageHistoryResPayLoad.getMessage().getImagesList().get(position).replace(".png", ".jpg");
+            if (damageHistoryResPayLoad.getMessage().getImagesList().get(position).getUrl() != null) {
+                url = ApplicationContext.BASE_URL + "/" + damageHistoryResPayLoad.getMessage().getImagesList().get(position).getUrl().replace(".png", ".jpg");
             }
             Glide.with(MySalesEditScreen.this)
 //                    .load("http://192.168.1.207:8080/img/mob.jpg")
@@ -1184,21 +1192,98 @@ public class MySalesEditScreen extends SuperCompatActivity implements DatePicker
                     .placeholder(R.mipmap.icon6)
                     .into(productViewHolder.item_img);
 
+            productViewHolder.close_img.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    ImageDeleteReq imageDeleteReq = new ImageDeleteReq();
+                    imageDeleteReq.setImageId(damageHistoryResPayLoad.getMessage().getImagesList().get(position).getId());
+                    getImageDeleteService(imageDeleteReq);
+                }
+            });
 
         }
 
         public class ProductViewHolder extends RecyclerView.ViewHolder {
 
-            protected ImageView item_img;
+            protected ImageView item_img,close_img;
 
             public ProductViewHolder(View v) {
                 super(v);
                 item_img = v.findViewById(R.id.item_img);
+                close_img = v.findViewById(R.id.close_img);
 
 
             }
         }
 
+    }
+
+
+    public void getImageDeleteService(ImageDeleteReq imageDeleteReq) {
+
+        try {
+
+
+            m_progress1 = new ProgressDialog(MySalesEditScreen.this);
+            m_progress1.setMessage("Please wait....");
+            m_progress1.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            m_progress1.setIndeterminate(true);
+            m_progress1.setProgress(0);
+            m_progress1.setCancelable(false);
+            m_progress1.show();
+
+
+            Call<ImageDeleteRes> damageHistoryResPayLoadCall = restAPI.getImageDeleteResCall(imageDeleteReq);
+            damageHistoryResPayLoadCall.enqueue(new Callback<ImageDeleteRes>() {
+                @Override
+                public void onResponse(Call<ImageDeleteRes> call, Response<ImageDeleteRes> response) {
+                    if (response.isSuccessful()) {
+
+                        ImageDeleteRes responsePayLoad = response.body();
+
+                        Gson gson = new Gson();
+                        gson.toJson(responsePayLoad);
+                        Log.v("damage his", "damge his res" + gson.toJson(responsePayLoad));
+
+                        if (responsePayLoad.getStatusCode() == 200) {
+                            CustomErrorToast(responsePayLoad.getMessage());
+                            if (!checkInternet()) {
+                                CustomErrorToast(getResourceStr(context, R.string.plz_chk_your_net));
+                            } else {
+                                getMySalesService(type);
+                            }
+                        } else {
+                            CustomErrorToast(responsePayLoad.getMessage());
+                        }
+
+
+                    }
+
+
+                    if (m_progress1 != null && m_progress1.isShowing()) {
+                        m_progress1.dismiss();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ImageDeleteRes> call, Throwable t) {
+                    CustomErrorToast(getResources().getString(R.string.server_not_responding));
+
+                    if (m_progress1 != null && m_progress1.isShowing()) {
+                        m_progress1.dismiss();
+                    }
+
+                }
+            });
+
+        } catch (Exception e) {
+
+            if (m_progress1 != null && m_progress1.isShowing()) {
+                m_progress1.dismiss();
+            }
+
+        }
     }
 
 

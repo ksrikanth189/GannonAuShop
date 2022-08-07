@@ -21,11 +21,15 @@
             android:layout_height="150dp"
             android:layout_margin="@dimen/mar_5"
             android:layout_gravity="center"
-            android:scaleType="fitXY"
-            android:textColor="@color/black"
-            android:textSize="@dimen/txt_14" />
+            android:scaleType="fitXY" />
 
-
+        <ImageView
+            android:id="@+id/close_img"
+            android:layout_width="@dimen/mar_30"
+            android:layout_height="@dimen/mar_30"
+            android:layout_gravity="center|top"
+            android:layout_marginLeft="60dp"
+            android:background="@drawable/clear"/>
 
 
 

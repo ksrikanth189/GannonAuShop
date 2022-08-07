@@ -117,7 +117,8 @@ public class ProfileUpdateActivity extends SuperCompatActivity implements Profil
 
     @Override
     public void navigateToHomeScreen() {
-        startActivity(new Intent(this, LoginActivity.class));
+        startActivity(new Intent(this, ProfileUpdateActivity.class));
+//        startActivity(new Intent(this, LoginActivity.class));
         overridePendingTransition(0, 0);
         finish();
     }
@@ -130,9 +131,10 @@ public class ProfileUpdateActivity extends SuperCompatActivity implements Profil
 
     public void submit(View view) {
 
-        if (mobile_edt.getText().toString().length() == 0) {
+       /* if (mobile_edt.getText().toString().length() == 0) {
             CustomErrorToast(getResources().getString(R.string.pls_enter_mobile));
-        } else if (password_edt.getText().toString().length() == 0) {
+        } else*/
+        if (password_edt.getText().toString().length() == 0) {
             CustomErrorToast(getResources().getString(R.string.pls_enter_password));
         } else {
             if (checkInternet()) {
@@ -156,7 +158,7 @@ public class ProfileUpdateActivity extends SuperCompatActivity implements Profil
         }
     }
 
-    public void Back(View view){
+    public void Back(View view) {
         startActivity(new Intent(ProfileUpdateActivity.this, HomeActivity.class));
     }
 
@@ -260,10 +262,10 @@ public class ProfileUpdateActivity extends SuperCompatActivity implements Profil
                         if (ProfileGetRes.getStatusCode() == 200 && ProfileGetRes.getMessage() != null) {
 
                             firstname_edt.setText(ProfileGetRes.getMessage().getFirstName() != null ? ProfileGetRes.getMessage().getFirstName() : "");
-                            lastname_edt.setText(ProfileGetRes.getMessage().getLastName() != null ? ProfileGetRes.getMessage().getLastName(): "");
-                            email_edt.setText(ProfileGetRes.getMessage().getEmail() != null ? ProfileGetRes.getMessage().getEmail(): "");
-                            mobile_edt.setText(ProfileGetRes.getMessage().getPhoneNumber()!= null ? ProfileGetRes.getMessage().getPhoneNumber(): "");
-                            password_edt.setText(ProfileGetRes.getMessage().getPassword()!= null ? ProfileGetRes.getMessage().getPassword(): "");
+                            lastname_edt.setText(ProfileGetRes.getMessage().getLastName() != null ? ProfileGetRes.getMessage().getLastName() : "");
+                            email_edt.setText(ProfileGetRes.getMessage().getEmail() != null ? ProfileGetRes.getMessage().getEmail() : "");
+                            mobile_edt.setText(ProfileGetRes.getMessage().getPhoneNumber() != null ? ProfileGetRes.getMessage().getPhoneNumber() : "");
+                            password_edt.setText(ProfileGetRes.getMessage().getPassword() != null ? ProfileGetRes.getMessage().getPassword() : "");
 
 
                         } else {

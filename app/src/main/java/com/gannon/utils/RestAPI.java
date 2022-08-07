@@ -28,6 +28,8 @@ import com.gannon.home.model.StatusSaveReq;
 import com.gannon.myfavourite.model.MyFavouriteReqPayLoad;
 import com.gannon.myfavourite.model.MyFavouriteResponsePayLoad;
 import com.gannon.myfavourite.model.MyFavouriteUpdateReqPayLoad;
+import com.gannon.mysales.model.ImageDeleteReq;
+import com.gannon.mysales.model.ImageDeleteRes;
 import com.gannon.mysales.model.MySalesEditReqPayLoad;
 import com.gannon.mysales.model.MySalesEditResponsePayLoad;
 import com.gannon.mysales.model.MySalesHistoryReqPayLoad;
@@ -182,5 +184,8 @@ public interface RestAPI {
 
     @POST(ApplicationContext.RELATIVE_PATH + ApplicationContext.usernotificationsServiceList)
     Call<UserNotificationsRes> getUserNotificationsResCall(@Body NotificationsReq denySaveReq);
+
+    @POST(ApplicationContext.RELATIVE_PATH + ApplicationContext.auctionOrDonationService_delete)
+    Call<ImageDeleteRes> getImageDeleteResCall(@Body ImageDeleteReq imageDeleteReq);
 
 }

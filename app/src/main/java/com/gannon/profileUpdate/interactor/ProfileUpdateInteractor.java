@@ -45,6 +45,9 @@ public class ProfileUpdateInteractor implements ProfileUpdateInteractorInt {
                         profileUpdateRes = response.body();
                         if (profileUpdateRes.getStatusCode() == 200) {
                             profileUpdatePresenter.responseSuccess(profileUpdateRes);
+                        }else {
+                            profileUpdatePresenter.responseFailed(profileUpdateRes.getError());
+
                         }
                     }
                 }

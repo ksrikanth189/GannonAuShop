@@ -3,6 +3,7 @@ package com.gannon.mysales.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import java.util.List;
 
@@ -68,7 +69,15 @@ public class MySalesEditResponsePayLoad {
         @JsonProperty("initialAmount")
         private Integer initialAmount;
         @JsonProperty("imagesList")
-        private List<String> imagesList = null;
+        private List<Images> imagesList = null;
+
+        public List<Images> getImagesList() {
+            return imagesList;
+        }
+
+        public void setImagesList(List<Images> imagesList) {
+            this.imagesList = imagesList;
+        }
 
         @JsonProperty("productName")
         public String getProductName() {
@@ -130,15 +139,39 @@ public class MySalesEditResponsePayLoad {
             this.initialAmount = initialAmount;
         }
 
-        @JsonProperty("imagesList")
-        public List<String> getImagesList() {
-            return imagesList;
-        }
+        @JsonInclude(JsonInclude.Include.NON_NULL)
+        @JsonIgnoreProperties(ignoreUnknown = true)
+        @JsonPropertyOrder({
+                "id",
+                "url"
+        })
+        public static class Images {
 
-        @JsonProperty("imagesList")
-        public void setImagesList(List<String> imagesList) {
-            this.imagesList = imagesList;
-        }
+            @JsonProperty("id")
+            private Integer id;
+            @JsonProperty("url")
+            private String url;
 
+            @JsonProperty("id")
+            public Integer getId() {
+                return id;
+            }
+
+            @JsonProperty("id")
+            public void setId(Integer id) {
+                this.id = id;
+            }
+
+            @JsonProperty("url")
+            public String getUrl() {
+                return url;
+            }
+
+            @JsonProperty("url")
+            public void setUrl(String url) {
+                this.url = url;
+            }
+
+        }
     }
 }
